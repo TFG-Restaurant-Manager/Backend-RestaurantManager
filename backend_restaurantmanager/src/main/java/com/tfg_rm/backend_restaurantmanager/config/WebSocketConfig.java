@@ -5,7 +5,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-import com.tfg_rm.backend_restaurantmanager.handler.WebSocketHandler;
+import com.tfg_rm.backend_restaurantmanager.handler.RestaurantWebSocketHandler;
 
 @Configuration
 @EnableWebSocket
@@ -13,7 +13,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new WebSocketHandler(), "/ws")
+        registry.addHandler(new RestaurantWebSocketHandler(), "/ws")
                 .setAllowedOrigins("*");
     }
 }
