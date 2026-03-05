@@ -10,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -28,16 +27,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = extractToken(request);
 
             if (token != null && jwtService.validateToken(token)) {
-                // Token es válido, crear autenticación
-                Long userId = jwtService.getUserId(token);
-                UsernamePasswordAuthenticationToken authentication = 
-                    new UsernamePasswordAuthenticationToken(
-                        userId.toString(), 
-                        null, 
-                        new ArrayList<>() // authorities vacías por ahora
-                    );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+                    // Token es válido, crear autenticación
+                    Long userId = jwtService.getUserId(token);
+                    String role = jwtService.getRole(token); // e.g. "CLIENTE", "EMPLEADO"
+                    // convertir a autoridad Spring Security (ROLE_ prefix)
+                    String authority = "ROLE_" + role.toUpperCase();
+                    var authorities = new java.util.ArrayList<org.springframework.security.core.GrantedAuthority>();
+                    authorities.add(new org.springframework.security.core.authority.SimpleGrantedAuthority(authority));
+
+                    UsernamePasswordAuthenticationToken authentication = 
+                        new UsernamePasswordAuthenticationToken(
+                            userId.toString(), 
+                            null, 
+                            authorities
+                        );
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
         } catch (Exception e) {
             logger.error("No se pudo establecer autenticación del usuario", e);
         }

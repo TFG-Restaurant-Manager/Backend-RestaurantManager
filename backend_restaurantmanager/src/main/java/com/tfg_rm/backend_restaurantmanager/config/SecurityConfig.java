@@ -24,7 +24,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/auth/**").permitAll()
                     .requestMatchers("/ws/**").permitAll()
-                    //.requestMatchers("/hola", "/hola-json").authenticated() // Protege estos endpoints
+                    // /a sólo clientes
+                    .requestMatchers("/a").hasAuthority("ROLE_CLIENTE")
+                    // /adios-json todos menos clientes
+                    .requestMatchers("/adios-json").not().hasAuthority("ROLE_CLIENTE")
+                    // solo camareros pueden pedir su restaurante
+                    .requestMatchers("/mi-restaurante").hasAuthority("ROLE_CAMARERO")
                     .anyRequest().authenticated() // Todos los demás requieren autenticación
                 )
                 .addFilterBefore(
