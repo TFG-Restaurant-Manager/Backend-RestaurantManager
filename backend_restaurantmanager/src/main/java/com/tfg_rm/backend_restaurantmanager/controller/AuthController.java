@@ -16,14 +16,15 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest request) {
+    @PostMapping("/clientLogin")
+    public LoginResponse clientLogin(@RequestBody LoginRequest request) {
 
         // ⚠️ Aquí deberías consultar tu base de datos
         // esto es solo ejemplo
 
         if (!request.getEmail().equals("test@test.com") ||
-                !request.getPassword().equals("1234")) {
+                !request.getPassword().equals("1234") ||
+                request.getRestaurantId() != 5) {
 
             throw new RuntimeException("Credenciales incorrectas");
         }

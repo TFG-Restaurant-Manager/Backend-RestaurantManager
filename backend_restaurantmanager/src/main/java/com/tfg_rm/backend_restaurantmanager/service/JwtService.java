@@ -62,7 +62,8 @@ public class JwtService {
 
     public Long getUserId(String token) {
         Claims claims = getClaims(token);
-        return claims.get("userId", Long.class);
+        // El userId está guardado como subject
+        return Long.parseLong(claims.getSubject());
     }
 
     public String getRole(String token) {

@@ -1,6 +1,5 @@
 package com.tfg_rm.backend_restaurantmanager.handler;
 
-import java.net.URI;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
