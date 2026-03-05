@@ -13,36 +13,32 @@ public class RestaurantWebSocketHandler extends TextWebSocketHandler {
     /**
      * List of restaurants that are conected with the websockets
      */
-    private static final Map<Long, Set<WebSocketSession>> restaurantSessions =
-            new ConcurrentHashMap<>();
+    private static final Map<Long, Set<WebSocketSession>> restaurantSessions = new ConcurrentHashMap<>();
 
     /**
      * Method used after the client makes conection with the websocket.
      * 
-     * It checks the restaurant sesion in the request and gets the client in the conversation of the introduced restaurant id if its not null
+     * It checks the restaurant sesion in the request and gets the client in the
+     * conversation of the introduced restaurant id if its not null
      */
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession session) {
 
-        // Gets the restaurant id
-        Long restaurantId = getRestaurantId(session);
+        Long restaurantId = (Long) session.getAttributes().get("restaurantId");
 
-        // Checks if it's not null
         if (restaurantId == null) {
-            session.close();
+            try {
+                session.close();
+            } catch (Exception ignored) {
+            }
             return;
         }
 
-        // Checks if is in the initialized restaurant sessions and if it's not it put it in the sessions 
         restaurantSessions
                 .computeIfAbsent(restaurantId, k -> ConcurrentHashMap.newKeySet())
                 .add(session);
 
-        // It adds to the session the restaurant id for the responses of the websocket
-        session.getAttributes().put("restaurantId", restaurantId);
-
-        // Basic logger to notice the conection
-        System.out.println("Conectado al restaurante " + restaurantId);
+        System.out.println("Conectado restaurante: " + restaurantId);
     }
 
     /**
@@ -58,13 +54,14 @@ public class RestaurantWebSocketHandler extends TextWebSocketHandler {
         Long restaurantId = (Long) session.getAttributes().get("restaurantId");
 
         // If there isn't any restaurant id doesn't send any message
-        if (restaurantId == null) return;
+        if (restaurantId == null)
+            return;
 
         // It send the messages only to those who are from the same restaurant
         for (WebSocketSession s : restaurantSessions.getOrDefault(restaurantId, Set.of())) {
             if (s.isOpen()) {
                 s.sendMessage(new TextMessage("Restaurante " + restaurantId +
-                        ": " + message.getPayload()));
+                        ": " + message.getPayload() + "\nRol client: " + session.getAttributes().get("role")));
             }
         }
     }
@@ -83,31 +80,5 @@ public class RestaurantWebSocketHandler extends TextWebSocketHandler {
         if (restaurantId != null) {
             restaurantSessions.getOrDefault(restaurantId, Set.of()).remove(session);
         }
-    }
-
-    /**
-     * Method to get the session id from the session
-     * @param session
-     * @return
-     */
-    private Long getRestaurantId(WebSocketSession session) {
-        // Gets the entire uri of the request
-        URI uri = session.getUri();
-        if (uri == null) return null;
-
-        // Gets the query of the request that has the restaurant id
-        String query = uri.getQuery();
-        if (query == null) return null;
-
-        // Returns the restaurant id if nothing is wrong
-        for (String param : query.split("&")) {
-            String[] pair = param.split("=");
-            if (pair.length == 2 && pair[0].equals("restaurantId")) {
-                return Long.parseLong(pair[1]);
-            }
-        }
-
-        // Returns null if something is wrong
-        return null;
     }
 }
