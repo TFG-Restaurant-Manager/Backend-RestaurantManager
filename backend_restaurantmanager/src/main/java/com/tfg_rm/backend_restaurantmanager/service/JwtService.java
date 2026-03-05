@@ -2,22 +2,44 @@ package com.tfg_rm.backend_restaurantmanager.service;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import com.tfg_rm.backend_restaurantmanager.dto.login.Role;
 
 import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+/**
+ * Service for generating and validating JWTs.
+ */
 @Service
 public class JwtService {
 
-    // Clave secreta
-    private final String SECRET = "clave_super_larga_y_segura_para_firmar_tokens_123456";
+    /** The secret key for signing JWTs. */
+    @Value("${jwt.secret}")
+    private String SECRET;
 
-    // Key para firmar/verificar
-    private final SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    /** The secret key for signing JWTs. */
+    private SecretKey key;
 
-    public String generateToken(Long userId, Long restaurantId, String role) {
+    /** Initializes the secret key after Spring injection. */
+    @PostConstruct
+    private void init() {
+        this.key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    }
+
+    /**
+     * Generates a JWT for the given user ID, restaurant ID, and role.
+     * @param userId the ID of the user
+     * @param restaurantId the ID of the restaurant
+     * @param role the role of the user
+     * @return the generated JWT as a String
+     */
+    public String generateToken(Long userId, Long restaurantId, Role role) {
 
         return Jwts.builder()
                 .subject(userId.toString())
@@ -29,24 +51,30 @@ public class JwtService {
                 .compact();
     }
 
-    // ===============================
-    // VALIDAR TOKEN
-    // ===============================
+    /**
+    * Validates the given JWT.
+    * @param token the JWT to validate
+    * @return true if the token is valid, false otherwise
+    */
     public boolean validateToken(String token) {
+        boolean isValid = false;
         try {
             Jwts.parser()
                     .verifyWith(key)
                     .build()
                     .parseSignedClaims(token);
-            return true;
+            isValid = true;
         } catch (JwtException e) {
-            return false;
+            isValid = false;
         }
+        return isValid;
     }
 
-    // ===============================
-    // OBTENER CLAIMS
-    // ===============================
+    /**
+     * Extracts claims from the given JWT.
+     * @param token the JWT from which to extract claims
+     * @return the extracted claims
+     */
     private Claims getClaims(String token) {
         return Jwts.parser()
                 .verifyWith(key)
@@ -55,17 +83,32 @@ public class JwtService {
                 .getPayload();
     }
 
+    /**
+     * Extracts the restaurant ID from the given JWT.
+     * @param token the JWT from which to extract the restaurant ID
+     * @return the extracted restaurant ID
+     */
     public Long getRestaurantId(String token) {
         Claims claims = getClaims(token);
         return claims.get("restaurantId", Long.class);
     }
 
+    /**
+     * Extracts the user ID from the given JWT.
+     * @param token the JWT from which to extract the user ID
+     * @return the extracted user ID
+     */
     public Long getUserId(String token) {
         Claims claims = getClaims(token);
         // El userId está guardado como subject
         return Long.parseLong(claims.getSubject());
     }
 
+    /**
+     * Extracts the role from the given JWT.
+     * @param token the JWT from which to extract the role
+     * @return the extracted role
+     */
     public String getRole(String token) {
         Claims claims = getClaims(token);
         return claims.get("role", String.class);

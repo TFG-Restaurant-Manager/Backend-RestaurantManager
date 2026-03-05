@@ -5,6 +5,7 @@ import com.tfg_rm.backend_restaurantmanager.dto.login.EmployeeLoginRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.login.EmployeeLoginResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.login.EmployeeTokenRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.login.LoginResponse;
+import com.tfg_rm.backend_restaurantmanager.dto.login.Role;
 import com.tfg_rm.backend_restaurantmanager.service.JwtService;
 
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class AuthController {
 
         Long userId = 1L;
         Long restaurantId = 5L;
-        String role = "CAMARERO";
+        Role role = Role.CLIENT;
 
         String token = jwtService.generateToken(userId, restaurantId, role);
 
@@ -75,7 +76,7 @@ public class AuthController {
 
         Long userId = request.getEmployeeId();
         Long restaurantId = request.getRestaurantId();
-        String role = "CAMARERO";
+        Role role = Role.KITCHEN;
 
         String token = jwtService.generateToken(userId, restaurantId, role);
 

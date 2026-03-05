@@ -1,22 +1,22 @@
 package com.tfg_rm.backend_restaurantmanager;
 
-import java.time.LocalDateTime;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.tfg_rm.backend_restaurantmanager.service.JwtService;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Main class of the Spring Boot application for the Restaurant Manager backend.
+ */
+@Slf4j
 @SpringBootApplication
 public class BackendRestaurantManagerApplication {
 
+	/**
+	 * Main method to run the Spring Boot application.
+	 * @param args command-line arguments (not used)
+	 */
 	public static void main(String[] args) {
-
-		JwtService servicioPrueba = new JwtService();
-
-		String jwt = servicioPrueba.generateToken(50L, 50L, "COCINA");
-		System.out.println("\u001B[34m" + LocalDateTime.now() + "\u001B[0m" + jwt);
 		SpringApplication.run(BackendRestaurantManagerApplication.class, args);
-	}
-
+	}    
 }

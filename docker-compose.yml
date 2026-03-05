@@ -31,6 +31,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mi_db
       SPRING_DATASOURCE_USERNAME: mi_user
       SPRING_DATASOURCE_PASSWORD: mi_password
+      JWT_SECRET: Wbp41d@8J&faPLZ0\ml|=R2np')z{Y@t)-6UTren9r3Ev4|t+K
     depends_on:
       postgres:
         condition: service_healthy
