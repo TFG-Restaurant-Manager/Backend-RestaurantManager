@@ -45,7 +45,7 @@ public class AuthController {
         }
 
         // Si las credenciales son correctas, generamos un token JWT con la información del usuario
-        Long restaurantId = (long) request.getRestaurantId();
+        Long restaurantId = request.getRestaurantId();
         Role role = Role.CLIENT;
 
         String token = jwtService.generateToken(userId, restaurantId, role);
@@ -55,16 +55,16 @@ public class AuthController {
 
     @PostMapping("/clientRegister")
     public LoginResponse clientRegister(@RequestBody ClientLoginRequest request) {
-        
-        Long userId = authService.checkCredentials(request.getRestaurantId(), request.getEmail(), request.getPassword());
+
+        Long userId = authService.addClient(request.getRestaurantId(), request.getEmail(), request.getPassword());
         // Aqui tenemos que validar las credenciales desde la base de datos, esto es solo un ejemplo
         if (userId == -1L) {
             // Tendriamos que lanzar una excepción personalizada para manejar este error de forma adecuada
-            throw new RuntimeException("Credenciales incorrectas");
+            throw new InvalidCredentialsException("Invalid credentials");
         }
 
         // Si las credenciales son correctas, generamos un token JWT con la información del usuario
-        Long restaurantId = (long) request.getRestaurantId();
+        Long restaurantId = request.getRestaurantId();
         Role role = Role.CLIENT;
 
         String token = jwtService.generateToken(userId, restaurantId, role);
