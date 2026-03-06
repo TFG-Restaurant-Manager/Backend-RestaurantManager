@@ -1,11 +1,11 @@
-package com.tfg_rm.backend_restaurantmanager.interceptor;
+package com.tfg_rm.backend_restaurantmanager.websocket.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.server.*;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
-import com.tfg_rm.backend_restaurantmanager.service.JwtService;
+import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
 
 import java.util.Map;
 

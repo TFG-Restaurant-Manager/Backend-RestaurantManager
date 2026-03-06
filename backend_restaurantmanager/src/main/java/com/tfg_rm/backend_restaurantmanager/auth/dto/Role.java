@@ -1,4 +1,4 @@
-package com.tfg_rm.backend_restaurantmanager.dto.login;
+package com.tfg_rm.backend_restaurantmanager.auth.dto;
 
 /**
  * Enum representing the different roles that a user can have in the restaurant management system.

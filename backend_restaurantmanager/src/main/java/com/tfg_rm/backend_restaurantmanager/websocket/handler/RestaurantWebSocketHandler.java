@@ -1,4 +1,4 @@
-package com.tfg_rm.backend_restaurantmanager.handler;
+package com.tfg_rm.backend_restaurantmanager.websocket.handler;
 
 import java.util.Map;
 import java.util.Set;
@@ -7,11 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * WebSocket handler for restaurant management. 
  * It manages WebSocket sessions for different restaurants 
  * and allows sending messages to clients connected to the same restaurant.
  */
+@Slf4j
 public class RestaurantWebSocketHandler extends TextWebSocketHandler {
 
     /**
@@ -35,14 +38,14 @@ public class RestaurantWebSocketHandler extends TextWebSocketHandler {
                 session.close();
             } catch (Exception ignored) {
             }
-            return;
-        }
+        } else {
 
-        restaurantSessions
+            restaurantSessions
                 .computeIfAbsent(restaurantId, k -> ConcurrentHashMap.newKeySet())
                 .add(session);
 
-        System.out.println("Conectado restaurante: " + restaurantId);
+            log.info("Restaurant connected: " + restaurantId);
+        }
     }
 
     /**
@@ -58,14 +61,14 @@ public class RestaurantWebSocketHandler extends TextWebSocketHandler {
         Long restaurantId = (Long) session.getAttributes().get("restaurantId");
 
         // If there isn't any restaurant id doesn't send any message
-        if (restaurantId == null)
-            return;
-
-        // It send the messages only to those who are from the same restaurant
-        for (WebSocketSession s : restaurantSessions.getOrDefault(restaurantId, Set.of())) {
-            if (s.isOpen()) {
-                s.sendMessage(new TextMessage("Restaurante " + restaurantId +
-                        ": " + message.getPayload() + "\nRol client: " + session.getAttributes().get("role")));
+        if (restaurantId != null) {
+            // It send the messages only to those who are from the same restaurant
+            for (WebSocketSession s : restaurantSessions.getOrDefault(restaurantId, Set.of())) {
+                if (s.isOpen()) {
+                    /* Mensaje enviado */
+                    s.sendMessage(new TextMessage("Restaurante " + restaurantId +
+                            ": " + message.getPayload() + "\nRol client: " + session.getAttributes().get("role")));
+                }
             }
         }
     }

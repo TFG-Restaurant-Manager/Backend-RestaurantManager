@@ -1,4 +1,4 @@
-package com.tfg_rm.backend_restaurantmanager.dto;
+package com.tfg_rm.backend_restaurantmanager.employee.dto;
 
 public class RestaurantDto {
     private Long id;

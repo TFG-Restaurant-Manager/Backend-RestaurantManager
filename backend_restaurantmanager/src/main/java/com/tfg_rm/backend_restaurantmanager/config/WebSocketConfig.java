@@ -5,9 +5,9 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-import com.tfg_rm.backend_restaurantmanager.handler.RestaurantWebSocketHandler;
-import com.tfg_rm.backend_restaurantmanager.interceptor.JwtHandshakeInterceptor;
-import com.tfg_rm.backend_restaurantmanager.service.JwtService;
+import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
+import com.tfg_rm.backend_restaurantmanager.websocket.handler.RestaurantWebSocketHandler;
+import com.tfg_rm.backend_restaurantmanager.websocket.interceptor.JwtHandshakeInterceptor;
 
 /**
  * Java class used to configure the web sockets of the backend
@@ -16,8 +16,13 @@ import com.tfg_rm.backend_restaurantmanager.service.JwtService;
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
+    /** The JWT service for authentication. */
     private final JwtService jwtService;
 
+    /**
+     * Constructor for WebSocketConfig.
+     * @param jwtService The JWT service for token validation and extraction.
+     */
     public WebSocketConfig(JwtService jwtService) {
         this.jwtService = jwtService;
     }

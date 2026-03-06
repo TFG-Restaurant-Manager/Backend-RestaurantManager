@@ -1,4 +1,4 @@
-package com.tfg_rm.backend_restaurantmanager.service;
+package com.tfg_rm.backend_restaurantmanager.shared.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.tfg_rm.backend_restaurantmanager.dto.login.Role;
+import com.tfg_rm.backend_restaurantmanager.auth.dto.Role;
 
 import java.util.Date;
 

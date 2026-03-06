@@ -1,6 +1,5 @@
-package com.tfg_rm.backend_restaurantmanager.security;
+package com.tfg_rm.backend_restaurantmanager.shared.security;
 
-import com.tfg_rm.backend_restaurantmanager.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
