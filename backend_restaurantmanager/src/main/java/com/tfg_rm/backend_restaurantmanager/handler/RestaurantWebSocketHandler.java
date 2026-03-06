@@ -7,6 +7,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+/**
+ * WebSocket handler for restaurant management. 
+ * It manages WebSocket sessions for different restaurants 
+ * and allows sending messages to clients connected to the same restaurant.
+ */
 public class RestaurantWebSocketHandler extends TextWebSocketHandler {
 
     /**
