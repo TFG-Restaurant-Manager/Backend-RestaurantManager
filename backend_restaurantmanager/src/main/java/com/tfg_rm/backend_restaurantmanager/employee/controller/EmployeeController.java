@@ -4,20 +4,19 @@ import com.tfg_rm.backend_restaurantmanager.employee.dto.RestaurantDto;
 import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Este es una clase de ejemplo para mostrar cómo se puede recuperar la información del restaurante al que tiene acceso un camarero a través del token JWT.
  */
+@RequiredArgsConstructor
 @RestController
 public class EmployeeController {
 
     private final JwtService jwtService;
-
-    public EmployeeController(JwtService jwtService) {
-        this.jwtService = jwtService;
-    }
 
     @GetMapping("/mi-restaurante")
     public RestaurantDto obtenerRestaurante(HttpServletRequest request) {
