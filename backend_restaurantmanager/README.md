@@ -48,7 +48,7 @@ El [`JwtAuthenticationFilter`](src/main/java/com/tfg_rm/backend_restaurantmanage
 
 ---
 
-## 🔌 Comunicación en Tiempo Real (WebSockets)
+## Comunicación en Tiempo Real (WebSockets)
 
 Para optimizar el rendimiento, los WebSockets utilizan un sistema de validación inicial en el *handshake* en lugar de verificar cada mensaje individual.
 
