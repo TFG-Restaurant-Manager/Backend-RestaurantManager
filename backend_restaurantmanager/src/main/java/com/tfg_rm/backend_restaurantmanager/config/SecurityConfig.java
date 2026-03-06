@@ -29,9 +29,9 @@ public class SecurityConfig {
     /**
      * Defines the security filter chain for the application. 
      * It configures the HTTP security to disable CSRF, set up authorization rules for different endpoints, and add the JWT authentication filter.
-     * @param http
-     * @return
-     * @throws Exception
+     * @param http the HTTP security configuration object
+     * @return the configured SecurityFilterChain
+     * @throws Exception if an error occurs while configuring the security filter chain
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
