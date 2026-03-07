@@ -6,7 +6,7 @@ services:
     container_name: postgres_dev
     restart: unless-stopped
     environment:
-      POSTGRES_DB: mi_db
+      POSTGRES_DB: restaurant_host
       POSTGRES_USER: mi_user
       POSTGRES_PASSWORD: mi_password
       PGDATA: /var/lib/postgresql/18/docker
@@ -16,7 +16,7 @@ services:
       - postgres_data:/var/lib/postgresql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mi_user -d mi_db"]
+      test: ["CMD-SHELL", "pg_isready -U mi_user -d restaurant_host"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -28,7 +28,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mi_db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/restaurant_host
       SPRING_DATASOURCE_USERNAME: mi_user
       SPRING_DATASOURCE_PASSWORD: mi_password
       JWT_SECRET: Wbp41d@8J&faPLZ0\ml|=R2np')z{Y@t)-6UTren9r3Ev4|t+K
