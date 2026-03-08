@@ -1,4 +1,4 @@
-package com.tfg_rm.backend_restaurantmanager.controller;
+package com.tfg_rm.backend_restaurantmanager.employee.controller;
 
 import java.util.Map;
 
