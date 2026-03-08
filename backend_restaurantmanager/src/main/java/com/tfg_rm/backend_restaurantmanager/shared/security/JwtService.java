@@ -2,7 +2,6 @@ package com.tfg_rm.backend_restaurantmanager.shared.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -22,23 +21,33 @@ import javax.crypto.SecretKey;
 public class JwtService {
 
     /** The secret key for signing JWTs. */
-    @Value("${jwt.secret}")
-    private String SECRET;
+    /*
+     * @Value("${jwt.secret}")
+     * private String SECRET;
+     */
+
+    /** Initializes the secret key after Spring injection. */
+    /*
+     * @PostConstruct
+     * private void init() {
+     * this.key = Keys.hmacShaKeyFor(SECRET.getBytes());
+     * }
+     */
 
     /** The secret key for signing JWTs. */
     private SecretKey key;
 
-    /** Initializes the secret key after Spring injection. */
-    @PostConstruct
-    private void init() {
-        this.key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    /** Initializes the secret key. */
+    public JwtService(@Value("${jwt.secret}") String secret) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     /**
      * Generates a JWT for the given user ID, restaurant ID, and role.
-     * @param userId the ID of the user
+     * 
+     * @param userId       the ID of the user
      * @param restaurantId the ID of the restaurant
-     * @param role the role of the user
+     * @param role         the role of the user
      * @return the generated JWT as a String
      */
     public String generateToken(Long userId, Long restaurantId, Role role) {
@@ -54,10 +63,11 @@ public class JwtService {
     }
 
     /**
-    * Validates the given JWT.
-    * @param token the JWT to validate
-    * @return true if the token is valid, false otherwise
-    */
+     * Validates the given JWT.
+     * 
+     * @param token the JWT to validate
+     * @return true if the token is valid, false otherwise
+     */
     public boolean validateToken(String token) {
         boolean isValid = false;
         try {
@@ -74,6 +84,7 @@ public class JwtService {
 
     /**
      * Extracts claims from the given JWT.
+     * 
      * @param token the JWT from which to extract claims
      * @return the extracted claims
      */
@@ -87,6 +98,7 @@ public class JwtService {
 
     /**
      * Extracts the restaurant ID from the given JWT.
+     * 
      * @param token the JWT from which to extract the restaurant ID
      * @return the extracted restaurant ID
      */
@@ -97,6 +109,7 @@ public class JwtService {
 
     /**
      * Extracts the user ID from the given JWT.
+     * 
      * @param token the JWT from which to extract the user ID
      * @return the extracted user ID
      */
@@ -108,6 +121,7 @@ public class JwtService {
 
     /**
      * Extracts the role from the given JWT.
+     * 
      * @param token the JWT from which to extract the role
      * @return the extracted role
      */
