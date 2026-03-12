@@ -1,6 +1,6 @@
 # Restaurant Manager API
 
-### English en / [Español es](README_ES)
+### English en / [Español es](README_ES.md)
 
 Backend REST API for managing the operations of a restaurant.
 Built with **Spring Boot**, **PostgreSQL**, and **Docker Compose**.
