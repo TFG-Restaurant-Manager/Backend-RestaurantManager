@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,19 +20,12 @@ import java.util.ArrayList;
  * Filter of JWT authentication that runs once per request.
  * It checks the JWT token in the Authorization header and sets the authentication in the security context if the token is valid.
  */
+@RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     /** The JWT service for token validation and extraction. */
     private final JwtService jwtService;
-
-    /**
-     * Constructor for JwtAuthenticationFilter.
-     * @param jwtService the JWT service to be used for token validation and extraction
-     */
-    public JwtAuthenticationFilter(JwtService jwtService) {
-        this.jwtService = jwtService;
-    }
 
     /**
      * Filters the HTTP request to authenticate the user based on the JWT token.

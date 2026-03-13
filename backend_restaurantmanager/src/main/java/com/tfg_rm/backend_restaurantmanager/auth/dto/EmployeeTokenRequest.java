@@ -12,6 +12,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployeeTokenRequest {
+
+    /**
+     * The employee's DNI.
+     */
+    private String dni;
+
+    /**
+     * The employee's password.
+     */
+    private String password;
+
     /**
      * The employee's ID.
      */

@@ -10,8 +10,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * WebSocket handler for restaurant management. 
- * It manages WebSocket sessions for different restaurants 
+ * WebSocket handler for restaurant management.
+ * It manages WebSocket sessions for different restaurants
  * and allows sending messages to clients connected to the same restaurant.
  */
 @Slf4j
@@ -41,8 +41,8 @@ public class RestaurantWebSocketHandler extends TextWebSocketHandler {
         } else {
 
             restaurantSessions
-                .computeIfAbsent(restaurantId, k -> ConcurrentHashMap.newKeySet())
-                .add(session);
+                    .computeIfAbsent(restaurantId, k -> ConcurrentHashMap.newKeySet())
+                    .add(session);
 
             log.info("Restaurant connected: " + restaurantId);
         }
@@ -54,7 +54,7 @@ public class RestaurantWebSocketHandler extends TextWebSocketHandler {
      * It checks the restaurant id and if it's not null returns a default message
      */
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message)
+    public void handleTextMessage(WebSocketSession session, TextMessage message)
             throws Exception {
 
         // Gets the restaurant id from the session
