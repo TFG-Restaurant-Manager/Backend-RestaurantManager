@@ -5,20 +5,6 @@
 DROP ROLE IF EXISTS admin;
 CREATE ROLE admin WITH LOGIN PASSWORD 'admin';
 
- 
--- =========================================
--- BASE DE DATOS (PostgreSQL)
--- =========================================
--- NOTE:
--- When running inside Docker init (docker-entrypoint-initdb.d), psql is
--- already connected to the database specified by POSTGRES_DB (mi_db).
--- Do NOT DROP/CREATE databases here or run `\c` — instead create objects
--- in the database provided by the environment and apply grants at the end
--- of this script. This prevents errors like "cannot drop the currently open database".
-
--- The database itself is created by the container using POSTGRES_DB.
-
-
 -- =========================================
 -- TABLA: restaurants (PostgreSQL)
 -- =========================================
@@ -88,7 +74,7 @@ CREATE TABLE table_sections (
 		REFERENCES restaurants(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TYPE tipo_estado AS ENUM ('AVAILABLE', 'UNAVAILABLE', 'OCCUPIED', 'RESERVED');
+CREATE TYPE table_status AS ENUM ('AVAILABLE', 'UNAVAILABLE', 'OCCUPIED', 'RESERVED');
 
 -- =========================================
 -- TABLES (PostgreSQL)
@@ -101,7 +87,7 @@ CREATE TABLE tables_restaurant (
 	capacity INTEGER NOT NULL DEFAULT 2,
 	pos_x INTEGER NOT NULL DEFAULT 0,
 	pos_y INTEGER NOT NULL DEFAULT 0,
-	active tipo_estado NOT NULL DEFAULT 'AVAILABLE',
+	active table_status NOT NULL DEFAULT 'AVAILABLE',
 	CONSTRAINT pk_tables_restaurant PRIMARY KEY (id),
 	CONSTRAINT fk_tables_restaurant_restaurant FOREIGN KEY (restaurant_id)
 		REFERENCES restaurants(id) ON DELETE RESTRICT ON UPDATE CASCADE,
