@@ -52,6 +52,8 @@ public class SecurityConfig {
                 .requestMatchers("/adios-json").not().hasAuthority("ROLE_CLIENTE")
                 // solo camareros pueden pedir su restaurante
                 .requestMatchers("/mi-restaurante").hasAuthority("ROLE_CAMARERO")
+                // /hola abierto a todos
+                .requestMatchers("/hola").permitAll()
                 /* ----- ----------------------------------------------------------------------------------------------------------- */
                 // The rest of the routes require authentication, but no specific role is specified, which means that any authenticated user can access them.
                 .anyRequest().authenticated()

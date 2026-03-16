@@ -19,7 +19,7 @@ public class EmployeeLoginResponse {
     private Long employeeId;
 
     /**
-     * A list of restaurant IDs that the employee is associated with.
+     * A list of restaurant names that the employee is associated with.
      */
-    private List<Long> restaurantIds;
+    private List<String> restaurantNames;
 }

@@ -80,16 +80,12 @@ public class AuthController {
     @PostMapping("/employeeLogin")
     public EmployeeLoginResponse employeeLogin(@RequestBody EmployeeLoginRequest request) {
 
-        // Aqui tenemos que validar las credenciales desde la base de datos, esto es solo un ejemplo
-        if (!request.getDni().equals("12345678") ||
-                !request.getPassword().equals("1234")) {
-            // Tendriamos que lanzar una excepción personalizada para manejar este error de forma adecuada
-            throw new RuntimeException("Credenciales incorrectas");
+        Long employeeId = authService.getEmployeeId(request.getDni(), request.getPassword());
+        if (employeeId == -1L) {
+            throw new InvalidCredentialsException("Invalid credentials");
         }
 
-        Long employeeId = 1L;
-        // Lista de restaurantes a los que el empleado tiene acceso
-        List<Long> restaurantIds = List.of(5L, 10L, 15L);
+        List<String> restaurantIds = authService.getEmployeeRestaurants(employeeId);
 
         return new EmployeeLoginResponse(employeeId, restaurantIds);
     }
@@ -101,21 +97,20 @@ public class AuthController {
      */
     @PostMapping("/employeeToken")
     public LoginResponse employeeToken(@RequestBody EmployeeTokenRequest request) {
+        String dni = request.getDni();
+        String password = request.getPassword();
+        Long employeeId = request.getEmployeeId();
+        Long restaurantId = request.getRestaurantId();
 
-        // Validar que el employeeId y restaurantId no sean nulos
-        if (request.getEmployeeId() == null || request.getRestaurantId() == null) {
-            throw new RuntimeException("Faltan datos: employeeId y restaurantId");
+
+        if (!authService.validateEmployeeAccess(dni, password, employeeId, restaurantId)) {
+            throw new InvalidCredentialsException("Invalid credentials");
         }
 
-        // Aquí deberías validar que el empleado tenga acceso a ese restaurante
-        // en la base de datos
-
-        Long userId = request.getEmployeeId();
-        Long restaurantId = request.getRestaurantId();
-        Role role = Role.KITCHEN;
+        Role role = authService.getEmployeeRole(employeeId, restaurantId);
 
         // A JWT token is generated with the employee's information and the restaurant they are accessing
-        String token = jwtService.generateToken(userId, restaurantId, role);
+        String token = jwtService.generateToken(employeeId, restaurantId, role);
 
         return new LoginResponse(token);
     }

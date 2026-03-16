@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tfg_rm.backend_restaurantmanager.auth.controller.AuthController;
 import com.tfg_rm.backend_restaurantmanager.auth.dto.ClientLoginRequest;
 import com.tfg_rm.backend_restaurantmanager.auth.dto.EmployeeLoginRequest;
+import com.tfg_rm.backend_restaurantmanager.auth.service.AuthService;
 import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
 
 import jakarta.servlet.ServletException;
@@ -19,8 +20,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AuthControllerTest {
 
     private final JwtService jwtService = new JwtService("clave_super_larga_y_segura_para_firmar_tokens_123456");
+    private final AuthService authService = null;
 
-    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new AuthController(jwtService)).build();
+    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new AuthController(jwtService, authService)).build();
 
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -30,7 +32,7 @@ class AuthControllerTest {
         ClientLoginRequest request = new ClientLoginRequest();
         request.setEmail("test@test.com");
         request.setPassword("1234");
-        request.setRestaurantId(5);
+        request.setRestaurantId(5L);
 
         mockMvc.perform(post("/auth/clientLogin")
                 .contentType("application/json")
