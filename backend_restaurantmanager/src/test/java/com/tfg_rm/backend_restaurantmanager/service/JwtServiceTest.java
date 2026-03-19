@@ -28,9 +28,9 @@ public class JwtServiceTest {
 
         String token = jwtService.generateToken(1, 5, Role.ADMIN);
 
-        Long restaurantId = jwtService.getRestaurantId(token);
+        Integer restaurantId = jwtService.getRestaurantId(token);
 
-        assertEquals(5L, restaurantId);
+        assertEquals(5, restaurantId);
     }
 
     @Test

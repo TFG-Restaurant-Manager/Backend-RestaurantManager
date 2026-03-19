@@ -8,13 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Filter of JWT authentication that runs once per request.
@@ -44,21 +41,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (token != null && jwtService.validateToken(token)) {
                     // If the token is valid, extract user details and set authentication
-                    Long userId = jwtService.getUserId(token);
+                    Integer userId = jwtService.getUserId(token);
+                    Integer restaurantId = jwtService.getRestaurantId(token);
                     String role = jwtService.getRole(token);
-                    // Create the authority for Spring Security (ROLE_ prefix)
-                    String authority = "ROLE_" + role.toUpperCase();
 
-                    /* Create the list of authorities */
-                    ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-                    authorities.add(new SimpleGrantedAuthority(authority));
+                    CustomUserDetails userDetails = new CustomUserDetails(
+                        userId,
+                        restaurantId,
+                        role
+                    );
 
                     /* Create the authentication token */
                     UsernamePasswordAuthenticationToken authentication = 
                         new UsernamePasswordAuthenticationToken(
-                            userId.toString(), 
+                            userDetails, 
                             null, 
-                            authorities
+                            userDetails.getAuthorities()
                         );
 
                     /* Set the authentication in the security context */

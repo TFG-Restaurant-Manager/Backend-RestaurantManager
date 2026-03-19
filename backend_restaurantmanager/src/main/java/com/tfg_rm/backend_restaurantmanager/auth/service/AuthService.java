@@ -2,8 +2,6 @@ package com.tfg_rm.backend_restaurantmanager.auth.service;
 
 import java.util.Optional;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +9,6 @@ import com.tfg_rm.backend_restaurantmanager.auth.dto.Role;
 import com.tfg_rm.backend_restaurantmanager.auth.repository.AuthClientRepository;
 import com.tfg_rm.backend_restaurantmanager.auth.repository.AuthEmployeeRepository;
 import com.tfg_rm.backend_restaurantmanager.auth.repository.projection.ClientLoginProjection;
-import com.tfg_rm.backend_restaurantmanager.employee.dto.EmployeeRegisterRequest;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.ClientEntity;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.EmployeeEntity;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.RoleEntity;

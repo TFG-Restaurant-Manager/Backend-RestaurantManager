@@ -28,6 +28,11 @@ public class SecurityConfig {
         this.jwtService = jwtService;
     }
 
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtService);
+    }
+
     /**
      * Defines the security filter chain for the application. 
      * It configures the HTTP security to disable CSRF, set up authorization rules for different endpoints, and add the JWT authentication filter.
@@ -61,7 +66,7 @@ public class SecurityConfig {
             )
             // Add the JWT authentication filter before the UsernamePasswordAuthenticationFilter in the security filter chain
             .addFilterBefore(
-                new JwtAuthenticationFilter(jwtService),
+                jwtAuthenticationFilter(),  // usa el bean, no new
                 UsernamePasswordAuthenticationFilter.class
             );
 

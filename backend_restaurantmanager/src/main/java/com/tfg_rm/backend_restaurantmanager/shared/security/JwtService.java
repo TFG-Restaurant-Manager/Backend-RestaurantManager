@@ -102,9 +102,9 @@ public class JwtService {
      * @param token the JWT from which to extract the restaurant ID
      * @return the extracted restaurant ID
      */
-    public Long getRestaurantId(String token) {
+    public Integer getRestaurantId(String token) {
         Claims claims = getClaims(token);
-        return claims.get("restaurantId", Long.class);
+        return claims.get("restaurantId", Integer.class);
     }
 
     /**
@@ -113,10 +113,10 @@ public class JwtService {
      * @param token the JWT from which to extract the user ID
      * @return the extracted user ID
      */
-    public Long getUserId(String token) {
+    public Integer getUserId(String token) {
         Claims claims = getClaims(token);
         // El userId está guardado como subject
-        return Long.parseLong(claims.getSubject());
+        return Integer.parseInt(claims.getSubject());
     }
 
     /**

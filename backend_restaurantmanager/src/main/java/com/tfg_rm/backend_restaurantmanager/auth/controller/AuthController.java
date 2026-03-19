@@ -5,14 +5,11 @@ import com.tfg_rm.backend_restaurantmanager.auth.dto.EmployeeTokenRequest;
 import com.tfg_rm.backend_restaurantmanager.auth.dto.LoginResponse;
 import com.tfg_rm.backend_restaurantmanager.auth.dto.Role;
 import com.tfg_rm.backend_restaurantmanager.auth.service.AuthService;
-import com.tfg_rm.backend_restaurantmanager.employee.dto.EmployeeRegisterRequest;
-import com.tfg_rm.backend_restaurantmanager.shared.entity.EmployeeEntity;
 import com.tfg_rm.backend_restaurantmanager.shared.exception.InvalidCredentialsException;
 import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**

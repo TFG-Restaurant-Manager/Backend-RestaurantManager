@@ -29,9 +29,14 @@ public class EmployeeService {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         
-                if (auth == null || !(auth.getPrincipal() instanceof CustomUserDetails)) {
-                    throw new RuntimeException("User not authenticated");
-                }
+
+System.out.println("AUTH: " + auth);
+System.out.println("PRINCIPAL: " + auth.getPrincipal());
+System.out.println("CLASS: " + auth.getPrincipal().getClass());
+
+if (auth == null || !(auth.getPrincipal() instanceof CustomUserDetails)) {
+    throw new RuntimeException("User not authenticated");
+}
         CustomUserDetails currentUser = (CustomUserDetails) auth.getPrincipal();
 
         currentUser.getRestaurantId();

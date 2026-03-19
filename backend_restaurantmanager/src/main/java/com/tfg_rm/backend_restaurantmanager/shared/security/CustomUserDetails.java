@@ -3,8 +3,6 @@ package com.tfg_rm.backend_restaurantmanager.shared.security;
 import java.util.Collection;
 import java.util.List;
 
-import javax.management.relation.Role;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,7 +15,7 @@ public class CustomUserDetails implements UserDetails {
 
     private Integer userId;
     private Integer restaurantId;
-    private Role role;
+    private String role;
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
