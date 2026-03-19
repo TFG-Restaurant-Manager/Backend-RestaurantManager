@@ -22,5 +22,5 @@ public class ClientLoginRequest {
     /**
      * The ID of the restaurant the client wants to access.
      */
-    private Long restaurantId;
+    private Integer restaurantId;
 }

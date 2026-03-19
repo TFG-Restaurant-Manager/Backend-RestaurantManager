@@ -3,7 +3,6 @@ package com.tfg_rm.backend_restaurantmanager.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tfg_rm.backend_restaurantmanager.auth.controller.AuthController;
 import com.tfg_rm.backend_restaurantmanager.auth.dto.ClientLoginRequest;
-import com.tfg_rm.backend_restaurantmanager.auth.dto.EmployeeLoginRequest;
 import com.tfg_rm.backend_restaurantmanager.auth.service.AuthService;
 import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
 
@@ -32,7 +31,7 @@ class AuthControllerTest {
         ClientLoginRequest request = new ClientLoginRequest();
         request.setEmail("test@test.com");
         request.setPassword("1234");
-        request.setRestaurantId(5L);
+        request.setRestaurantId(5);
 
         mockMvc.perform(post("/auth/clientLogin")
                 .contentType("application/json")
@@ -55,31 +54,31 @@ class AuthControllerTest {
         });
     }
 
-    @Test
-    void employeeShouldLoginSuccessfully() throws Exception {
-        EmployeeLoginRequest request = new EmployeeLoginRequest();
-        request.setDni("12345678");
-        request.setPassword("1234");
+    // @Test
+    // void employeeShouldLoginSuccessfully() throws Exception {
+    //     EmployeeLoginRequest request = new EmployeeLoginRequest();
+    //     request.setDni("12345678");
+    //     request.setPassword("1234");
 
-        mockMvc.perform(post("/auth/employeeLogin")
-                .contentType("application/json")
-                .content(mapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.employeeId").exists())
-                .andExpect(jsonPath("$.restaurantIds").exists());
-    }
+    //     mockMvc.perform(post("/auth/employeeLogin")
+    //             .contentType("application/json")
+    //             .content(mapper.writeValueAsString(request)))
+    //             .andExpect(status().isOk())
+    //             .andExpect(jsonPath("$.employeeId").exists())
+    //             .andExpect(jsonPath("$.restaurantIds").exists());
+    // }
 
-    @Test
-    void employeeShouldFailLogin() throws Exception {
+    // @Test
+    // void employeeShouldFailLogin() throws Exception {
 
-        EmployeeLoginRequest request = new EmployeeLoginRequest();
-        request.setDni("222");
-        request.setPassword("1020");
+    //     EmployeeLoginRequest request = new EmployeeLoginRequest();
+    //     request.setDni("222");
+    //     request.setPassword("1020");
 
-        assertThrows(ServletException.class, () -> {
-            mockMvc.perform(post("/auth/employeeLogin")
-                    .contentType("application/json")
-                    .content(mapper.writeValueAsString(request)));
-        });
-    }
+    //     assertThrows(ServletException.class, () -> {
+    //         mockMvc.perform(post("/auth/employeeLogin")
+    //                 .contentType("application/json")
+    //                 .content(mapper.writeValueAsString(request)));
+    //     });
+    // }
 }

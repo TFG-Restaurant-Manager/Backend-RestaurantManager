@@ -17,7 +17,7 @@ public class JwtServiceTest {
     @Test
     void shouldGenerateValidToken() {
 
-        String token = jwtService.generateToken(1L, 5L, Role.WAITER);
+        String token = jwtService.generateToken(1, 5, Role.WAITER);
 
         assertNotNull(token);
         assertTrue(jwtService.validateToken(token));
@@ -26,7 +26,7 @@ public class JwtServiceTest {
     @Test
     void shouldExtractRestaurantId() {
 
-        String token = jwtService.generateToken(1L, 5L, Role.ADMIN);
+        String token = jwtService.generateToken(1, 5, Role.ADMIN);
 
         Long restaurantId = jwtService.getRestaurantId(token);
 
@@ -36,7 +36,7 @@ public class JwtServiceTest {
     @Test
     void shouldExtractRole() {
 
-        String token = jwtService.generateToken(1L, 5L, Role.WAITER);
+        String token = jwtService.generateToken(1, 5, Role.WAITER);
 
         String role = jwtService.getRole(token);
 

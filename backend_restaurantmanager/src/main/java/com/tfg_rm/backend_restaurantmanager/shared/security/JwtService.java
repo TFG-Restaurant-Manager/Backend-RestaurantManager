@@ -50,7 +50,7 @@ public class JwtService {
      * @param role         the role of the user
      * @return the generated JWT as a String
      */
-    public String generateToken(Long userId, Long restaurantId, Role role) {
+    public String generateToken(Integer userId, Integer restaurantId, Role role) {
 
         return Jwts.builder()
                 .subject(userId.toString())

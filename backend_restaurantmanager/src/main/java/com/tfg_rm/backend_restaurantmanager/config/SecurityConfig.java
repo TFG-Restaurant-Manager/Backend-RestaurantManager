@@ -55,6 +55,7 @@ public class SecurityConfig {
                 // /hola abierto a todos
                 .requestMatchers("/hola").permitAll()
                 /* ----- ----------------------------------------------------------------------------------------------------------- */
+                .requestMatchers("/employee/**").not().hasAuthority("ROLE_CLIENTE")
                 // The rest of the routes require authentication, but no specific role is specified, which means that any authenticated user can access them.
                 .anyRequest().authenticated()
             )

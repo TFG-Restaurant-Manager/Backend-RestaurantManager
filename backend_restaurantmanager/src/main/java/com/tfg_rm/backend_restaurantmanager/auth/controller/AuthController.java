@@ -1,20 +1,19 @@
 package com.tfg_rm.backend_restaurantmanager.auth.controller;
 
 import com.tfg_rm.backend_restaurantmanager.auth.dto.ClientLoginRequest;
-import com.tfg_rm.backend_restaurantmanager.auth.dto.EmployeeLoginRequest;
-import com.tfg_rm.backend_restaurantmanager.auth.dto.EmployeeLoginResponse;
 import com.tfg_rm.backend_restaurantmanager.auth.dto.EmployeeTokenRequest;
 import com.tfg_rm.backend_restaurantmanager.auth.dto.LoginResponse;
 import com.tfg_rm.backend_restaurantmanager.auth.dto.Role;
 import com.tfg_rm.backend_restaurantmanager.auth.service.AuthService;
+import com.tfg_rm.backend_restaurantmanager.employee.dto.EmployeeRegisterRequest;
+import com.tfg_rm.backend_restaurantmanager.shared.entity.EmployeeEntity;
 import com.tfg_rm.backend_restaurantmanager.shared.exception.InvalidCredentialsException;
 import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * Java class used to manage the authentication of the users of the application
@@ -39,13 +38,13 @@ public class AuthController {
     @PostMapping("/clientLogin")
     public LoginResponse clientLogin(@RequestBody ClientLoginRequest request) {
         
-        Long userId = authService.checkCredentials(request.getRestaurantId(), request.getEmail(), request.getPassword());
+        Integer userId = authService.checkCredentials(request.getRestaurantId(), request.getEmail(), request.getPassword());
         if (userId == -1L) {
             throw new InvalidCredentialsException("Invalid credentials");
         }
 
         // Si las credenciales son correctas, generamos un token JWT con la información del usuario
-        Long restaurantId = request.getRestaurantId();
+        Integer restaurantId = request.getRestaurantId();
         Role role = Role.CLIENT;
 
         String token = jwtService.generateToken(userId, restaurantId, role);
@@ -56,7 +55,7 @@ public class AuthController {
     @PostMapping("/clientRegister")
     public LoginResponse clientRegister(@RequestBody ClientLoginRequest request) {
 
-        Long userId = authService.addClient(request.getRestaurantId(), request.getEmail(), request.getPassword());
+        Integer userId = authService.addClient(request.getRestaurantId(), request.getEmail(), request.getPassword());
         // Aqui tenemos que validar las credenciales desde la base de datos, esto es solo un ejemplo
         if (userId == -1L) {
             // Tendriamos que lanzar una excepción personalizada para manejar este error de forma adecuada
@@ -64,7 +63,7 @@ public class AuthController {
         }
 
         // Si las credenciales son correctas, generamos un token JWT con la información del usuario
-        Long restaurantId = request.getRestaurantId();
+        Integer restaurantId = request.getRestaurantId();
         Role role = Role.CLIENT;
 
         String token = jwtService.generateToken(userId, restaurantId, role);
@@ -73,41 +72,23 @@ public class AuthController {
     }
 
     /**
-     * Endpoint for employee login. Validates the employee's credentials and returns their ID and accessible restaurant IDs if successful.
-     * @param request The employee's login request containing DNI and password.
-     * @return The login response containing the employee's ID and accessible restaurant IDs.
-     */
-    @PostMapping("/employeeLogin")
-    public EmployeeLoginResponse employeeLogin(@RequestBody EmployeeLoginRequest request) {
-
-        Long employeeId = authService.getEmployeeId(request.getDni(), request.getPassword());
-        if (employeeId == -1L) {
-            throw new InvalidCredentialsException("Invalid credentials");
-        }
-
-        List<String> restaurantIds = authService.getEmployeeRestaurants(employeeId);
-
-        return new EmployeeLoginResponse(employeeId, restaurantIds);
-    }
-
-    /**
      * Endpoint for generating a JWT token for an employee. Validates the employee's access to the specified restaurant and generates a token if successful.
      * @param request The request containing the employee's ID and the restaurant's ID.
      * @return The response containing the generated JWT token.
      */
-    @PostMapping("/employeeToken")
-    public LoginResponse employeeToken(@RequestBody EmployeeTokenRequest request) {
-        String dni = request.getDni();
+    @PostMapping("/employeeLogin")
+    public LoginResponse employeeLogin(@RequestBody EmployeeTokenRequest request) {
+        String code = request.getCode();
         String password = request.getPassword();
-        Long employeeId = request.getEmployeeId();
-        Long restaurantId = request.getRestaurantId();
 
-
-        if (!authService.validateEmployeeAccess(dni, password, employeeId, restaurantId)) {
+        Integer employeeId = authService.validateEmployeeAccess(code, password);
+        if (employeeId == -1) {
             throw new InvalidCredentialsException("Invalid credentials");
         }
 
-        Role role = authService.getEmployeeRole(employeeId, restaurantId);
+
+        Role role = authService.getEmployeeRole(employeeId);
+        Integer restaurantId = authService.getEmployeeRestaurantId(employeeId);
 
         // A JWT token is generated with the employee's information and the restaurant they are accessing
         String token = jwtService.generateToken(employeeId, restaurantId, role);

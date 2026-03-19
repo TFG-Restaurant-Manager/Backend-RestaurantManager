@@ -24,8 +24,8 @@ class JwtHandshakeInterceptorTest {
         void shouldAllowValidToken() {
 
                 String token = jwtService.generateToken(
-                                1L,
-                                5L,
+                                1,
+                                5,
                                 Role.ADMIN);
 
                 JwtHandshakeInterceptor interceptor = new JwtHandshakeInterceptor(jwtService);

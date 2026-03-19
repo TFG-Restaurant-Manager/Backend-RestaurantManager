@@ -14,22 +14,12 @@ import lombok.NoArgsConstructor;
 public class EmployeeTokenRequest {
 
     /**
-     * The employee's DNI.
+     * The employee's code.
      */
-    private String dni;
+    private String code;
 
     /**
      * The employee's password.
      */
     private String password;
-
-    /**
-     * The employee's ID.
-     */
-    private Long employeeId;
-
-    /**
-     * The restaurant ID.
-     */
-    private Long restaurantId;
 }

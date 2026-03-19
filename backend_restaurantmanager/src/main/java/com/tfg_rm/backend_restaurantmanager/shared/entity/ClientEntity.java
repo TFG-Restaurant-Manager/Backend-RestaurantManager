@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "clients")
 @NoArgsConstructor
-public class Client {
+public class ClientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "restaurant_id", nullable = false)
-    private Long restaurantId;
+    private Integer restaurantId;
 
     @Column(name = "name")
     private String name;

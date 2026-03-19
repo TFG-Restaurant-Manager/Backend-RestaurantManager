@@ -1,0 +1,21 @@
+package com.tfg_rm.backend_restaurantmanager.employee.dto;
+
+import java.time.LocalDate;
+
+import com.tfg_rm.backend_restaurantmanager.shared.entity.RoleEntity;
+
+import lombok.Data;
+
+@Data
+public class EmployeeRegisterRequest {
+    private String name;
+    private RoleEntity roleName;
+    private Boolean active;
+    private String email;
+    private String phone;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private String positionNotes;
+    private String code;
+    private String password;
+}

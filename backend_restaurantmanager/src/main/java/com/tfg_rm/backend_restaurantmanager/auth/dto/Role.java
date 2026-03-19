@@ -10,8 +10,8 @@ public enum Role {
     MANAGER,
     /** A waiter at the restaurant. */
     WAITER,
-    /** A kitchen staff member at the restaurant. */
-    KITCHEN,
+    /** A cooker at the restaurant. */
+    COOKER,
     /** An administrator of the restaurant management system. */
     ADMIN
 }

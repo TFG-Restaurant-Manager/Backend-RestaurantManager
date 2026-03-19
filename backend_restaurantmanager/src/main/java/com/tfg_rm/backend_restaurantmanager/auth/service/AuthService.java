@@ -1,21 +1,20 @@
 package com.tfg_rm.backend_restaurantmanager.auth.service;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tfg_rm.backend_restaurantmanager.auth.dto.Role;
 import com.tfg_rm.backend_restaurantmanager.auth.repository.AuthClientRepository;
 import com.tfg_rm.backend_restaurantmanager.auth.repository.AuthEmployeeRepository;
-import com.tfg_rm.backend_restaurantmanager.auth.repository.EmployeeRestaurantRepository;
 import com.tfg_rm.backend_restaurantmanager.auth.repository.projection.ClientLoginProjection;
-import com.tfg_rm.backend_restaurantmanager.shared.entity.Client;
-import com.tfg_rm.backend_restaurantmanager.shared.entity.Employee;
-import com.tfg_rm.backend_restaurantmanager.shared.entity.EmployeeRestaurant;
+import com.tfg_rm.backend_restaurantmanager.employee.dto.EmployeeRegisterRequest;
+import com.tfg_rm.backend_restaurantmanager.shared.entity.ClientEntity;
+import com.tfg_rm.backend_restaurantmanager.shared.entity.EmployeeEntity;
+import com.tfg_rm.backend_restaurantmanager.shared.entity.RoleEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,16 +26,16 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class AuthService {
 
-    /** The auth repository */
+    /** The auth client repository */
     private final AuthClientRepository authClientRepository;
+    /** The auth employee repository */
     private final AuthEmployeeRepository authEmployeeRepository;
-    private final EmployeeRestaurantRepository employeeRestaurantRepository;
 
     /** The password encoder */
     private final PasswordEncoder passwordEncoder;
 
-    public Long checkCredentials(Long restaurantId, String email, String password) {
-        Long id = -1L;
+    public Integer checkCredentials(Integer restaurantId, String email, String password) {
+        Integer id = -1;
         Optional<ClientLoginProjection> result = authClientRepository.findByRestaurantIdAndEmail(restaurantId, email);
 
         if (result.isPresent() && passwordEncoder.matches(password, result.get().getPasswordHash())) {
@@ -46,13 +45,13 @@ public class AuthService {
         return id;
     }
 
-    public Long addClient(Long restaurantId, String email, String password) {
-        Long id = -1L;
+    public Integer addClient(Integer restaurantId, String email, String password) {
+        Integer id = -1;
 
         if (password.length() > 6) {
             String passwordHash = passwordEncoder.encode(password);
 
-            Client client = new Client();
+            ClientEntity client = new ClientEntity();
             client.setRestaurantId(restaurantId);
             client.setEmail(email);
             client.setPasswordHash(passwordHash);
@@ -63,56 +62,42 @@ public class AuthService {
         return id;
     }
 
-    public Role getEmployeeRole(Long employeeId, Long restaurantId) {
-        return employeeRestaurantRepository
-            .findByEmployeeDniAndRestaurantId(employeeId, restaurantId)
-            .map(EmployeeRestaurant::getRoleId)
-            .map(this::mapRoleIdToRole)
-            .orElse(null);
-    }
+    public Integer validateEmployeeAccess(String code, String password) {
+        Integer id = -1;
+        Optional<EmployeeEntity> result = authEmployeeRepository.findByCode(code);
 
-    public Long getEmployeeId(String dni, String password) {
-        Long employeeId = Long.parseLong(dni);
-        Optional<Employee> employee = authEmployeeRepository.findById(employeeId);
-        if (employee.isPresent() && passwordEncoder.matches(password, employee.get().getPasswordHash())) {
-            return employee.get().getId();
-        }
-        return -1L;
-    }
-
-    public List<String> getEmployeeRestaurants(Long employeeId) {
-        return employeeRestaurantRepository.findByEmployeeDniAndActiveTrue(employeeId).stream()
-            .map(er -> String.valueOf(er.getRestaurantId()))
-            .collect(Collectors.toList());
-    }
-
-    public boolean validateEmployeeAccess(String dni, String password, Long employeeId, Long restaurantId) {
-        if (dni == null || password == null || employeeId == null || restaurantId == null) {
-            return false;
+        if (result.isPresent() && (result.get().getPasswordHash().equals(password))) { //passwordEncoder.matches(password, result.get().getPasswordHash()
+            id = result.get().getId();
         }
 
-        // Authenticate password
-        Optional<Employee> employeeOpt = authEmployeeRepository.findById(employeeId);
-        if (employeeOpt.isEmpty() || !passwordEncoder.matches(password, employeeOpt.get().getPasswordHash())) {
-            return false;
-        }
-
-        // Verify user has an active assignment to the requested restaurant
-        return employeeRestaurantRepository
-            .findByEmployeeDniAndRestaurantId(employeeId, restaurantId)
-            .map(EmployeeRestaurant::getActive)
-            .orElse(false);
+        return id;
     }
 
-    private Role mapRoleIdToRole(Integer roleId) {
-        // Match the IDs from the DB script: 1=MANAGER, 2=WAITER, 3=COOKER, 4=ADMIN
-        return switch (roleId) {
-            case 1 -> Role.MANAGER;
-            case 2 -> Role.WAITER;
-            case 3 -> Role.KITCHEN;
-            case 4 -> Role.ADMIN;
-            case null -> null;
-            default -> null;
-        };
+    public Role getEmployeeRole(Integer employeeId) {
+        Role role = null;
+        Optional<EmployeeEntity> result = authEmployeeRepository.findById(employeeId);
+
+        if (result.isPresent()) {
+            RoleEntity roleEntity = result.get().getRoleName();
+            role = switch (roleEntity) {
+                case MANAGER -> Role.MANAGER;
+                case WAITER -> Role.WAITER;
+                case COOKER -> Role.COOKER;
+                case ADMIN -> Role.ADMIN;
+            };
+        }
+
+        return role;
+    }
+
+    public Integer getEmployeeRestaurantId(Integer employeeId) {
+        Integer restaurantId = null;
+        Optional<EmployeeEntity> result = authEmployeeRepository.findById(employeeId);
+
+        if (result.isPresent()) {
+            restaurantId = result.get().getRestaurant().getId();
+        }
+
+        return restaurantId;
     }
 }

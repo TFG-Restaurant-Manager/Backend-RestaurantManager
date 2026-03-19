@@ -1,12 +1,14 @@
 package com.tfg_rm.backend_restaurantmanager.employee.controller;
 
-import com.tfg_rm.backend_restaurantmanager.employee.dto.RestaurantDto;
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
-
-import jakarta.servlet.http.HttpServletRequest;
+import com.tfg_rm.backend_restaurantmanager.employee.dto.EmployeeRegisterRequest;
+import com.tfg_rm.backend_restaurantmanager.employee.service.EmployeeService;
+import com.tfg_rm.backend_restaurantmanager.shared.entity.EmployeeEntity;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,29 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/employee")
 public class EmployeeController {
 
-    private final JwtService jwtService;
+    private final EmployeeService employeeService;
 
-    @GetMapping("/mi-restaurante")
-    public RestaurantDto obtenerRestaurante(HttpServletRequest request) {
-        String token = extractToken(request);
-        if (token == null || !jwtService.validateToken(token)) {
-            throw new RuntimeException("Token inválido");
-        }
-        /* Obtener el ID del restaurante del token */
-        Long restaurantId = jwtService.getRestaurantId(token);
-        // aquí podrías llamar a un servicio para obtener más datos
-        return new RestaurantDto(restaurantId, "Restaurante " + restaurantId);
-    }
-
-    /** Método para extraer el token del encabezado de la solicitud */
-    private String extractToken(HttpServletRequest request) {
-        String token = null;
-        String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
-            token = header.substring(7);
-        }
-        return token;
+    @PostMapping("/employeeRegister")
+    public ResponseEntity<EmployeeEntity> employeeRegister(@RequestBody EmployeeRegisterRequest request) {;
+        EmployeeEntity employee = employeeService.registerEmployee(request);
+        return ResponseEntity.ok(employee);
     }
 }

@@ -1,14 +1,18 @@
 package com.tfg_rm.backend_restaurantmanager.auth.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.tfg_rm.backend_restaurantmanager.shared.entity.Employee;
+import com.tfg_rm.backend_restaurantmanager.shared.entity.EmployeeEntity;
 
 /**
  * Repository for accessing employee records.
  */
 @Repository
-public interface AuthEmployeeRepository extends JpaRepository<Employee, Long> {
+public interface AuthEmployeeRepository extends JpaRepository<EmployeeEntity, Integer> {
+
+    Optional<EmployeeEntity> findByCode(String code);
 
 }
