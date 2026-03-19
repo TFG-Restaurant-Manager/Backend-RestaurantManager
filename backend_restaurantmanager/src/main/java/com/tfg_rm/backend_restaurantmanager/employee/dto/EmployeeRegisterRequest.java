@@ -10,7 +10,7 @@ import lombok.Data;
 public class EmployeeRegisterRequest {
     private String name;
     private RoleEntity roleName;
-    private Boolean active;
+    private Boolean active = true;
     private String email;
     private String phone;
     private LocalDate startDate;
