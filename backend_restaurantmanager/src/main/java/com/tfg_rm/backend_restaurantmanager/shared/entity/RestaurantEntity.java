@@ -10,12 +10,21 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "restaurants")
+@Table(
+    name = "restaurants",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uq_employee_code_per_restaurant",
+                columnNames = {"restaurant_id", "code"}),
+        @UniqueConstraint(name = "uq_employees_email",
+                columnNames = {"email"})
+    }
+)
 @NoArgsConstructor
 public class RestaurantEntity {
 
@@ -23,10 +32,10 @@ public class RestaurantEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true, length = 5)
+    @Column(nullable = false, length = 5)
     private String prefix;
 
-    @Column(nullable = false, unique = true, length = 150)
+    @Column(nullable = false, length = 150)
     private String name;
 
     @Column(columnDefinition = "TEXT")
@@ -52,4 +61,6 @@ public class RestaurantEntity {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EmployeeEntity> employees;
 
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClientEntity> clients;
 }

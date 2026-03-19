@@ -31,9 +31,7 @@ import jakarta.persistence.UniqueConstraint;
     name = "employee",
     uniqueConstraints = {
         @UniqueConstraint(name = "uq_employee_code_per_restaurant",
-                columnNames = {"restaurant_id", "code"}),
-        @UniqueConstraint(name = "uq_employees_email",
-                columnNames = {"email"})
+                columnNames = {"restaurant_id", "code"})
     }
 )
 public class EmployeeEntity {
@@ -42,7 +40,7 @@ public class EmployeeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // 🔗 Relación con Restaurant
+    // Relación con Restaurant
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private RestaurantEntity restaurant;
@@ -58,7 +56,7 @@ public class EmployeeEntity {
     @Column(nullable = false)
     private Boolean active = true;
 
-    @Column(nullable = false, length = 150, unique = true)
+    @Column(nullable = false, length = 150)
     private String email;
 
     @Column(length = 25)

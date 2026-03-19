@@ -11,6 +11,7 @@ import com.tfg_rm.backend_restaurantmanager.auth.repository.AuthEmployeeReposito
 import com.tfg_rm.backend_restaurantmanager.auth.repository.projection.ClientLoginProjection;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.ClientEntity;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.EmployeeEntity;
+import com.tfg_rm.backend_restaurantmanager.shared.entity.RestaurantEntity;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.RoleEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -47,9 +48,8 @@ public class AuthService {
 
         if (password.length() > 6) {
             String passwordHash = passwordEncoder.encode(password);
-
             ClientEntity client = new ClientEntity();
-            client.setRestaurantId(restaurantId);
+            client.setRestaurant(restaurant);
             client.setEmail(email);
             client.setPasswordHash(passwordHash);
             authClientRepository.save(client);

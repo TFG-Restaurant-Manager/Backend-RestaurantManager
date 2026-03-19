@@ -1,7 +1,5 @@
 package com.tfg_rm.backend_restaurantmanager.shared.entity;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,9 +14,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "clients")
+@Table(name = "table_sections")
 @NoArgsConstructor
-public class ClientEntity {
+public class TableSectionsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,15 +26,9 @@ public class ClientEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private RestaurantEntity restaurant;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title", nullable = false, length = 100)
+    private String title;
 
-    @Column(name = "email", nullable = false)
-    private String email;
-
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
-
-    @Column(name = "created_at", insertable = false, updatable = false)
-    private LocalDateTime createdAt;
+    
+    
 }
