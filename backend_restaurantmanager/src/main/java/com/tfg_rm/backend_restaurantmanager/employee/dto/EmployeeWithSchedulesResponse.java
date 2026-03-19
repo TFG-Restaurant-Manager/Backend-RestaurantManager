@@ -1,6 +1,7 @@
 package com.tfg_rm.backend_restaurantmanager.employee.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.tfg_rm.backend_restaurantmanager.shared.entity.RoleEntity;
 
@@ -9,15 +10,18 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class EmployeeRegisterRequest {
+public class EmployeeWithSchedulesResponse {
+    private Integer id;
     private String name;
     private RoleEntity roleName;
-    private Boolean active = true;
+    private Boolean active;
     private String email;
     private String phone;
     private LocalDate startDate;
     private LocalDate endDate;
     private String positionNotes;
     private String code;
-    private String password;
+    private Integer restaurantId;
+    private String restaurantName;
+    private List<EmployeeScheduleDto> schedules;
 }

@@ -359,26 +359,6 @@ JOIN order_status os ON o.status_id = os.id
 JOIN order_items oi ON o.id = oi.order_id
 WHERE o.order_type_id = 2;-- Pedidos en mesa 'TABLE'
 
-CREATE VIEW employee_with_schedule AS
-SELECT
-    e.id AS employee_id,
-    e.name,
-    e.role_name,
-    e.email,
-    e.phone,
-    e.active,
-
-    r.name AS restaurant_name,
-	r.id AS restaurant_id,
-
-    ws.id AS schedule_id,
-    ws.start_datetime,
-    ws.end_datetime
-
-FROM employee e
-JOIN restaurants r ON e.restaurant_id = r.id
-LEFT JOIN work_schedules ws ON ws.employee_id = e.id;
-
 INSERT INTO restaurants (prefix, name, description, email, phone, address, logo_url)
 VALUES
 ('MAD', 'Restaurante Madrid', 'Restaurante de cocina española', 'madrid@rest.com', '912345678', 'Calle Mayor 1, Madrid', 'https://example.com/logo_mad.png'),
