@@ -13,6 +13,8 @@ import com.tfg_rm.backend_restaurantmanager.shared.entity.ClientEntity;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.EmployeeEntity;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.RestaurantEntity;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.RoleEntity;
+import com.tfg_rm.backend_restaurantmanager.shared.exception.NotFoundException;
+import com.tfg_rm.backend_restaurantmanager.shared.repository.RestaurantRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +30,8 @@ public class AuthService {
     private final AuthClientRepository authClientRepository;
     /** The auth employee repository */
     private final AuthEmployeeRepository authEmployeeRepository;
+    /** The restaurant */
+    private final RestaurantRepository restaurantRepository;
 
     /** The password encoder */
     private final PasswordEncoder passwordEncoder;
@@ -49,6 +53,9 @@ public class AuthService {
         if (password.length() > 6) {
             String passwordHash = passwordEncoder.encode(password);
             ClientEntity client = new ClientEntity();
+            RestaurantEntity restaurant = restaurantRepository
+                .findById(restaurantId)
+                .orElseThrow(() -> new NotFoundException("Restaurant not found"));
             client.setRestaurant(restaurant);
             client.setEmail(email);
             client.setPasswordHash(passwordHash);

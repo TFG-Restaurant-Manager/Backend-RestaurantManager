@@ -54,6 +54,11 @@ public class SecurityConfig {
                 .requestMatchers("/mi-restaurante").hasAuthority("ROLE_CAMARERO")
                 // /hola abierto a todos
                 .requestMatchers("/hola").permitAll()
+                .requestMatchers(
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html"
+                    ).permitAll()
                 /* ----- ----------------------------------------------------------------------------------------------------------- */
                 .requestMatchers("/employee/**").not().hasAuthority("ROLE_CLIENTE")
                 // The rest of the routes require authentication, but no specific role is specified, which means that any authenticated user can access them.

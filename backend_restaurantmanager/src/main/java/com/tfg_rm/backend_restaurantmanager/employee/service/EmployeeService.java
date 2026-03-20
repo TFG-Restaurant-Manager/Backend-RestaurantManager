@@ -13,11 +13,11 @@ import com.tfg_rm.backend_restaurantmanager.employee.dto.RestaurantDishView;
 import com.tfg_rm.backend_restaurantmanager.employee.dto.RestaurantTableOrderView;
 import com.tfg_rm.backend_restaurantmanager.employee.repository.EmployeeRepository;
 import com.tfg_rm.backend_restaurantmanager.employee.repository.RestaurantDishViewRepository;
-import com.tfg_rm.backend_restaurantmanager.employee.repository.RestaurantRepository;
 import com.tfg_rm.backend_restaurantmanager.employee.repository.RestaurantTableOrderViewRepository;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.EmployeeEntity;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.RestaurantEntity;
 import com.tfg_rm.backend_restaurantmanager.shared.exception.NotFoundException;
+import com.tfg_rm.backend_restaurantmanager.shared.repository.RestaurantRepository;
 
 import lombok.RequiredArgsConstructor;
 

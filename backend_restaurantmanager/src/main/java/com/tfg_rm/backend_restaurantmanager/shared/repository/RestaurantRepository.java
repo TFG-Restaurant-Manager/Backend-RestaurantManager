@@ -1,4 +1,4 @@
-package com.tfg_rm.backend_restaurantmanager.employee.repository;
+package com.tfg_rm.backend_restaurantmanager.shared.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
