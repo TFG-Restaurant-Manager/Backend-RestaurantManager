@@ -11,32 +11,60 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/** 
+ * Entidad que representa un cliente del restaurante.
+ */
 @Data
 @Entity
-@Table(name = "clients")
+@Table(
+    name = "clients",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uq_clients_restaurant_email",
+                columnNames = {"restaurant_id", "email"})
+    }
+)
 @NoArgsConstructor
 public class ClientEntity {
 
+    /** 
+     * Identificador único del cliente.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
+    /** 
+     * Restaurante al que pertenece el cliente.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private RestaurantEntity restaurant;
 
+    /** 
+     * Nombre del cliente.
+     */
     @Column(name = "name")
     private String name;
 
+    /** 
+     * Email del cliente.
+     */
     @Column(name = "email", nullable = false)
     private String email;
 
+    /** 
+     * Hash de la contraseña del cliente.
+     */
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
+    /** 
+     * Fecha de creación del cliente.
+     */
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 }
