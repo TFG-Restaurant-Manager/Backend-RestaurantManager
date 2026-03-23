@@ -49,7 +49,7 @@ public class SecurityConfig {
                 // /a sólo clientes
                 .requestMatchers("/a").hasAuthority("ROLE_CLIENTE")
                 // /adios-json todos menos clientes
-                .requestMatchers("/adios-json").not().hasAuthority("ROLE_CLIENTE")
+                .requestMatchers("/adios-json").not().hasAuthority("ROLE_CLIENTE") // El not funciona no tan bien
                 // solo camareros pueden pedir su restaurante
                 .requestMatchers("/mi-restaurante").hasAuthority("ROLE_CAMARERO")
                 // /hola abierto a todos
@@ -60,7 +60,11 @@ public class SecurityConfig {
                         "/swagger-ui.html"
                     ).permitAll()
                 /* ----- ----------------------------------------------------------------------------------------------------------- */
-                .requestMatchers("/employee/**").not().hasAuthority("ROLE_CLIENTE")
+                .requestMatchers("/employee/**").hasAnyRole("MANAGER", "WAITER", "COOKER", "ADMIN")
+                /* Puedo sustituir lo de arriba por:
+                .requestMatchers("/employee/**").hasRole("CLIENTE").denyAll()
+                .requestMatchers("/employee/**").authenticated()
+                */
                 // The rest of the routes require authentication, but no specific role is specified, which means that any authenticated user can access them.
                 .anyRequest().authenticated()
             )
