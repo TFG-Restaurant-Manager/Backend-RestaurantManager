@@ -91,3 +91,65 @@ INSERT INTO tables_restaurant (restaurant_id, section_id, name, capacity, pos_x,
 (1, 3, 'V3', 8, 3, 5),
 (1, 3, 'V4', 10, 4, 5),
 (1, 3, 'V5', 4, 5, 5);
+
+-- =========================================
+-- PEDIDOS DE PRUEBA RESTAURANTE 1 (TABLE, DELIVERY, PICKUP)
+-- =========================================
+INSERT INTO orders (restaurant_id, type, status, total, notes) VALUES
+(1, 'TABLE', 'CREATED', 23.50, 'Pedido desde mesa T1'),
+(1, 'DELIVERY', 'CREATED', 25.80, 'Pedido delivery sin cliente'),
+(1, 'PICKUP', 'CREATED', 10.00, 'Pedido para recogida en mostrador'),
+(1, 'TABLE', 'CREATED', 33.20, 'Pedido desde mesa T2'),
+(1, 'TABLE', 'CREATED', 19.70, 'Pedido desde mesa S1'),
+(1, 'DELIVERY', 'CREATED', 27.30, 'Pedido delivery urgent'),
+(1, 'DELIVERY', 'CREATED', 15.90, 'Pedido delivery local'),
+(1, 'PICKUP', 'CREATED', 12.40, 'Pedido para recogida express'),
+(1, 'PICKUP', 'CREATED', 18.60, 'Pedido para recogida tarde');
+
+INSERT INTO order_table (order_id, table_id) VALUES
+(1, 1),
+(4, 2),
+(5, 7);
+
+INSERT INTO order_delivery (order_id, delivery_address, client_id) VALUES
+(2, 'Calle Mayor 10, Madrid', NULL),
+(6, 'Calle Gran Vía 22, Madrid', NULL),
+(7, 'Calle Alcalá 45, Madrid', NULL);
+
+INSERT INTO order_pickup (order_id, pickup_time, client_id) VALUES
+(3, '2026-03-24 19:00:00', NULL),
+(8, '2026-03-24 20:00:00', NULL),
+(9, '2026-03-24 20:30:00', NULL);
+
+INSERT INTO order_items (order_id, dish_id, notes, unit_price) VALUES
+-- order 1 TABLE
+(1, 1, 'Una ración extra de salsa', 6.50),
+(1, 6, 'Sin cebolla', 12.00),
+(1, 11, 'Sin frutos secos', 5.00),
+-- order 2 DELIVERY
+(2, 1, 'Sin gluten', 6.50),
+(2, 5, 'Extra limón', 7.80),
+(2, 12, 'Bien hecho', 11.00),
+-- order 3 PICKUP
+(3, 13, 'En bolsa separada', 5.50),
+(3, 15, 'Con extra canela', 4.00),
+-- order 4 TABLE
+(4, 2, 'Sin pepino', 5.50),
+(4, 7, 'Guarnición extra', 15.50),
+(4, 10, 'Sin piel', 13.20),
+-- order 5 TABLE
+(5, 3, 'Frío', 4.50),
+(5, 8, 'Extra patatas', 10.00),
+-- order 6 DELIVERY
+(6, 4, 'Rápido', 3.50),
+(6, 11, 'Doble porción', 5.00),
+(6, 14, 'Con nata', 5.50),
+-- order 7 DELIVERY
+(7, 6, 'Sin champiñones', 12.00),
+(7, 9, 'Muy picante', 13.20),
+-- order 8 PICKUP
+(8, 2, 'Sin cebolla', 5.50),
+(8, 5, 'Ligero', 7.80),
+-- order 9 PICKUP
+(9, 12, 'Extra queso', 11.00),
+(9, 15, 'Caliente', 4.00);

@@ -130,3 +130,63 @@ INSERT INTO tables_restaurant (restaurant_id, section_id, name, capacity, pos_x,
 (2, 8, 'J4', 6, 4, 9),
 (2, 8, 'J5', 8, 5, 9),
 (2, 8, 'J6', 2, 6, 9);
+
+-- =========================================
+-- PEDIDOS DE PRUEBA RESTAURANTE 2 (TABLE, DELIVERY, PICKUP)
+-- =========================================
+INSERT INTO orders (restaurant_id, type, status, total, notes) VALUES
+(2, 'TABLE', 'CREATED', 24.80, 'Pedido desde mesa T1'),
+(2, 'DELIVERY', 'CREATED', 27.00, 'Pedido delivery sin cliente'),
+(2, 'PICKUP', 'CREATED', 10.40, 'Pedido para recogida en mostrador'),
+(2, 'TABLE', 'CREATED', 29.60, 'Pedido desde mesa T2'),
+(2, 'TABLE', 'CREATED', 21.10, 'Pedido desde mesa S2'),
+(2, 'DELIVERY', 'CREATED', 30.80, 'Pedido delivery tarde'),
+(2, 'DELIVERY', 'CREATED', 18.30, 'Pedido delivery flash'),
+(2, 'PICKUP', 'CREATED', 13.20, 'Pedido pickup 20:00'),
+(2, 'PICKUP', 'CREATED', 16.90, 'Pedido pickup 21:00');
+
+INSERT INTO order_table (order_id, table_id) VALUES
+(10, 4),
+(13, 5),
+(14, 11);
+
+INSERT INTO order_delivery (order_id, delivery_address, client_id) VALUES
+(11, 'Rambla 50, Barcelona', NULL),
+(15, 'Carrer Balmes 100, Barcelona', NULL),
+(16, 'C/ Provença 88, Barcelona', NULL);
+
+INSERT INTO order_pickup (order_id, pickup_time, client_id) VALUES
+(12, '2026-03-24 20:30:00', NULL),
+(17, '2026-03-24 21:00:00', NULL),
+(18, '2026-03-24 21:30:00', NULL);
+
+INSERT INTO order_items (order_id, dish_id, notes, unit_price) VALUES
+-- order 10 TABLE
+(10, 16, 'Extra guacamole', 7.00),
+(10, 18, 'Sin cebolla', 5.80),
+(10, 26, 'Al punto', 12.00),
+-- order 11 DELIVERY
+(11, 21, 'Con ajo', 14.50),
+(11, 23, 'Doble salsa', 16.50),
+-- order 12 PICKUP
+(12, 35, 'Sin nata', 5.80),
+(12, 40, 'Con chocolate extra', 5.20),
+-- order 13 TABLE
+(13, 17, 'Muy crujiente', 8.50),
+(13, 25, 'Sin tomar', 19.00),
+-- order 14 TABLE
+(14, 18, 'Poco picante', 5.80),
+(14, 24, 'A la plancha', 15.00),
+(14, 30, 'Bien hecho', 13.80),
+-- order 15 DELIVERY
+(15, 16, 'Rápido', 7.00),
+(15, 19, 'Extra limón', 7.20),
+-- order 16 DELIVERY
+(16, 22, 'Con aceitunas', 8.00),
+(16, 26, 'Al punto', 12.00),
+-- order 17 PICKUP
+(17, 32, 'Muy frío', 15.00),
+(17, 40, 'Sin hielo', 5.20),
+-- order 18 PICKUP
+(18, 37, 'Ligero', 5.50),
+(18, 39, 'Con salsa extra', 4.90);

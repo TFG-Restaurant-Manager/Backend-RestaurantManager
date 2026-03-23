@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -67,7 +68,7 @@ public class DishesEntity {
      * Precio del producto.
      */
     @Column(name = "price", nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     /**
      * Muestra si el producto está disponible para su venta.

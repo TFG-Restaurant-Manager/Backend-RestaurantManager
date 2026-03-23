@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class OrdersEntity {
      * Total de la orden.
      */
     @Column(name = "total", nullable = false, precision = 10, scale = 2)
-    private Double total = 0.00;
+    private BigDecimal total = BigDecimal.ZERO;
 
     /**
      * Notas adicionales para la orden.

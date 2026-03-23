@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -60,13 +61,13 @@ public class IngredientsEntity {
      * Cantidad disponible del ingrediente.
      */
     @Column(name = "stock_quantity", nullable = false)
-    private Double stockQuantity = 0.0;
+    private BigDecimal stockQuantity = BigDecimal.ZERO;
 
      /** 
      * Precio por unidad del ingrediente.
      */
     @Column(name = "cost_unit", nullable = false)
-    private Double costPerUnit;
+    private BigDecimal costPerUnit;
 
     /* 
      * Lista de platos que utilizan este ingrediente.

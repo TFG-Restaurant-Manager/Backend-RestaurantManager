@@ -14,7 +14,7 @@ import lombok.Data;
 @Table(name = "data_restaurant_dishes")
 public class RestaurantDishViewEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -28,5 +28,5 @@ public class RestaurantDishViewEntity {
     private Boolean available;
 
     @Column(name = "restaurant_id")
-    private Integer restaurantId;
+    private Long restaurantId;
 }

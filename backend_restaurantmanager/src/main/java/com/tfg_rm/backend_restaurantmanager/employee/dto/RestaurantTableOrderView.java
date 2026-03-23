@@ -9,12 +9,20 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class RestaurantTableOrderView {
-    private Integer orderId;
-    private Integer restaurantId;
-    private Integer tableId;
-    private String statusName;
-    private BigDecimal total;
-    private String notes;
-    private LocalDateTime createdAt;
-    private Integer dishId;
+    private Long tableId;
+    private Long restaurantId;
+    private String tableName;
+    private Integer capacity;
+    private Integer posX;
+    private Integer posY;
+    private String status;
+    private String sectionTitle;
+    private Long orderId;
+    private String orderStatus;
+    private BigDecimal orderTotal;
+    private String orderNotes;
+    private LocalDateTime orderCreatedAt;
+    private String dishName;
+    private BigDecimal dishPrice;
+    private String categoryNam;
 }

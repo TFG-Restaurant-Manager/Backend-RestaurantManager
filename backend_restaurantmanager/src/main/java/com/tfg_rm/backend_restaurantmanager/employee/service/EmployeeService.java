@@ -103,17 +103,40 @@ public class EmployeeService {
 
     public List<RestaurantTableOrderView> getRestaurantTableOrdersFromView(Long restaurantId) {
         return restaurantTableOrderViewRepository.findByRestaurantId(restaurantId).stream()
-            .map(e -> new RestaurantTableOrderView(
-                e.getOrderId(),
-                e.getRestaurantId(),
-                e.getTableId(),
-                e.getStatusName(),
-                e.getTotal(),
-                e.getNotes(),
-                e.getCreatedAt(),
-                e.getDishId()
-            ))
-            .collect(Collectors.toList());
+             .map(e -> new RestaurantTableOrderView(
+                 e.getTableId(),
+                 e.getRestaurantId(),
+                 e.getTableName(),
+                 e.getCapacity(),
+                 e.getPosX(),
+                 e.getPosY(),
+                 e.getStatus(),
+                 e.getSectionTitle(),
+                 e.getOrderId(),
+                 e.getOrderStatus(),
+                 e.getOrderTotal(),
+                 e.getOrderNotes(),
+                 e.getOrderCreatedAt(),
+                 e.getDishName(),
+                 e.getDishPrice(),
+                 e.getCategoryName()
+             ))
+             .collect(Collectors.toList());
     }
+
+    // public List<RestaurantTableOrderView> getRestaurantTableOrdersFromView(Long restaurantId) {
+    //     return restaurantTableOrderViewRepository.findByRestaurantId(restaurantId).stream()
+    //         .map(e -> new RestaurantTableOrderView(
+    //             e.getOrderId(),
+    //             e.getRestaurantId(),
+    //             e.getTableId(),
+    //             e.getStatusName(),
+    //             e.getTotal(),
+    //             e.getNotes(),
+    //             e.getCreatedAt(),
+    //             e.getDishId()
+    //         ))
+    //         .collect(Collectors.toList());
+    // }
 
 }

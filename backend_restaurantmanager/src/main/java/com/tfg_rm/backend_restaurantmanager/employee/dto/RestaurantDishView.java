@@ -8,11 +8,11 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class RestaurantDishView {
-    private Integer id;
+    private Long id;
     private String name;
     private String categoryName;
     private String description;
     private BigDecimal price;
     private Boolean available;
-    private Integer restaurantId;
+    private Long restaurantId;
 }

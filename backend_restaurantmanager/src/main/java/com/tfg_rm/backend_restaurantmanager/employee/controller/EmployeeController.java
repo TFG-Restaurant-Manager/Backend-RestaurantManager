@@ -74,7 +74,7 @@ public class EmployeeController {
         return ResponseEntity.ok(dishes);
     }
 
-    @GetMapping("/getRestaurantTableOrders")
+    @GetMapping("/getRestaurantTableAndOrders")
     public ResponseEntity<List<RestaurantTableOrderView>> getRestaurantTableOrders(
         @RequestHeader("Authorization") String authHeader
     ) {
@@ -84,4 +84,6 @@ public class EmployeeController {
         List<RestaurantTableOrderView> orders = employeeService.getRestaurantTableOrdersFromView(restaurantId);
         return ResponseEntity.ok(orders);
     }
+
+
 }

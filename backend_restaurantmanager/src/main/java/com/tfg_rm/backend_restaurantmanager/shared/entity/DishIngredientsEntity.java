@@ -10,6 +10,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.UniqueConstraint;
 
@@ -50,5 +53,5 @@ public class DishIngredientsEntity {
      * Cantidad del ingrediente utilizada en el plato.
      */
     @Column(name = "quantity", nullable = false)
-    private Double quantity;
+    private BigDecimal quantity;
 }
