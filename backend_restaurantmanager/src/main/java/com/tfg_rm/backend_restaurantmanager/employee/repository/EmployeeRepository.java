@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.EmployeeEntity;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Integer> {
+public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> {
 
     @Query("SELECT e FROM EmployeeEntity e LEFT JOIN FETCH e.schedules WHERE e.id = :id")
-    Optional<EmployeeEntity> findByIdWithSchedules(@Param("id") Integer id);
+    Optional<EmployeeEntity> findByIdWithSchedules(@Param("id") Long id);
 }

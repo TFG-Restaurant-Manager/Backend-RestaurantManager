@@ -31,7 +31,7 @@ class AuthControllerTest {
         ClientLoginRequest request = new ClientLoginRequest();
         request.setEmail("test@test.com");
         request.setPassword("1234");
-        request.setRestaurantId(5);
+        request.setRestaurantId(5L);
 
         mockMvc.perform(post("/auth/clientLogin")
                 .contentType("application/json")

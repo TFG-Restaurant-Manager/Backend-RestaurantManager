@@ -1,5 +1,6 @@
 package com.tfg_rm.backend_restaurantmanager.shared.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,6 +22,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 /**
  * Entidad que representa una categoría de productos en el restaurante.
@@ -78,4 +80,28 @@ public class OrdersEntity {
      */
     @Column(name = "created_at", nullable = false)
     private LocalDateTime created_at;
+
+    /**
+     * Tipo de orden específica (mesa, delivery, recogida).
+     */
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private OrderDeliveryEntity deliveryOrder;
+
+    /**
+     * Tipo de orden específica (mesa, delivery, recogida).
+     */
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private OrderTableEntity tableOrder;
+
+    /**
+     * Tipo de orden específica (mesa, delivery, recogida).
+     */
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private OrderPickupEntity pickupOrder;
+
+    /**
+     * Lista de ítems de orden asociados a la orden.
+     */
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItemsEntity> orderItems;
 }

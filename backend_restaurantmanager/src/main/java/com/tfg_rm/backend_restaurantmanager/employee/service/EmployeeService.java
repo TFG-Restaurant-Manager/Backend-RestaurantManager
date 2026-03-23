@@ -35,7 +35,7 @@ public class EmployeeService {
 
     private final PasswordEncoder passwordEncoder;
  
-    public EmployeeEntity registerEmployee(EmployeeRegisterRequest request, Integer restaurantId) {
+    public EmployeeEntity registerEmployee(EmployeeRegisterRequest request, Long restaurantId) {
 
         RestaurantEntity restaurant = restaurantRepository
             .findById(restaurantId)
@@ -58,7 +58,7 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public EmployeeWithSchedulesResponse getEmployeeInfo(Integer restaurantId, Integer employeeId) {
+    public EmployeeWithSchedulesResponse getEmployeeInfo(Long restaurantId, Long employeeId) {
         EmployeeEntity employee = employeeRepository.findByIdWithSchedules(employeeId)
             .orElseThrow(() -> new NotFoundException("Employee not found"));
 
@@ -87,7 +87,7 @@ public class EmployeeService {
         );
     }
 
-    public List<RestaurantDishView> getRestaurantDishesFromView(Integer restaurantId) {
+    public List<RestaurantDishView> getRestaurantDishesFromView(Long restaurantId) {
         return restaurantDishViewRepository.findByRestaurantId(restaurantId).stream()
             .map(e -> new RestaurantDishView(
                 e.getId(),
@@ -101,7 +101,7 @@ public class EmployeeService {
             .collect(Collectors.toList());
     }
 
-    public List<RestaurantTableOrderView> getRestaurantTableOrdersFromView(Integer restaurantId) {
+    public List<RestaurantTableOrderView> getRestaurantTableOrdersFromView(Long restaurantId) {
         return restaurantTableOrderViewRepository.findByRestaurantId(restaurantId).stream()
             .map(e -> new RestaurantTableOrderView(
                 e.getOrderId(),

@@ -80,4 +80,10 @@ public class DishesEntity {
      */
     @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DishIngredientsEntity> ingredients;
+
+    /**
+     * Lista de ítems de orden asociados al producto.
+     */
+    @OneToMany(mappedBy = "dishes", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItemsEntity> orderItems;
 }

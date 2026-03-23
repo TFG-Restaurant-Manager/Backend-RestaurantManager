@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.RestaurantEntity;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<RestaurantEntity, Integer> {
+public interface RestaurantRepository extends JpaRepository<RestaurantEntity, Long> {
 
 }

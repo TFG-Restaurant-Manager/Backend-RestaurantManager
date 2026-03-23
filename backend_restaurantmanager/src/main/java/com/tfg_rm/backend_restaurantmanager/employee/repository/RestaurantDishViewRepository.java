@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.tfg_rm.backend_restaurantmanager.shared.entity.view.RestaurantDishViewEntity;
 
 @Repository
-public interface RestaurantDishViewRepository extends JpaRepository<RestaurantDishViewEntity, Integer> {
-    List<RestaurantDishViewEntity> findByRestaurantId(Integer restaurantId);
+public interface RestaurantDishViewRepository extends JpaRepository<RestaurantDishViewEntity, Long> {
+    List<RestaurantDishViewEntity> findByRestaurantId(Long restaurantId);
 }

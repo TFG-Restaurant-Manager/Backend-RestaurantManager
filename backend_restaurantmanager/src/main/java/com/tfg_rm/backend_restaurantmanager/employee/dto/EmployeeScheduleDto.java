@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class EmployeeScheduleDto {
-    private Integer id;
+    private Long id;
     private LocalDateTime startDatetime;
     private LocalDateTime endDatetime;
 }

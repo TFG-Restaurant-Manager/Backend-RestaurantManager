@@ -35,13 +35,13 @@ public class AuthController {
     @PostMapping("/clientLogin")
     public LoginResponse clientLogin(@RequestBody ClientLoginRequest request) {
         
-        Integer userId = authService.checkCredentials(request.getRestaurantId(), request.getEmail(), request.getPassword());
+        Long userId = authService.checkCredentials(request.getRestaurantId(), request.getEmail(), request.getPassword());
         if (userId == -1L) {
             throw new InvalidCredentialsException("Invalid credentials");
         }
 
         // Si las credenciales son correctas, generamos un token JWT con la información del usuario
-        Integer restaurantId = request.getRestaurantId();
+        Long restaurantId = request.getRestaurantId();
         Role role = Role.CLIENT;
 
         String token = jwtService.generateToken(userId, restaurantId, role);
@@ -52,7 +52,7 @@ public class AuthController {
     @PostMapping("/clientRegister")
     public LoginResponse clientRegister(@RequestBody ClientLoginRequest request) {
 
-        Integer userId = authService.addClient(request.getRestaurantId(), request.getEmail(), request.getPassword());
+        Long userId = authService.addClient(request.getRestaurantId(), request.getEmail(), request.getPassword());
         // Aqui tenemos que validar las credenciales desde la base de datos, esto es solo un ejemplo
         if (userId == -1L) {
             // Tendriamos que lanzar una excepción personalizada para manejar este error de forma adecuada
@@ -60,7 +60,7 @@ public class AuthController {
         }
 
         // Si las credenciales son correctas, generamos un token JWT con la información del usuario
-        Integer restaurantId = request.getRestaurantId();
+        Long restaurantId = request.getRestaurantId();
         Role role = Role.CLIENT;
 
         String token = jwtService.generateToken(userId, restaurantId, role);
@@ -78,14 +78,14 @@ public class AuthController {
         String code = request.getCode();
         String password = request.getPassword();
 
-        Integer employeeId = authService.validateEmployeeAccess(code, password);
+        Long employeeId = authService.validateEmployeeAccess(code, password);
         if (employeeId == -1) {
             throw new InvalidCredentialsException("Invalid credentials");
         }
 
 
         Role role = authService.getEmployeeRole(employeeId);
-        Integer restaurantId = authService.getEmployeeRestaurantId(employeeId);
+        Long restaurantId = authService.getEmployeeRestaurantId(employeeId);
 
         // A JWT token is generated with the employee's information and the restaurant they are accessing
         String token = jwtService.generateToken(employeeId, restaurantId, role);

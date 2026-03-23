@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (token != null && jwtService.validateToken(token)) {
                     // If the token is valid, extract user details and set authentication
-                    Integer userId = jwtService.getUserId(token);
+                    Long userId = jwtService.getUserId(token);
                     String role = jwtService.getRole(token);
                     String authority = "ROLE_" + role.toUpperCase();
 

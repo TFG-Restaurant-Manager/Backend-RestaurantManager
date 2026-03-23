@@ -14,5 +14,5 @@ import com.tfg_rm.backend_restaurantmanager.shared.entity.ClientEntity;
  */
 @Repository
 public interface AuthClientRepository extends JpaRepository<ClientEntity, Long> {
-    Optional<ClientLoginProjection> findByRestaurantIdAndEmail(Integer restaurantId, String email);
+    Optional<ClientLoginProjection> findByRestaurantIdAndEmail(Long restaurantId, String email);
 }

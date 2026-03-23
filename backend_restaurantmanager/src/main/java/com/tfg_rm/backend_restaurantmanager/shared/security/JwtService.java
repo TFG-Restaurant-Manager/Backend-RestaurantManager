@@ -50,7 +50,7 @@ public class JwtService {
      * @param role         the role of the user
      * @return the generated JWT as a String
      */
-    public String generateToken(Integer userId, Integer restaurantId, Role role) {
+    public String generateToken(Long userId, Long restaurantId, Role role) {
 
         return Jwts.builder()
                 .subject(userId.toString())
@@ -102,9 +102,9 @@ public class JwtService {
      * @param token the JWT from which to extract the restaurant ID
      * @return the extracted restaurant ID
      */
-    public Integer getRestaurantId(String token) {
+    public Long getRestaurantId(String token) {
         Claims claims = getClaims(token);
-        return claims.get("restaurantId", Integer.class);
+        return claims.get("restaurantId", Long.class);
     }
 
     /**
@@ -113,10 +113,10 @@ public class JwtService {
      * @param token the JWT from which to extract the user ID
      * @return the extracted user ID
      */
-    public Integer getUserId(String token) {
+    public Long getUserId(String token) {
         Claims claims = getClaims(token);
         // El userId está guardado como subject
-        return Integer.parseInt(claims.getSubject());
+        return Long.parseLong(claims.getSubject());
     }
 
     /**

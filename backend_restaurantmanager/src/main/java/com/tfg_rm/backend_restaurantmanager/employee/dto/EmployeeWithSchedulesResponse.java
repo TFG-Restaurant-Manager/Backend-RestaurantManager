@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class EmployeeWithSchedulesResponse {
-    private Integer id;
+    private Long id;
     private String name;
     private RoleEntity roleName;
     private Boolean active;
@@ -21,7 +21,7 @@ public class EmployeeWithSchedulesResponse {
     private LocalDate endDate;
     private String positionNotes;
     private String code;
-    private Integer restaurantId;
+    private Long restaurantId;
     private String restaurantName;
     private List<EmployeeScheduleDto> schedules;
 }

@@ -36,8 +36,8 @@ public class AuthService {
     /** The password encoder */
     private final PasswordEncoder passwordEncoder;
 
-    public Integer checkCredentials(Integer restaurantId, String email, String password) {
-        Integer id = -1;
+    public Long checkCredentials(Long restaurantId, String email, String password) {
+        Long id = -1L;
         Optional<ClientLoginProjection> result = authClientRepository.findByRestaurantIdAndEmail(restaurantId, email);
 
         if (result.isPresent() && passwordEncoder.matches(password, result.get().getPasswordHash())) {
@@ -47,8 +47,8 @@ public class AuthService {
         return id;
     }
 
-    public Integer addClient(Integer restaurantId, String email, String password) {
-        Integer id = -1;
+    public Long addClient(Long restaurantId, String email, String password) {
+        Long id = -1L;
 
         if (password.length() > 6) {
             String passwordHash = passwordEncoder.encode(password);
@@ -66,8 +66,8 @@ public class AuthService {
         return id;
     }
 
-    public Integer validateEmployeeAccess(String code, String password) {
-        Integer id = -1;
+    public Long validateEmployeeAccess(String code, String password) {
+        Long id = -1L;
         Optional<EmployeeEntity> result = authEmployeeRepository.findByCode(code);
 
         if (result.isPresent() && (result.get().getPasswordHash().equals(password))) { //passwordEncoder.matches(password, result.get().getPasswordHash()
@@ -77,7 +77,7 @@ public class AuthService {
         return id;
     }
 
-    public Role getEmployeeRole(Integer employeeId) {
+    public Role getEmployeeRole(Long employeeId) {
         Role role = null;
         Optional<EmployeeEntity> result = authEmployeeRepository.findById(employeeId);
 
@@ -94,8 +94,8 @@ public class AuthService {
         return role;
     }
 
-    public Integer getEmployeeRestaurantId(Integer employeeId) {
-        Integer restaurantId = null;
+    public Long getEmployeeRestaurantId(Long employeeId) {
+        Long restaurantId = null;
         Optional<EmployeeEntity> result = authEmployeeRepository.findById(employeeId);
 
         if (result.isPresent()) {

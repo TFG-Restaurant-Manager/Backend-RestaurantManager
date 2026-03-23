@@ -42,7 +42,7 @@ public class EmployeeController {
         String token = authHeader.replace("Bearer ", "");
 
         /* Validate the token and extract user details */
-        Integer restaurantId = jwtService.getRestaurantId(token);
+        Long restaurantId = jwtService.getRestaurantId(token);
 
         EmployeeEntity employee = employeeService.registerEmployee(request, restaurantId);
         return ResponseEntity.ok(employee);
@@ -56,8 +56,8 @@ public class EmployeeController {
         String token = authHeader.replace("Bearer ", "");
 
         /* Validate the token and extract user details */
-        Integer restaurantId = jwtService.getRestaurantId(token);
-        Integer employeeId = jwtService.getUserId(token);
+        Long restaurantId = jwtService.getRestaurantId(token);
+        Long employeeId = jwtService.getUserId(token);
 
         EmployeeWithSchedulesResponse info = employeeService.getEmployeeInfo(restaurantId, employeeId);
         return ResponseEntity.ok(info);
@@ -68,7 +68,7 @@ public class EmployeeController {
         @RequestHeader("Authorization") String authHeader
     ) {
         String token = authHeader.replace("Bearer ", "");
-        Integer restaurantId = jwtService.getRestaurantId(token);
+        Long restaurantId = jwtService.getRestaurantId(token);
 
         List<RestaurantDishView> dishes = employeeService.getRestaurantDishesFromView(restaurantId);
         return ResponseEntity.ok(dishes);
@@ -79,7 +79,7 @@ public class EmployeeController {
         @RequestHeader("Authorization") String authHeader
     ) {
         String token = authHeader.replace("Bearer ", "");
-        Integer restaurantId = jwtService.getRestaurantId(token);
+        Long restaurantId = jwtService.getRestaurantId(token);
 
         List<RestaurantTableOrderView> orders = employeeService.getRestaurantTableOrdersFromView(restaurantId);
         return ResponseEntity.ok(orders);
