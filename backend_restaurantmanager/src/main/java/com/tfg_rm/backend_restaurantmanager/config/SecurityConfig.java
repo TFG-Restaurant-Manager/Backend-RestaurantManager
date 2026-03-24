@@ -1,8 +1,5 @@
 package com.tfg_rm.backend_restaurantmanager.config;
 
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtAuthenticationFilter;
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +7,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.tfg_rm.backend_restaurantmanager.security.JwtAuthenticationFilter;
+import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 
 /**
  * Configuration class for Spring Security. It defines the security filter chain and the JWT authentication filter.

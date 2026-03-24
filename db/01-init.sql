@@ -334,31 +334,39 @@ JOIN categories c on d.category_id = c.id;
 -- JOIN order_items oi ON o.id = oi.order_id
 -- WHERE o.order_type_id = 1;-- Pedidos web 'WEB'
 
-CREATE VIEW restaurant_table_orders AS
-SELECT
-	t.id AS table_id,
-	t.restaurant_id,
-	t.name AS table_name,
-	t.capacity,
-	t.pos_x,
-	t.pos_y,
-	t.status,
-	ts.title AS section_title,
-	o.id AS order_id,
-	o.status AS order_status,
-	o.total AS order_total,
-	o.notes AS order_notes,
-	o.created_at AS order_created_at,
-	d.name AS dish_name,
-	d.price AS dish_price,
-	c.name AS category_name
-FROM tables_restaurant t
-JOIN table_sections ts ON t.section_id = ts.id
-LEFT JOIN order_table ot ON t.id = ot.table_id
-LEFT JOIN orders o ON ot.order_id = o.id AND o.status != 'PAID' -- Solo considerar mesas con pedidos no pagados
-LEFT JOIN order_items oi ON o.id = oi.order_id
-LEFT JOIN dishes d ON oi.dish_id = d.id
-LEFT JOIN categories c ON d.category_id = c.id;
+-- CREATE VIEW restaurant_table_orders AS
+-- SELECT 
+--     t.id AS table_id,
+--     t.restaurant_id,
+--     t.name AS table_name,
+--     t.capacity,
+--     t.pos_x,
+--     t.pos_y,
+--     t.status,
+--     ts.title AS section_title,
+
+--     o.id AS order_id,
+--     o.status AS order_status,
+--     o.total AS order_total,
+--     o.notes AS order_notes,
+--     o.created_at AS order_created_at,
+
+--     oi.id AS order_item_id,
+--     d.id AS dish_id,
+--     d.name AS dish_name,
+--     oi.unit_price AS dish_price,
+--     oi.notes AS notes,
+--     c.name AS category_name
+
+-- FROM tables_restaurant t
+-- LEFT JOIN table_sections ts ON t.section_id = ts.id
+
+-- LEFT JOIN order_table ot ON t.id = ot.table_id
+-- LEFT JOIN orders o ON ot.order_id = o.id
+
+-- LEFT JOIN order_items oi ON o.id = oi.order_id
+-- LEFT JOIN dishes d ON oi.dish_id = d.id
+-- LEFT JOIN categories c ON d.category_id = c.id;
 
 
 -- =========================================
