@@ -40,8 +40,8 @@ public class OrderItemsEntity {
      * Identificador del producto asociado al ítem de la orden.
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dishes_id", nullable = false)
-    private DishesEntity dishes;
+    @JoinColumn(name = "dish_id", nullable = false)
+    private DishesEntity dish;
 
     /**
      * Notas adicionales para el ítem de la orden.
@@ -52,6 +52,6 @@ public class OrderItemsEntity {
     /**
      * Total de la orden.
      */
-    @Column(name = "total", nullable = false, precision = 10, scale = 2)
-    private BigDecimal total;
+    @Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
+    private BigDecimal unitPrice;
 }

@@ -1,8 +1,4 @@
 package com.tfg_rm.backend_restaurantmanager.controller;
-
-import java.util.List;
-
-import com.tfg_rm.backend_restaurantmanager.dto.DishesResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeRegisterRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeWithSchedulesResponse;
 import com.tfg_rm.backend_restaurantmanager.entity.EmployeeEntity;
@@ -68,15 +64,4 @@ public class EmployeeController {
         EmployeeWithSchedulesResponse info = employeeService.getEmployeeInfo(restaurantId, employeeId);
         return ResponseEntity.ok(info);
     }
-
-    // @GetMapping("/tables-orders")
-    // public ResponseEntity<List<RestaurantTableOrderView>> getRestaurantTableOrders(
-    //     @RequestHeader("Authorization") String authHeader
-    // ) {
-    //     String token = authHeader.replace("Bearer ", "");
-    //     Long restaurantId = jwtService.getRestaurantId(token);
-
-    //     List<RestaurantTableOrderView> orders = employeeService.getRestaurantTableOrdersFromView(restaurantId);
-    //     return ResponseEntity.ok(orders);
-    // }
 }

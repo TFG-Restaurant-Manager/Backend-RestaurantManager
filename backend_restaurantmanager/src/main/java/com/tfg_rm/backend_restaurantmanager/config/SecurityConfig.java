@@ -44,7 +44,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // /auth/** and /ws/** are open to everyone
                 .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/ws/**").permitAll()
+                .requestMatchers("/ws").permitAll()
                 /* Tests ----------------------------------------------------------------------------------------------------------- */
                 // /a sólo clientes
                 .requestMatchers("/a").hasAuthority("ROLE_CLIENTE")

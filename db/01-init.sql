@@ -167,28 +167,31 @@ CREATE TABLE orders (
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT pk_orders PRIMARY KEY (id),
 	CONSTRAINT fk_orders_restaurant FOREIGN KEY (restaurant_id)
-		REFERENCES restaurants(id) ON DELETE RESTRICT ON UPDATE CASCADE
+		REFERENCES restaurants(id) ON DELETE RESTRICT ON UPDATE CASCADE,
 );
 
 CREATE TABLE order_table (
-  	order_id INTEGER PRIMARY KEY,
+  	order_id INTEGER,
   	table_id INTEGER NOT NULL,
-  	FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  	FOREIGN KEY (table_id) REFERENCES tables_restaurant(id) ON DELETE SET NULL ON UPDATE CASCADE
+	CONSTRAINT pk_order_table PRIMARY KEY (order_id),
+    CONSTRAINT fk_order_table FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  	CONSTRAINT fk_order_table_table FOREIGN KEY (table_id) REFERENCES tables_restaurant(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE order_delivery (
-	order_id INTEGER PRIMARY KEY,
+	order_id INTEGER,
   	delivery_address VARCHAR(255) NOT NULL,
 	client_id INTEGER,
-  	FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE
+  	CONSTRAINT pk_order_delivery PRIMARY KEY (order_id),
+  	CONSTRAINT fk_order_delivery FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE order_pickup (
   	order_id INTEGER PRIMARY KEY,
   	pickup_time TIMESTAMP,
 	client_id INTEGER,
-  	FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE
+  	CONSTRAINT pk_order_pickup PRIMARY KEY (order_id),
+  	CONSTRAINT fk_order_pickup FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- =========================================

@@ -3,7 +3,7 @@ package com.tfg_rm.backend_restaurantmanager.dto.mappers;
 import com.tfg_rm.backend_restaurantmanager.dto.DishesResponse;
 import com.tfg_rm.backend_restaurantmanager.entity.DishesEntity;
 
-public class DisheMapper {
+public class DishMapper {
 
     public static DishesEntity toEntity(DishesResponse request) {
         return null;

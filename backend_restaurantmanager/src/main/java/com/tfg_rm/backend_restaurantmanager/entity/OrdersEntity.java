@@ -80,7 +80,7 @@ public class OrdersEntity {
      * Fecha y hora de creación de la orden.
      */
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     /**
      * Tipo de orden específica (mesa, delivery, recogida).
