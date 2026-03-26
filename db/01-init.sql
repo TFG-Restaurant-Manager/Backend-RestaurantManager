@@ -167,7 +167,7 @@ CREATE TABLE orders (
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT pk_orders PRIMARY KEY (id),
 	CONSTRAINT fk_orders_restaurant FOREIGN KEY (restaurant_id)
-		REFERENCES restaurants(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+		REFERENCES restaurants(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE order_table (
@@ -187,7 +187,7 @@ CREATE TABLE order_delivery (
 );
 
 CREATE TABLE order_pickup (
-  	order_id INTEGER PRIMARY KEY,
+  	order_id INTEGER,
   	pickup_time TIMESTAMP,
 	client_id INTEGER,
   	CONSTRAINT pk_order_pickup PRIMARY KEY (order_id),

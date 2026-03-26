@@ -25,12 +25,12 @@ INSERT INTO categories (restaurant_id, name) VALUES
 (1, 'Postres');
 
 -- PLATOS - ENTRANTES (category_id = 1)
-INSERT INTO dishes (restaurant_id, category_id, name, description, price) VALUES
-(1, 1, 'Croquetas caseras', 'Croquetas cremosas de jamón', 6.50),
-(1, 1, 'Ensalada mixta', 'Lechuga, tomate, cebolla y atún', 5.50),
-(1, 1, 'Gazpacho andaluz', 'Sopa fría de tomate', 4.50),
-(1, 1, 'Pan con tomate', 'Pan tostado con tomate y aceite', 3.50),
-(1, 1, 'Calamares fritos', 'Calamares crujientes', 7.80);
+INSERT INTO dishes (restaurant_id, category_id, name, description, price, available) VALUES
+(1, 1, 'Croquetas caseras', 'Croquetas cremosas de jamón', 6.50, FALSE),
+(1, 1, 'Ensalada mixta', 'Lechuga, tomate, cebolla y atún', 5.50, FALSE),
+(1, 1, 'Gazpacho andaluz', 'Sopa fría de tomate', 4.50, FALSE),
+(1, 1, 'Pan con tomate', 'Pan tostado con tomate y aceite', 3.50, FALSE),
+(1, 1, 'Calamares fritos', 'Calamares crujientes', 7.80, FALSE);
 
 -- PLATOS - PRINCIPALES (category_id = 2)
 INSERT INTO dishes (restaurant_id, category_id, name, description, price) VALUES
