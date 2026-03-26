@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import com.tfg_rm.backend_restaurantmanager.auth.dto.Role;
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
+import com.tfg_rm.backend_restaurantmanager.dto.Role;
+import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 
 public class JwtServiceTest {
     private final JwtService jwtService =
@@ -17,7 +17,7 @@ public class JwtServiceTest {
     @Test
     void shouldGenerateValidToken() {
 
-        String token = jwtService.generateToken(1, 5, Role.WAITER);
+        String token = jwtService.generateToken(1L, 5L, Role.WAITER);
 
         assertNotNull(token);
         assertTrue(jwtService.validateToken(token));
@@ -26,9 +26,9 @@ public class JwtServiceTest {
     @Test
     void shouldExtractRestaurantId() {
 
-        String token = jwtService.generateToken(1, 5, Role.ADMIN);
+        String token = jwtService.generateToken(1L, 5L, Role.ADMIN);
 
-        Integer restaurantId = jwtService.getRestaurantId(token);
+        Long restaurantId = jwtService.getRestaurantId(token);
 
         assertEquals(5, restaurantId);
     }
@@ -36,7 +36,7 @@ public class JwtServiceTest {
     @Test
     void shouldExtractRole() {
 
-        String token = jwtService.generateToken(1, 5, Role.WAITER);
+        String token = jwtService.generateToken(1L, 5L, Role.WAITER);
 
         String role = jwtService.getRole(token);
 

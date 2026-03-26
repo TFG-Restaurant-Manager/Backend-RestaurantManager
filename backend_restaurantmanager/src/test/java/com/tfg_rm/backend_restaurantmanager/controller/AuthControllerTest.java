@@ -1,10 +1,9 @@
 package com.tfg_rm.backend_restaurantmanager.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tfg_rm.backend_restaurantmanager.auth.controller.AuthController;
-import com.tfg_rm.backend_restaurantmanager.auth.dto.ClientLoginRequest;
-import com.tfg_rm.backend_restaurantmanager.auth.service.AuthService;
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
+import com.tfg_rm.backend_restaurantmanager.dto.ClientLoginRequest;
+import com.tfg_rm.backend_restaurantmanager.security.JwtService;
+import com.tfg_rm.backend_restaurantmanager.service.AuthService;
 
 import jakarta.servlet.ServletException;
 
@@ -31,7 +30,7 @@ class AuthControllerTest {
         ClientLoginRequest request = new ClientLoginRequest();
         request.setEmail("test@test.com");
         request.setPassword("1234");
-        request.setRestaurantId(5);
+        request.setRestaurantId(5L);
 
         mockMvc.perform(post("/auth/clientLogin")
                 .contentType("application/json")

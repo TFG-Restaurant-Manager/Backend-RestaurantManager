@@ -1,8 +1,5 @@
 package com.tfg_rm.backend_restaurantmanager.config;
 
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtAuthenticationFilter;
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +7,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.tfg_rm.backend_restaurantmanager.security.JwtAuthenticationFilter;
+import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 
 /**
  * Configuration class for Spring Security. It defines the security filter chain and the JWT authentication filter.
@@ -44,12 +44,12 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // /auth/** and /ws/** are open to everyone
                 .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/ws/**").permitAll()
+                .requestMatchers("/ws").permitAll()
                 /* Tests ----------------------------------------------------------------------------------------------------------- */
                 // /a sólo clientes
                 .requestMatchers("/a").hasAuthority("ROLE_CLIENTE")
                 // /adios-json todos menos clientes
-                .requestMatchers("/adios-json").not().hasAuthority("ROLE_CLIENTE")
+                .requestMatchers("/adios-json").not().hasAuthority("ROLE_CLIENTE") // El not funciona no tan bien
                 // solo camareros pueden pedir su restaurante
                 .requestMatchers("/mi-restaurante").hasAuthority("ROLE_CAMARERO")
                 // /hola abierto a todos
@@ -60,7 +60,11 @@ public class SecurityConfig {
                         "/swagger-ui.html"
                     ).permitAll()
                 /* ----- ----------------------------------------------------------------------------------------------------------- */
-                .requestMatchers("/employee/**").not().hasAuthority("ROLE_CLIENTE")
+                .requestMatchers("/employee/**").hasAnyRole("MANAGER", "WAITER", "COOKER", "ADMIN")
+                /* Puedo sustituir lo de arriba por:
+                .requestMatchers("/employee/**").hasRole("CLIENTE").denyAll()
+                .requestMatchers("/employee/**").authenticated()
+                */
                 // The rest of the routes require authentication, but no specific role is specified, which means that any authenticated user can access them.
                 .anyRequest().authenticated()
             )

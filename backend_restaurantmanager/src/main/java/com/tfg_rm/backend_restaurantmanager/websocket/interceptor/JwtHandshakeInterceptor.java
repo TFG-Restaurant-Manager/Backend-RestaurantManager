@@ -5,7 +5,7 @@ import org.springframework.http.server.*;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
+import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 
 import java.util.Map;
 
@@ -59,8 +59,8 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
                 // Validate the token and extract user information if valid
                 if (jwtService.validateToken(token)) {
-                    Integer restaurantId = jwtService.getRestaurantId(token);
-                    Integer userId = jwtService.getUserId(token);
+                    Long restaurantId = jwtService.getRestaurantId(token);
+                    Long userId = jwtService.getUserId(token);
                     String role = jwtService.getRole(token);
 
                     attributes.put("restaurantId", restaurantId);
