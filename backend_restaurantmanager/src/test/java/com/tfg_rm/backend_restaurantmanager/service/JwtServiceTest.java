@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import com.tfg_rm.backend_restaurantmanager.auth.dto.Role;
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
+import com.tfg_rm.backend_restaurantmanager.dto.Role;
+import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 
 public class JwtServiceTest {
     private final JwtService jwtService =
@@ -30,7 +30,7 @@ public class JwtServiceTest {
 
         Long restaurantId = jwtService.getRestaurantId(token);
 
-        assertEquals(5L, restaurantId);
+        assertEquals(5, restaurantId);
     }
 
     @Test

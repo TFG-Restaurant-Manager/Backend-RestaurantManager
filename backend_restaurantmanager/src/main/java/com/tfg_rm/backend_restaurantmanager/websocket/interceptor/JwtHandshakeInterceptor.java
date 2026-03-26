@@ -5,7 +5,7 @@ import org.springframework.http.server.*;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
+import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 
 import java.util.Map;
 

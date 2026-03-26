@@ -5,7 +5,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
+import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 import com.tfg_rm.backend_restaurantmanager.websocket.handler.RestaurantWebSocketHandler;
 import com.tfg_rm.backend_restaurantmanager.websocket.interceptor.JwtHandshakeInterceptor;
 

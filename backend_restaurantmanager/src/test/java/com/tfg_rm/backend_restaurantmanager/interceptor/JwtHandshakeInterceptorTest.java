@@ -5,8 +5,8 @@ import org.mockito.Mockito;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 
-import com.tfg_rm.backend_restaurantmanager.auth.dto.Role;
-import com.tfg_rm.backend_restaurantmanager.shared.security.JwtService;
+import com.tfg_rm.backend_restaurantmanager.dto.Role;
+import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 import com.tfg_rm.backend_restaurantmanager.websocket.interceptor.JwtHandshakeInterceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
