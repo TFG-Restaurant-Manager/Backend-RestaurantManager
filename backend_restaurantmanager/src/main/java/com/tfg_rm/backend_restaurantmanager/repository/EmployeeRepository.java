@@ -1,5 +1,6 @@
 package com.tfg_rm.backend_restaurantmanager.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,6 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> 
 
     @Query("SELECT e FROM EmployeeEntity e LEFT JOIN FETCH e.schedules WHERE e.id = :id")
     Optional<EmployeeEntity> findByIdWithSchedules(@Param("id") Long id);
+
+    List<EmployeeEntity> findByRestaurantId(Long restaurantId);
 }

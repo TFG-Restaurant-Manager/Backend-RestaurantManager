@@ -7,6 +7,8 @@ import com.tfg_rm.backend_restaurantmanager.service.EmployeeService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 /**
  * Java class used to manage the employees of the restaurant.
@@ -50,8 +51,8 @@ public class EmployeeController {
      * @param authHeader The Authorization header containing the JWT token.
      * @return The response containing the employee's information and schedules.
      */
-    @GetMapping("/info")
-    public ResponseEntity<EmployeeWithSchedulesResponse> getEmployeeInfo(
+    @GetMapping("/me")
+    public ResponseEntity<EmployeeWithSchedulesResponse> getCurrentEmployee(
         @RequestHeader("Authorization") String authHeader
     ) {
         /* Extract the token from the Authorization header */
@@ -63,5 +64,33 @@ public class EmployeeController {
 
         EmployeeWithSchedulesResponse info = employeeService.getEmployeeInfo(restaurantId, employeeId);
         return ResponseEntity.ok(info);
+    }
+
+    @PostMapping("/info")
+    public String postMethodName(
+        @RequestHeader("Authorization") String authHeader,
+        @RequestBody String entity
+    ) {
+        String token = authHeader.replace("Bearer ", "");
+
+        /* Validate the token and extract user details */
+        //Long restaurantId = jwtService.getRestaurantId(token);
+        
+        
+        return entity;
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<EmployeeWithSchedulesResponse>> getAll(
+        @RequestHeader("Authorization") String authHeader
+    ) {
+        /* Extract the token from the Authorization header */
+        String token = authHeader.replace("Bearer ", "");
+
+        /* Validate the token and extract user details */
+        Long restaurantId = jwtService.getRestaurantId(token);
+
+        List<EmployeeWithSchedulesResponse> employees = employeeService.getAllEmployees(restaurantId);
+        return ResponseEntity.ok(employees);
     }
 }

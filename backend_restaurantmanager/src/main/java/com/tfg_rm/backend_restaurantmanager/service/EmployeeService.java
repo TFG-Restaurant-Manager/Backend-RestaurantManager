@@ -1,5 +1,8 @@
 package com.tfg_rm.backend_restaurantmanager.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +60,14 @@ public class EmployeeService {
         }
 
         return EmployeeInfoMapper.toResponse(employee);
+    }
+
+    public List<EmployeeWithSchedulesResponse> getAllEmployees(Long restaurantId) {
+
+        List<EmployeeEntity> employees = employeeRepository.findByRestaurantId(restaurantId);
+
+        return employees.stream()
+                .map(EmployeeInfoMapper::toResponse)
+                .collect(Collectors.toList());
     }
 }

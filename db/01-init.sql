@@ -183,7 +183,8 @@ CREATE TABLE order_delivery (
   	delivery_address VARCHAR(255) NOT NULL,
 	client_id INTEGER,
   	CONSTRAINT pk_order_delivery PRIMARY KEY (order_id),
-  	CONSTRAINT fk_order_delivery FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE
+  	CONSTRAINT fk_order_delivery FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_order_delivery_client FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE order_pickup (
@@ -191,7 +192,8 @@ CREATE TABLE order_pickup (
   	pickup_time TIMESTAMP,
 	client_id INTEGER,
   	CONSTRAINT pk_order_pickup PRIMARY KEY (order_id),
-  	CONSTRAINT fk_order_pickup FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE
+  	CONSTRAINT fk_order_pickup FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_order_pickup_client FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- =========================================
