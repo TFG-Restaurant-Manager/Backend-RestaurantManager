@@ -1,5 +1,6 @@
 package com.tfg_rm.backend_restaurantmanager.dto.mappers;
 
+import com.tfg_rm.backend_restaurantmanager.dto.EmployeeResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeScheduleResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeWithSchedulesResponse;
 import com.tfg_rm.backend_restaurantmanager.entity.EmployeeEntity;
@@ -32,7 +33,7 @@ public class EmployeeInfoMapper {
         return entity;
     }
 
-    public static EmployeeWithSchedulesResponse toResponse(EmployeeEntity entity) {
+    public static EmployeeWithSchedulesResponse toResponseWithSchedules(EmployeeEntity entity) {
         EmployeeWithSchedulesResponse response = new EmployeeWithSchedulesResponse();
         response.setId(entity.getId());
         response.setName(entity.getName());
@@ -56,6 +57,22 @@ public class EmployeeInfoMapper {
                 })
                 .toList()
         );
+        return response;
+    }
+
+    public static EmployeeResponse toResponse(EmployeeEntity entity) {
+        EmployeeResponse response = new EmployeeResponse();
+        response.setId(entity.getId());
+        response.setName(entity.getName());
+        response.setRoleName(entity.getRoleName());
+        response.setActive(entity.getActive());
+        response.setEmail(entity.getEmail());
+        response.setPhone(entity.getPhone());
+        response.setStartDate(entity.getStartDate());
+        response.setEndDate(entity.getEndDate());
+        response.setPositionNotes(entity.getPositionNotes());
+        response.setCode(entity.getCode());
+        response.setRestaurantName(entity.getRestaurant().getName());
         return response;
     }
 }

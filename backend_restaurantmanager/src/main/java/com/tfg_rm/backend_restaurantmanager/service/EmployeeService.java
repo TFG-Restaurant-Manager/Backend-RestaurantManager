@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeRegisterRequest;
+import com.tfg_rm.backend_restaurantmanager.dto.EmployeeResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeWithSchedulesResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.mappers.EmployeeInfoMapper;
 import com.tfg_rm.backend_restaurantmanager.entity.EmployeeEntity;
@@ -15,6 +16,7 @@ import com.tfg_rm.backend_restaurantmanager.exception.NotFoundException;
 import com.tfg_rm.backend_restaurantmanager.repository.EmployeeRepository;
 import com.tfg_rm.backend_restaurantmanager.repository.RestaurantRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -59,7 +61,7 @@ public class EmployeeService {
             throw new NotFoundException("Employee not found in this restaurant");
         }
 
-        return EmployeeInfoMapper.toResponse(employee);
+        return EmployeeInfoMapper.toResponseWithSchedules(employee);
     }
 
     public List<EmployeeWithSchedulesResponse> getAllEmployees(Long restaurantId) {
@@ -67,17 +69,38 @@ public class EmployeeService {
         List<EmployeeEntity> employees = employeeRepository.findByRestaurantId(restaurantId);
 
         return employees.stream()
-                .map(EmployeeInfoMapper::toResponse)
+                .map(EmployeeInfoMapper::toResponseWithSchedules)
                 .collect(Collectors.toList());
     }
 
-    public EmployeeEntity updateEmployee(EmployeeRegisterRequest request, Long restaurantId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateEmployee'");
+    @Transactional
+    public EmployeeResponse updateEmployee(EmployeeRegisterRequest request, Long id, Long restaurantId) {
+        
+        if(id == null) {
+            throw new NotFoundException("Employee ID is required for update");
+        }
+
+        if(id == request.getId()) {
+            throw new IllegalArgumentException("Employee ID in path and request body must match");
+        }
+
+        int employee = employeeRepository.updateEmployee(id, restaurantId);
+
+        if (employee == 0) {
+            throw new NotFoundException("Employee not found or no changes detected");
+        }
+
+        EmployeeEntity updatedEmployee = employeeRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Employee not found after update"));
+
+        return EmployeeInfoMapper.toResponse(updatedEmployee);
     }
 
     public Boolean deleteEmployee(Long id, Long restaurantId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteEmployee'");
+        
+        employeeRepository.deleteById(id);
+
+        return true;
     }
 }
