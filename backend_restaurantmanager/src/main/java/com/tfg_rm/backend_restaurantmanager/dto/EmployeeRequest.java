@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeeResponse {
+public class EmployeeRequest {
     private Long id;
     private String name;
     private RoleEntity roleName;
@@ -22,5 +22,4 @@ public class EmployeeResponse {
     private LocalDate endDate;
     private String positionNotes;
     private String code;
-    private String restaurantName;
 }

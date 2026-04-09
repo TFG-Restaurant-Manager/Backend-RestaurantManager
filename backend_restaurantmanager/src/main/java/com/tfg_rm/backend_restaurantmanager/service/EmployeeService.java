@@ -7,8 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeRegisterRequest;
-import com.tfg_rm.backend_restaurantmanager.dto.EmployeeResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeWithSchedulesResponse;
+import com.tfg_rm.backend_restaurantmanager.dto.SchedulesRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.mappers.EmployeeInfoMapper;
 import com.tfg_rm.backend_restaurantmanager.entity.EmployeeEntity;
 import com.tfg_rm.backend_restaurantmanager.entity.RestaurantEntity;
@@ -74,7 +74,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public EmployeeResponse updateEmployee(EmployeeRegisterRequest request, Long id, Long restaurantId) {
+    public Boolean updateEmployee(EmployeeRegisterRequest request, Long id, Long restaurantId) {
         
         if(id == null) {
             throw new NotFoundException("Employee ID is required for update");
@@ -90,16 +90,88 @@ public class EmployeeService {
             throw new NotFoundException("Employee not found or no changes detected");
         }
 
-        EmployeeEntity updatedEmployee = employeeRepository
+        employeeRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("Employee not found after update"));
 
-        return EmployeeInfoMapper.toResponse(updatedEmployee);
+        return true;
     }
 
     public Boolean deleteEmployee(Long id, Long restaurantId) {
         
+        EmployeeEntity employee = employeeRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Employee not found"));
+
+        if (employee.getRestaurant().getId() != restaurantId) {
+            throw new NotFoundException("Employee not found");
+        }
+        
         employeeRepository.deleteById(id);
+
+        return true;
+    }
+
+    public Boolean updatePassword(String request, Long id, Long restaurantId) {
+                
+        if(id == null) {
+            throw new NotFoundException("Employee ID is required for update");
+        }
+
+        EmployeeEntity employee = employeeRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Employee not found"));
+
+        if (employee.getRestaurant().getId() != restaurantId) {
+            throw new NotFoundException("Employee not found");
+        }
+
+        String passwordHash = passwordEncoder.encode(request);
+        employee.setPasswordHash(passwordHash);
+        employeeRepository.save(employee);
+
+        return true;
+    }
+
+    public Boolean updateSchedules(List<SchedulesRequest> request, Long id, Long restaurantId) {
+
+        if(id == null) {
+            throw new NotFoundException("Employee ID is required for update");
+        }
+
+        EmployeeEntity employee = employeeRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Employee not found"));
+
+        if (employee.getRestaurant().getId() != restaurantId) {
+            throw new NotFoundException("Employee not found");
+        }
+
+        request.forEach(entry ->{
+            
+            if(entry.getScheduleId() == null) {
+                employee.getSchedules().add(EmployeeInfoMapper.toScheduleEntity(entry));
+            } else {
+                employee.getSchedules().stream()
+                        .filter(schedule -> schedule.getId().equals(entry.getScheduleId()))
+                        .findFirst()
+                        .ifPresent(schedule -> {
+                            schedule.setStartDatetime(entry.getStartTime());
+                            schedule.setEndDatetime(entry.getEndTime());
+                        });
+            }
+        });
+
+        // employee.getSchedules().stream()
+        //         .filter(schedule -> schedule.getId().equals(request.getScheduleId()))
+        //         .findFirst()
+        //         .ifPresent(schedule -> {
+        //             schedule.getEntries().clear();
+        //             request.getScheduleEntries().forEach(entry -> {
+        //                 schedule.getEntries().add(EmployeeInfoMapper.toScheduleEntryEntity(entry));
+        //             });
+        //         });
+        employeeRepository.save(employee);
 
         return true;
     }

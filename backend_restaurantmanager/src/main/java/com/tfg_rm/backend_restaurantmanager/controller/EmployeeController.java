@@ -1,7 +1,7 @@
 package com.tfg_rm.backend_restaurantmanager.controller;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeRegisterRequest;
-import com.tfg_rm.backend_restaurantmanager.dto.EmployeeResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeWithSchedulesResponse;
+import com.tfg_rm.backend_restaurantmanager.dto.SchedulesRequest;
 import com.tfg_rm.backend_restaurantmanager.entity.EmployeeEntity;
 import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 import com.tfg_rm.backend_restaurantmanager.service.EmployeeService;
@@ -72,14 +72,19 @@ public class EmployeeController {
 
     // Este pa los horarios
     @PutMapping("{id}/schedules")
-    public String putMethodName(
-        @PathVariable String id,
-        @RequestBody String entity
+    public ResponseEntity<Boolean> updateSchedules(
+        @RequestHeader("Authorization") String authHeader,
+        @PathVariable Long id,
+        @RequestBody List<SchedulesRequest> request
     ) {
-        //TODO: process PUT request
-        
-        
-        return entity;
+        /* Extract the token from the Authorization header */
+        String token = authHeader.replace("Bearer ", "");
+
+        /* Validate the token and extract user details */
+        Long restaurantId = jwtService.getRestaurantId(token);
+
+        Boolean isUpdated = employeeService.updateSchedules(request, id, restaurantId);
+        return ResponseEntity.ok(isUpdated);
     }
     
     @GetMapping
@@ -97,7 +102,7 @@ public class EmployeeController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<EmployeeResponse> update(
+    public ResponseEntity<Boolean> update(
         @RequestHeader("Authorization") String authHeader,
         @PathVariable Long id,
         @RequestBody EmployeeRegisterRequest request
@@ -108,10 +113,25 @@ public class EmployeeController {
         /* Validate the token and extract user details */
         Long restaurantId = jwtService.getRestaurantId(token);
 
-        EmployeeResponse employee = employeeService.updateEmployee(request, id, restaurantId);
-        return ResponseEntity.ok(employee);
+        Boolean isUpdated = employeeService.updateEmployee(request, id, restaurantId);
+        return ResponseEntity.ok(isUpdated);
     }
 
+    @PutMapping("{id}/password")
+    public ResponseEntity<Boolean> updatePassword(
+        @RequestHeader("Authorization") String authHeader,
+        @PathVariable Long id,
+        @RequestBody String request
+    ) {
+        /* Extract the token from the Authorization header */
+        String token = authHeader.replace("Bearer ", "");
+
+        /* Validate the token and extract user details */
+        Long restaurantId = jwtService.getRestaurantId(token);
+
+        Boolean isUpdated = employeeService.updatePassword(request, id, restaurantId);
+        return ResponseEntity.ok(isUpdated);
+    }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Boolean> delete(
