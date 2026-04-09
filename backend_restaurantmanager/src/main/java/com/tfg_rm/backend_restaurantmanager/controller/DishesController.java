@@ -22,18 +22,17 @@ public class DishesController {
     /** The dish service for managing dish-related operations. */
     private final DishService dishService;
 
-
     /** The JWT service for token generation and validation. */
     private final JwtService jwtService;
 
-    @GetMapping("/info")
-    public ResponseEntity<List<DishesResponse>> getRestaurantDishes(
+    @GetMapping
+    public ResponseEntity<List<DishesResponse>> getAll(
         @RequestHeader("Authorization") String authHeader
     ) {
         String token = authHeader.replace("Bearer ", "");
         Long restaurantId = jwtService.getRestaurantId(token);
 
-        List<DishesResponse> dishes = dishService.getDishesInfo(restaurantId);
+        List<DishesResponse> dishes = dishService.getAllDishes(restaurantId);
         return ResponseEntity.ok(dishes);
     }
 }

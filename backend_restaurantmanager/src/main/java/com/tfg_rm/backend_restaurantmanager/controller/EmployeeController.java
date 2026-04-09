@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 
 /**
  * Java class used to manage the employees of the restaurant.
@@ -93,5 +93,38 @@ public class EmployeeController {
 
         List<EmployeeWithSchedulesResponse> employees = employeeService.getAllEmployees(restaurantId);
         return ResponseEntity.ok(employees);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<EmployeeEntity> update(
+        @RequestHeader("Authorization") String authHeader,
+        @PathVariable Long id,
+        @RequestBody EmployeeRegisterRequest request
+    ) {
+        /* Extract the token from the Authorization header */
+        String token = authHeader.replace("Bearer ", "");
+
+        /* Validate the token and extract user details */
+        Long restaurantId = jwtService.getRestaurantId(token);
+
+        EmployeeEntity employee = employeeService.updateEmployee(request, restaurantId);
+        return ResponseEntity.ok(employee);
+    }
+
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Boolean> delete(
+        @RequestHeader("Authorization") String authHeader,
+        @PathVariable Long id
+    ) {
+        /* Extract the token from the Authorization header */
+        String token = authHeader.replace("Bearer ", "");
+
+        /* Validate the token and extract user details */
+        Long restaurantId = jwtService.getRestaurantId(token);
+
+        Boolean isDelete = employeeService.deleteEmployee(id, restaurantId);
+
+        return ResponseEntity.ok(isDelete);
     }
 }

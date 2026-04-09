@@ -70,4 +70,14 @@ public class EmployeeService {
                 .map(EmployeeInfoMapper::toResponse)
                 .collect(Collectors.toList());
     }
+
+    public EmployeeEntity updateEmployee(EmployeeRegisterRequest request, Long restaurantId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateEmployee'");
+    }
+
+    public Boolean deleteEmployee(Long id, Long restaurantId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deleteEmployee'");
+    }
 }

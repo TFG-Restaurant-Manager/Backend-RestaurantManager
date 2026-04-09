@@ -29,8 +29,8 @@ public class TableController {
     /** The JWT service for token generation and validation. */
     private final JwtService jwtService;
 
-    @GetMapping("/info")
-    public ResponseEntity<List<TableResponse>> getTableInfo(
+    @GetMapping
+    public ResponseEntity<List<TableResponse>> getAll(
         @RequestHeader("Authorization") String authHeader
     ) {
         /* Extract the token from the Authorization header */
