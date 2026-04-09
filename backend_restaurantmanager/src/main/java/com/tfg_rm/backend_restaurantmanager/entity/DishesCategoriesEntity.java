@@ -19,9 +19,9 @@ import jakarta.persistence.OneToMany;
  */
 @Data
 @Entity
-@Table(name = "categories")
+@Table(name = "dishes_categories")
 @NoArgsConstructor
-public class CategoriesEntity {
+public class DishesCategoriesEntity {
 
     /**
      * Identificador único de la categoría.

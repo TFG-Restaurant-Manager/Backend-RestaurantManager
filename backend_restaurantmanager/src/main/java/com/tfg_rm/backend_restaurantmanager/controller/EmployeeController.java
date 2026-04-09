@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 /**
  * Java class used to manage the employees of the restaurant.
@@ -31,8 +34,8 @@ public class EmployeeController {
     /** The JWT service for token generation and validation. */
     private final JwtService jwtService;
 
-    @PostMapping("/register")
-    public ResponseEntity<EmployeeEntity> employeeRegister(
+    @PostMapping
+    public ResponseEntity<EmployeeEntity> create(
         @RequestHeader("Authorization") String authHeader,
         @RequestBody EmployeeRegisterRequest request
     ) {
@@ -66,15 +69,13 @@ public class EmployeeController {
         return ResponseEntity.ok(info);
     }
 
-    @PostMapping("/info")
-    public String postMethodName(
-        @RequestHeader("Authorization") String authHeader,
+    // Este pa los horarios
+    @PutMapping("{id}/schedules")
+    public String putMethodName(
+        @PathVariable String id,
         @RequestBody String entity
     ) {
-        String token = authHeader.replace("Bearer ", "");
-
-        /* Validate the token and extract user details */
-        //Long restaurantId = jwtService.getRestaurantId(token);
+        //TODO: process PUT request
         
         
         return entity;

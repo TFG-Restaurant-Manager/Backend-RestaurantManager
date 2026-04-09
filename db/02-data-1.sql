@@ -19,7 +19,7 @@ VALUES
 
 -- RESTAURANTE 1 (ID = 1) → 3 CATEGORÍAS y 5 platos por categoría (total 15 platos)
 -- CATEGORÍAS
-INSERT INTO categories (restaurant_id, name) VALUES
+INSERT INTO dishes_categories (restaurant_id, name) VALUES
 (1, 'Entrantes'),
 (1, 'Platos Principales'),
 (1, 'Postres');
@@ -48,6 +48,37 @@ INSERT INTO dishes (restaurant_id, category_id, name, description, price) VALUES
 (1, 3, 'Helado variado', '3 bolas de helado', 4.50),
 (1, 3, 'Brownie', 'Con chocolate caliente', 5.50),
 (1, 3, 'Arroz con leche', 'Postre tradicional', 4.00);
+
+-- =========================================
+-- RESTAURANTE 1 (ID = 1) → CATEGORÍAS DE INGREDIENTES
+-- =========================================
+INSERT INTO ingredients_categories (restaurant_id, name) VALUES
+(1, 'Verduras y hortalizas'),
+(1, 'Carnes y aves'),
+(1, 'Pescados y mariscos'),
+(1, 'Lácteos y huevos'),
+(1, 'Especias y condimentos'),
+(1, 'Pan y cereales');
+
+INSERT INTO ingredients (restaurant_id, category_id, name, unit, stock_quantity, cost_unit, minimum_stock) VALUES
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Verduras y hortalizas'), 'Tomate', 'kg', 12.50, 0.90, 5.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Verduras y hortalizas'), 'Lechuga', 'kg', 8.00, 0.80, 3.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Verduras y hortalizas'), 'Cebolla', 'kg', 15.00, 0.40, 4.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Carnes y aves'), 'Pollo', 'kg', 20.00, 3.50, 50.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Carnes y aves'), 'Cerdo', 'kg', 18.00, 3.20, 9.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Carnes y aves'), 'Ternera', 'kg', 22.00, 4.10, 15.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Pescados y mariscos'), 'Merluza', 'kg', 10.00, 6.00, 5.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Pescados y mariscos'), 'Gambas', 'kg', 6.00, 9.50, 2.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Pescados y mariscos'), 'Calamares', 'kg', 8.00, 7.20, 3.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Lácteos y huevos'), 'Queso manchego', 'kg', 7.00, 8.80, 2.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Lácteos y huevos'), 'Nata', 'l', 20.00, 2.00, 5.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Lácteos y huevos'), 'Huevos', 'unidad', 200.00, 0.15, 50.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Especias y condimentos'), 'Pimentón', 'kg', 6.00, 12.00, 2.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Especias y condimentos'), 'Ajo', 'kg', 5.00, 3.00, 1.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Especias y condimentos'), 'Aceite de oliva', 'l', 25.00, 4.50, 200.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Pan y cereales'), 'Pan', 'unidad', 100.00, 0.35, 50.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Pan y cereales'), 'Arroz', 'kg', 30.00, 1.20, 10.00),
+(1, (SELECT id FROM ingredients_categories WHERE restaurant_id = 1 AND name = 'Pan y cereales'), 'Pasta', 'kg', 25.00, 1.10, 50.00);
 
 -- =========================================
 -- RESTAURANTE 1 (ID = 1) → 3 SECCIONES

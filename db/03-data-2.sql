@@ -19,7 +19,7 @@ VALUES
 
 -- RESTAURANTE 2 (ID = 2) → 5 CATEGORÍAS y 5 platos por categoría (total 25 platos)
 -- CATEGORÍAS
-INSERT INTO categories (restaurant_id, name) VALUES
+INSERT INTO dishes_categories (restaurant_id, name) VALUES
 (2, 'Entrantes'),
 (2, 'Ensaladas'),
 (2, 'Carnes'),
@@ -66,6 +66,37 @@ INSERT INTO dishes (restaurant_id, category_id, name, description, price) VALUES
 (2, 8, 'Crema catalana', 'Con azúcar quemado', 4.90),
 (2, 8, 'Churros con chocolate', 'Tradicional', 5.20),
 (2, 8, 'Mousse de chocolate', 'Ligero y cremoso', 4.70);
+
+-- =========================================
+-- RESTAURANTE 2 (ID = 2) → CATEGORÍAS DE INGREDIENTES
+-- =========================================
+INSERT INTO ingredients_categories (restaurant_id, name) VALUES
+(2, 'Verduras frescas'),
+(2, 'Carnes y embutidos'),
+(2, 'Pescados y mariscos'),
+(2, 'Quesos y lácteos'),
+(2, 'Salsas y aderezos'),
+(2, 'Postres y dulces');
+
+INSERT INTO ingredients (restaurant_id, category_id, name, unit, stock_quantity, cost_unit, minimum_stock) VALUES
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Verduras frescas'), 'Tomate cherry', 'kg', 10.00, 1.20, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Verduras frescas'), 'Rúcula', 'kg', 6.00, 1.50, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Verduras frescas'), 'Pimiento rojo', 'kg', 8.00, 1.00, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Carnes y embutidos'), 'Jamón ibérico', 'kg', 4.00, 22.00, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Carnes y embutidos'), 'Chorizo', 'kg', 5.00, 10.50, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Carnes y embutidos'), 'Panceta', 'kg', 3.50, 7.20, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Pescados y mariscos'), 'Pulpo', 'kg', 12.00, 14.00, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Pescados y mariscos'), 'Gambas', 'kg', 6.50, 9.80, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Pescados y mariscos'), 'Mejillones', 'kg', 7.00, 4.50, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Quesos y lácteos'), 'Queso feta', 'kg', 2.50, 12.50, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Quesos y lácteos'), 'Mozzarella', 'kg', 3.00, 9.00, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Quesos y lácteos'), 'Mantequilla', 'kg', 5.50, 4.80, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Salsas y aderezos'), 'Salsa BBQ', 'l', 15.00, 3.20, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Salsas y aderezos'), 'Aceite de oliva', 'l', 18.00, 4.20, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Salsas y aderezos'), 'Vinagre balsámico', 'l', 10.00, 2.50, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Postres y dulces'), 'Azúcar', 'kg', 20.00, 0.90, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Postres y dulces'), 'Chocolate', 'kg', 12.00, 6.80, 5.00),
+(2, (SELECT id FROM ingredients_categories WHERE restaurant_id = 2 AND name = 'Postres y dulces'), 'Harina', 'kg', 18.00, 0.70, 5.00);
 
 -- =========================================
 -- RESTAURANTE 2 (ID = 2) → 5 SECCIONES
