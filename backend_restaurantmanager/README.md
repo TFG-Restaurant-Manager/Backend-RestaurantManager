@@ -33,7 +33,7 @@ El archivo central de configuración es [`SecurityConfig.java`](src/main/java/co
     ```
 
 ### Gestión de Tokens (JWT)
-El servicio [`JwtService`](src/main/java/com/tfg_rm/backend_restaurantmanager/shared/security/JwtService.java) centraliza la lógica de los tokens:
+El servicio [`JwtService`](src/main/java/com/tfg_rm/backend_restaurantmanager/security/JwtService.java) centraliza la lógica de los tokens:
 
 * **Firma:** Utiliza el algoritmo **HMAC-SHA**. La clave secreta se obtiene de variables de entorno (configurada en el `docker-compose.yml` para facilitar el despliegue en desarrollo).
 * **Payload:** El token almacena información crítica como el `userId`, el `role` (Cliente, Encargado, Camarero, Cocinero) y el `restaurantId` para identificar el contexto del usuario en la base de datos.
@@ -41,7 +41,7 @@ El servicio [`JwtService`](src/main/java/com/tfg_rm/backend_restaurantmanager/sh
 
 
 ### Filtro de Autenticación
-El [`JwtAuthenticationFilter`](src/main/java/com/tfg_rm/backend_restaurantmanager/shared/security/JwtAuthenticationFilter.java) intercepta cada petición para:
+El [`JwtAuthenticationFilter`](src/main/java/com/tfg_rm/backend_restaurantmanager/security/JwtAuthenticationFilter.java) intercepta cada petición para:
 1. Extraer y validar el token.
 2. Generar un usuario verificado asignándole una autoridad con el prefijo `ROLE_`.
 3. Establecer la identidad en el contexto de seguridad de la aplicación.
