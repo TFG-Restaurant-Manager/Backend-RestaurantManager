@@ -120,7 +120,7 @@ public class RestaurantEntity {
      * Lista de categorías de productos del restaurante.
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CategoriesEntity> categories;
+    private List<DishesCategoriesEntity> categories;
 
     /** 
      * Lista de productos del restaurante.

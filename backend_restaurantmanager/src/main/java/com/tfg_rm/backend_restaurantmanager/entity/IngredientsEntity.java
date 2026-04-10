@@ -45,6 +45,14 @@ public class IngredientsEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private RestaurantEntity restaurant;
 
+    /**
+     * Categoría a la que pertenece el producto.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private IngredientsCategoriesEntity category;
+
+
     /** 
      * Nombre del producto.
      */
@@ -68,6 +76,12 @@ public class IngredientsEntity {
      */
     @Column(name = "cost_unit", nullable = false)
     private BigDecimal costPerUnit;
+
+    /** 
+     * Cantidad minima del ingrediente.
+     */
+    @Column(name = "minimum_stock", nullable = false)
+    private BigDecimal minimumStock = BigDecimal.ZERO;
 
     /* 
      * Lista de platos que utilizan este ingrediente.

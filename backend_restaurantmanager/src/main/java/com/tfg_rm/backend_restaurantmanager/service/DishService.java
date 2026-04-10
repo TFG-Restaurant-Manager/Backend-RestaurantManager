@@ -17,7 +17,7 @@ public class DishService {
 
     private final DishesRepository dishesRepository;
 
-    public List<DishesResponse> getDishesInfo(Long restaurantId) {
+    public List<DishesResponse> getAllDishes(Long restaurantId) {
         List<DishesResponse> dishes = dishesRepository
             .findByRestaurantId(restaurantId)
             .stream()

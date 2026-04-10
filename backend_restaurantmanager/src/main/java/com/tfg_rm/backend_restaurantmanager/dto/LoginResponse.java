@@ -14,4 +14,6 @@ public class LoginResponse {
      * The authentication token for the logged-in user.
      */
     private String token;
+
+    private Role role;
 }

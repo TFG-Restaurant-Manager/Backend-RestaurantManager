@@ -1,8 +1,11 @@
 package com.tfg_rm.backend_restaurantmanager.dto.mappers;
 
+import com.tfg_rm.backend_restaurantmanager.dto.EmployeeRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeScheduleResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeWithSchedulesResponse;
+import com.tfg_rm.backend_restaurantmanager.dto.SchedulesRequest;
 import com.tfg_rm.backend_restaurantmanager.entity.EmployeeEntity;
+import com.tfg_rm.backend_restaurantmanager.entity.WorkScheduleEntity;
 
 public class EmployeeInfoMapper {
 
@@ -32,7 +35,7 @@ public class EmployeeInfoMapper {
         return entity;
     }
 
-    public static EmployeeWithSchedulesResponse toResponse(EmployeeEntity entity) {
+    public static EmployeeWithSchedulesResponse toResponseWithSchedules(EmployeeEntity entity) {
         EmployeeWithSchedulesResponse response = new EmployeeWithSchedulesResponse();
         response.setId(entity.getId());
         response.setName(entity.getName());
@@ -57,5 +60,29 @@ public class EmployeeInfoMapper {
                 .toList()
         );
         return response;
+    }
+
+    public static EmployeeRequest toResponse(EmployeeEntity entity) {
+        EmployeeRequest response = new EmployeeRequest();
+        response.setId(entity.getId());
+        response.setName(entity.getName());
+        response.setRoleName(entity.getRoleName());
+        response.setActive(entity.getActive());
+        response.setEmail(entity.getEmail());
+        response.setPhone(entity.getPhone());
+        response.setStartDate(entity.getStartDate());
+        response.setEndDate(entity.getEndDate());
+        response.setPositionNotes(entity.getPositionNotes());
+        response.setCode(entity.getCode());
+        return response;
+    }
+
+    public static WorkScheduleEntity toScheduleEntity(SchedulesRequest entry) {
+        
+        WorkScheduleEntity entity = new WorkScheduleEntity();
+        entity.setId(entry.getScheduleId());
+        entity.setStartDatetime(entry.getStartTime());
+        entity.setEndDatetime(entry.getEndTime());
+        return entity;
     }
 }
