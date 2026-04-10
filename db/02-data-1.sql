@@ -6,8 +6,8 @@ VALUES
 -- Empleados del restaurante Madrid
 INSERT INTO employee (restaurant_id, name, role_name, email, phone, start_date, code, password_hash)
 VALUES
-(1, 'Juan Perez', 'MANAGER', 'juan.mad@rest.com', '600111222', '2023-01-01', '00001', 'hash1'),
-(1, 'Maria Lopez', 'WAITER', 'maria.mad@rest.com', '600333444', '2023-02-01', '00002', 'hash2');
+(1, 'Juan Perez', 'MANAGER', 'juan.mad@rest.com', '600111222', '2023-01-01', '00001', '$2a$10$ciYqjNHjmkCpj7Nr2VCUDeiVm8urZHJUnWnkuszpnkmG6a6DtXWQG'), -- Contraseña: hash1
+(1, 'Maria Lopez', 'WAITER', 'maria.mad@rest.com', '600333444', '2023-02-01', '00002', '$2a$10$tnyGmQtphJiHMmFZB1PPUeJ7PSfDbE1HaSfg1iGiZIa3Bb.Gf1qcq'); -- Contraseña: hash2
 
 -- Horarios para empleados del restaurante Madrid
 INSERT INTO work_schedules (employee_id, start_datetime, end_datetime)

@@ -6,8 +6,8 @@ VALUES
 -- Empleados del restaurante Barcelona
 INSERT INTO employee (restaurant_id, name, role_name, email, phone, start_date, code, password_hash)
 VALUES
-(2, 'Carlos Gomez', 'COOKER', 'carlos.bcn@rest.com', '611111222', '2023-03-01', '00001', 'hash3'),
-(2, 'Ana Torres', 'WAITER', 'ana.bcn@rest.com', '611333444', '2023-04-01', '00002', 'hash4');
+(2, 'Carlos Gomez', 'COOKER', 'carlos.bcn@rest.com', '611111222', '2023-03-01', '00001', '$2a$10$ciYqjNHjmkCpj7Nr2VCUDeiVm8urZHJUnWnkuszpnkmG6a6DtXWQG'), -- Contraseña: hash1
+(2, 'Ana Torres', 'WAITER', 'ana.bcn@rest.com', '611333444', '2023-04-01', '00002', '$2a$10$tnyGmQtphJiHMmFZB1PPUeJ7PSfDbE1HaSfg1iGiZIa3Bb.Gf1qcq'); -- Contraseña: hash2
 
 -- Horarios para empleados del restaurante Barcelona
 INSERT INTO work_schedules (employee_id, start_datetime, end_datetime)

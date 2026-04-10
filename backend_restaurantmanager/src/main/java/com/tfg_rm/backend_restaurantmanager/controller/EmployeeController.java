@@ -2,7 +2,6 @@ package com.tfg_rm.backend_restaurantmanager.controller;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeRegisterRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeWithSchedulesResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.SchedulesRequest;
-import com.tfg_rm.backend_restaurantmanager.entity.EmployeeEntity;
 import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 import com.tfg_rm.backend_restaurantmanager.service.EmployeeService;
 
@@ -36,7 +35,7 @@ public class EmployeeController {
     private final JwtService jwtService;
 
     @PostMapping
-    public ResponseEntity<EmployeeEntity> create(
+    public ResponseEntity<Boolean> create(
         @RequestHeader("Authorization") String authHeader,
         @RequestBody EmployeeRegisterRequest request
     ) {
@@ -46,8 +45,8 @@ public class EmployeeController {
         /* Validate the token and extract user details */
         Long restaurantId = jwtService.getRestaurantId(token);
 
-        EmployeeEntity employee = employeeService.registerEmployee(request, restaurantId);
-        return ResponseEntity.ok(employee);
+        Boolean isCreate = employeeService.registerEmployee(request, restaurantId);
+        return ResponseEntity.ok(isCreate);
     }
 
     /**
@@ -84,6 +83,7 @@ public class EmployeeController {
         Long restaurantId = jwtService.getRestaurantId(token);
 
         Boolean isUpdated = employeeService.updateSchedules(request, id, restaurantId);
+
         return ResponseEntity.ok(isUpdated);
     }
     
