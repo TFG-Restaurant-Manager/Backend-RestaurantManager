@@ -46,7 +46,7 @@ public class AuthController {
 
         String token = jwtService.generateToken(userId, restaurantId, role);
 
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(new LoginResponse(token, role));
     }
 
     /**
@@ -69,7 +69,7 @@ public class AuthController {
 
         String token = jwtService.generateToken(userId, restaurantId, role);
 
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(new LoginResponse(token, role));
     }
 
     /**
@@ -92,6 +92,6 @@ public class AuthController {
 
         String token = jwtService.generateToken(employeeId, restaurantId, role);
 
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(new LoginResponse(token, role));
     }
 }

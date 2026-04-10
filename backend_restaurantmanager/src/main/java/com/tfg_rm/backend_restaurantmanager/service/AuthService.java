@@ -69,7 +69,7 @@ public class AuthService {
         Long id = -1L;
         Optional<EmployeeEntity> result = authEmployeeRepository.findByCode(code);
 
-        if (result.isPresent() && (result.get().getPasswordHash().equals(password))) { //passwordEncoder.matches(password, result.get().getPasswordHash()
+        if (result.isPresent() && passwordEncoder.matches(password, result.get().getPasswordHash())) {
             id = result.get().getId();
         }
 

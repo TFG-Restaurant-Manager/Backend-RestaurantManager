@@ -50,7 +50,7 @@ public class DishesEntity {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
-    private CategoriesEntity category;
+    private DishesCategoriesEntity category;
 
     /** 
      * Nombre del producto.
