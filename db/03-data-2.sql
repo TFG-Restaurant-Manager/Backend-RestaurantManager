@@ -177,9 +177,9 @@ INSERT INTO orders (restaurant_id, type, status, total, notes) VALUES
 (2, 'PICKUP', 'CREATED', 16.90, 'Pedido pickup 21:00');
 
 INSERT INTO order_table (order_id, table_id) VALUES
-(10, 4),
-(13, 5),
-(14, 11);
+(10, 20),
+(13, 32),
+(14, 43);
 
 INSERT INTO order_delivery (order_id, delivery_address, client_id) VALUES
 (11, 'Rambla 50, Barcelona', NULL),

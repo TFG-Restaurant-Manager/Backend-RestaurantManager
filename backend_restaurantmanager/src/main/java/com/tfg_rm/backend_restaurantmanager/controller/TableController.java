@@ -5,6 +5,7 @@ import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 import com.tfg_rm.backend_restaurantmanager.service.TableService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/table")
+@Slf4j
 public class TableController {
 
     /** The employee service for managing employee-related operations. */
@@ -40,6 +42,9 @@ public class TableController {
         Long restaurantId = jwtService.getRestaurantId(token);
 
         List<TableResponse> info = tableService.getTableInfo(restaurantId);
+        //log.info("Table info: " + info);
         return ResponseEntity.ok(info);
     }
+
+    // put mesas, me manda TODAS, de TODAS
 }

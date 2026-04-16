@@ -70,10 +70,9 @@ public class EmployeeController {
     }
 
     // Este pa los horarios
-    @PutMapping("{id}/schedules")
+    @PutMapping("/schedules")
     public ResponseEntity<Boolean> updateSchedules(
         @RequestHeader("Authorization") String authHeader,
-        @PathVariable Long id,
         @RequestBody List<SchedulesRequest> request
     ) {
         /* Extract the token from the Authorization header */
@@ -82,7 +81,7 @@ public class EmployeeController {
         /* Validate the token and extract user details */
         Long restaurantId = jwtService.getRestaurantId(token);
 
-        Boolean isUpdated = employeeService.updateSchedules(request, id, restaurantId);
+        Boolean isUpdated = employeeService.updateSchedules(request, restaurantId);
 
         return ResponseEntity.ok(isUpdated);
     }
