@@ -12,6 +12,6 @@ import com.tfg_rm.backend_restaurantmanager.entity.OrdersEntity;
 @Repository
 public interface OrderRepository extends JpaRepository<OrdersEntity, Long> {
 
-    @Query("SELECT o FROM OrdersEntity o WHERE d.restaurant.id = :restaurantId AND o.status = :status")
+    @Query("SELECT o FROM OrdersEntity o WHERE o.restaurant.id = :restaurantId AND o.status = :status")
     List<OrdersEntity> findByRestaurantIdAndStatus(Long restaurantId, OrderStatusEntity status);
 }
