@@ -5,10 +5,6 @@ import com.tfg_rm.backend_restaurantmanager.entity.IngredientsEntity;
 
 public class IngredientsInfoMapper {
 
-    public static IngredientsEntity toEntity(IngredientsResponse request) {
-        IngredientsEntity entity = new IngredientsEntity();
-        return entity;
-    }
 
     public static IngredientsResponse toResponse(IngredientsEntity entity) {
         IngredientsResponse response = new IngredientsResponse();
