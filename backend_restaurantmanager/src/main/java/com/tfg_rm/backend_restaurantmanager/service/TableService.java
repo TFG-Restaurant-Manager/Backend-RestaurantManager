@@ -98,6 +98,23 @@ public class TableService {
 
         List<TablesRestaurantEntity> savedTables = tablesRepository.saveAll(tablesToSave);
         
+        // Identificar secciones que tienen mesas después de la actualización
+        Set<Long> sectionIdsWithTables = savedTables.stream()
+            .map(TablesRestaurantEntity::getSection)
+            .filter(Objects::nonNull)
+            .map(TableSectionsEntity::getId)
+            .collect(Collectors.toSet());
+
+        // Buscar todas las secciones del restaurante y eliminar las que no tengan mesas
+        List<TableSectionsEntity> allSections = tableSectionsRepository.findByRestaurantId(restaurantId);
+        List<TableSectionsEntity> sectionsToDelete = allSections.stream()
+            .filter(s -> !sectionIdsWithTables.contains(s.getId()))
+            .collect(Collectors.toList());
+
+        if (!sectionsToDelete.isEmpty()) {
+            tableSectionsRepository.deleteAll(sectionsToDelete);
+        }
+        
         return savedTables.stream()
             .map(TableMapper::toResponse)
             .collect(Collectors.toList());

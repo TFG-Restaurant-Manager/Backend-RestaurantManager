@@ -1,6 +1,6 @@
 package com.tfg_rm.backend_restaurantmanager.dto;
 
-import java.math.BigDecimal;    
+import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,4 +17,5 @@ public class IngredientsResponse {
     private BigDecimal costUnit;
     private BigDecimal minimumStock;
     private String category;
+    private Long categoryId;
 }

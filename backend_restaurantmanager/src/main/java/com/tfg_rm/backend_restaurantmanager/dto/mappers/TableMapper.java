@@ -23,35 +23,36 @@ public class TableMapper {
         response.setPosY(entity.getPosY());
         response.setStatus(entity.getStatus().toString());
         response.setSectionTitle(entity.getSection().getTitle());
-
+        response.setSectionId(entity.getSection().getId());
         if (entity.getOrderTables() != null && !entity.getOrderTables().isEmpty()) {
             OrderTableEntity orderTable = entity
-                .getOrderTables()
-                .stream()
-                .filter(order -> {
-                    boolean isActive = false;
-                    if (order.getOrder().getStatus() != null) {
-                        switch (order.getOrder().getStatus()) {
-                            case CREATED, COOKED -> isActive = true;
-                            default -> isActive = false;
+                    .getOrderTables()
+                    .stream()
+                    .filter(order -> {
+                        boolean isActive = false;
+                        if (order.getOrder().getStatus() != null) {
+                            switch (order.getOrder().getStatus()) {
+                                case CREATED, COOKED -> isActive = true;
+                                default -> isActive = false;
+                            }
                         }
-                    }
-                    log.info("Order status: {}", order.getOrder().getStatus());
-                    return isActive;
-                })
-                .toList()
-                .get(0);
+                        log.info("Order status: {}", order.getOrder().getStatus());
+                        return isActive;
+                    })
+                    .toList()
+                    .get(0);
             log.info("Active order found: {}", orderTable.getOrder().getId());
             response.setOrderId(orderTable.getOrder().getId());
             response.setOrderStatus(orderTable.getOrder().getStatus().toString());
             response.setOrderTotal(orderTable.getOrder().getTotal());
             response.setOrderNotes(orderTable.getOrder().getNotes());
             response.setOrderCreatedAt(orderTable.getOrder().getCreatedAt().toString());
-            response.setOrderItems(orderTable.getOrder().getOrderItems().stream().map(OrderItemMapper::toResponse).toList());
+            response.setOrderItems(
+                    orderTable.getOrder().getOrderItems().stream().map(OrderItemMapper::toResponse).toList());
         }
 
         log.info("Response: {}", response);
-        
+
         return response;
     }
 }
