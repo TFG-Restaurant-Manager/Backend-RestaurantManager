@@ -13,7 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -46,6 +48,8 @@ public class OrdersEntity {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private RestaurantEntity restaurant;
 
     /**
@@ -86,23 +90,31 @@ public class OrdersEntity {
      * Tipo de orden específica (mesa, delivery, recogida).
      */
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private OrderDeliveryEntity deliveryOrder;
 
     /**
      * Tipo de orden específica (mesa, delivery, recogida).
      */
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private OrderTableEntity tableOrder;
 
     /**
      * Tipo de orden específica (mesa, delivery, recogida).
      */
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private OrderPickupEntity pickupOrder;
 
     /**
      * Lista de ítems de orden asociados a la orden.
      */
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<OrderItemsEntity> orderItems;
 }

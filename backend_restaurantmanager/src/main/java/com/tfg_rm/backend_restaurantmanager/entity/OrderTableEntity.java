@@ -9,7 +9,9 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -21,9 +23,13 @@ public class OrderTableEntity {
     @OneToOne
     @MapsId
     @JoinColumn(name = "order_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private OrdersEntity order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "table_id", nullable = false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private TablesRestaurantEntity table;
 }

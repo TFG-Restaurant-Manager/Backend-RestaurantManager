@@ -45,8 +45,8 @@ public class IngredientsService {
         IngredientsEntity entity = new IngredientsEntity();
         updateEntityFromRequest(entity, request, restaurant, category);
 
-        IngredientsEntity saved = ingredientsRepository.save(entity);
-        return IngredientsInfoMapper.toResponse(saved);
+        ingredientsRepository.save(entity);
+        return IngredientsInfoMapper.toResponse(entity);
     }
 
     @Transactional

@@ -7,6 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.tfg_rm.backend_restaurantmanager.websocket.service.WebSocketService;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -21,6 +23,8 @@ public class RestaurantWebSocketHandler extends TextWebSocketHandler {
      * List of restaurants that are conected with the websockets
      */
     private static final Map<Long, Set<WebSocketSession>> restaurantSessions = new ConcurrentHashMap<>();
+
+    private final WebSocketService webSocketService = new WebSocketService();
 
     /**
      * Method used after the client makes conection with the websocket.
@@ -60,6 +64,7 @@ public class RestaurantWebSocketHandler extends TextWebSocketHandler {
         // Gets the restaurant id from the session
         Long restaurantId = (Long) session.getAttributes().get("restaurantId");
 
+        message.getPayload();
         // If there isn't any restaurant id doesn't send any message
         if (restaurantId != null) {
             // It send the messages only to those who are from the same restaurant

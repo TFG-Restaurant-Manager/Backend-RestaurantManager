@@ -20,6 +20,7 @@ import com.tfg_rm.backend_restaurantmanager.repository.RestaurantRepository;
 import com.tfg_rm.backend_restaurantmanager.repository.TableSectionsRepository;
 import com.tfg_rm.backend_restaurantmanager.repository.TablesRepository;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class TableService {
     private final TablesRepository tablesRepository;
     private final RestaurantRepository restaurantRepository;
     private final TableSectionsRepository tableSectionsRepository;
+    private final EntityManager entityManager;
 
     public List<TableResponse> getTableInfo(Long restaurantId) {
         List<TableResponse> tables = tablesRepository
@@ -48,28 +50,49 @@ public class TableService {
 
         // Fetch current tables
         List<TablesRestaurantEntity> currentTables = tablesRepository.findByRestaurantId(restaurantId);
-        
+
         // IDs from request
         Set<Long> requestIds = tableRequests.stream()
             .map(TableRequest::getTableId)
             .filter(Objects::nonNull)
             .collect(Collectors.toSet());
 
-        // Tables to delete: current ones not in request
-        List<TablesRestaurantEntity> tablesToDelete = currentTables.stream()
+        // IDs of tables to delete: current ones not in request
+        List<Long> tableIdsToDelete = currentTables.stream()
             .filter(t -> !requestIds.contains(t.getId()))
+            .map(TablesRestaurantEntity::getId)
             .collect(Collectors.toList());
-        
-        tablesRepository.deleteAll(tablesToDelete);
+
+        // Use JPQL bulk deletes to avoid Hibernate persistence context issues.
+        // First delete order_table records that reference the tables being deleted,
+        // then delete the tables themselves.
+        if (!tableIdsToDelete.isEmpty()) {
+            entityManager.createQuery(
+                "DELETE FROM OrderTableEntity ot WHERE ot.table.id IN :tableIds")
+                .setParameter("tableIds", tableIdsToDelete)
+                .executeUpdate();
+
+            entityManager.createQuery(
+                "DELETE FROM TablesRestaurantEntity t WHERE t.id IN :tableIds")
+                .setParameter("tableIds", tableIdsToDelete)
+                .executeUpdate();
+
+            // Flush pending SQL and clear the persistence context to avoid stale references
+            entityManager.flush();
+            entityManager.clear();
+        }
+
+        // Re-fetch restaurant after clearing persistence context
+        restaurant = restaurantRepository.findById(restaurantId)
+            .orElseThrow(() -> new RuntimeException("Restaurant not found"));
 
         // Update or Add
         List<TablesRestaurantEntity> tablesToSave = new ArrayList<>();
         for (TableRequest req : tableRequests) {
+
             TablesRestaurantEntity entity;
             if (req.getTableId() != null) {
-                entity = currentTables.stream()
-                    .filter(t -> t.getId().equals(req.getTableId()))
-                    .findFirst()
+                entity = tablesRepository.findById(req.getTableId())
                     .orElse(new TablesRestaurantEntity());
             } else {
                 entity = new TablesRestaurantEntity();
@@ -94,10 +117,11 @@ public class TableService {
             }
 
             tablesToSave.add(entity);
+
         }
 
         List<TablesRestaurantEntity> savedTables = tablesRepository.saveAll(tablesToSave);
-        
+
         // Identificar secciones que tienen mesas después de la actualización
         Set<Long> sectionIdsWithTables = savedTables.stream()
             .map(TablesRestaurantEntity::getSection)
@@ -107,6 +131,7 @@ public class TableService {
 
         // Buscar todas las secciones del restaurante y eliminar las que no tengan mesas
         List<TableSectionsEntity> allSections = tableSectionsRepository.findByRestaurantId(restaurantId);
+
         List<TableSectionsEntity> sectionsToDelete = allSections.stream()
             .filter(s -> !sectionIdsWithTables.contains(s.getId()))
             .collect(Collectors.toList());
@@ -114,7 +139,7 @@ public class TableService {
         if (!sectionsToDelete.isEmpty()) {
             tableSectionsRepository.deleteAll(sectionsToDelete);
         }
-        
+
         return savedTables.stream()
             .map(TableMapper::toResponse)
             .collect(Collectors.toList());
