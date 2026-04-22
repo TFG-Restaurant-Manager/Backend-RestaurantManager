@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,5 +51,25 @@ public class OrderController {
 
         List<OrderResponse> orders = orderService.getMyOrders(userId, restaurantId);
         return ResponseEntity.ok(orders);
+    }
+
+    @PostMapping
+    public ResponseEntity<OrderResponse> createOrder(
+    // @RequestHeader("Authorization") String authHeader,
+    // @RequestBody CreateOrderRequest request
+    ) {
+        // String token = authHeader.replace("Bearer ", "");
+        // Long restaurantId = jwtService.getRestaurantId(token);
+        // Long userId = jwtService.getUserId(token);
+        // String role = jwtService.getRole(token);
+
+        // if (!role.equals("CLIENTE"))
+        // throw new UnauthorizedException("You are not authorized to perform this
+        // action");
+
+        // OrderResponse order = orderService.createOrder(userId, restaurantId,
+        // request);
+        // return ResponseEntity.ok(order);
+        throw new RuntimeException("Not implemented yet");
     }
 }
