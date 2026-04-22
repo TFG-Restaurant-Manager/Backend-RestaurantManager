@@ -19,11 +19,21 @@ public class OrderService {
 
     public List<OrderResponse> getAllOrdersPaid(Long restaurantId) {
         List<OrderResponse> dishes = orderRepository
-            .findByRestaurantIdAndStatus(restaurantId, OrderStatusEntity.PAID)
-            .stream()
-            .map(OrderMapper::toResponse)
-            .collect(Collectors.toList());
+                .findByRestaurantIdAndStatus(restaurantId, OrderStatusEntity.PAID)
+                .stream()
+                .map(OrderMapper::toResponse)
+                .collect(Collectors.toList());
 
         return dishes;
+    }
+
+    public List<OrderResponse> getMyOrders(Long userId, Long restaurantId) {
+        List<OrderResponse> orders = orderRepository
+                .findByClientIdAndRestaurantId(userId, restaurantId)
+                .stream()
+                .map(OrderMapper::toResponse)
+                .collect(Collectors.toList());
+
+        return orders;
     }
 }

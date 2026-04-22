@@ -79,7 +79,11 @@ public class IngredientsService {
         ingredientsRepository.delete(entity);
     }
 
-    private void updateEntityFromRequest(IngredientsEntity entity, IngredientRequest request, RestaurantEntity restaurant, IngredientsCategoriesEntity category) {
+    private void updateEntityFromRequest(
+            IngredientsEntity entity,
+            IngredientRequest request,
+            RestaurantEntity restaurant,
+            IngredientsCategoriesEntity category) {
         entity.setRestaurant(restaurant);
         entity.setCategory(category);
         entity.setName(request.getName());
