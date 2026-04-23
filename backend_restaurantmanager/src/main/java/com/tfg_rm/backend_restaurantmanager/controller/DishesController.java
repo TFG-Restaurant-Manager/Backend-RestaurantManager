@@ -91,4 +91,15 @@ public class DishesController {
         dishService.deleteDish(id, restaurantId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("category")
+    public ResponseEntity<List<String>> getAllCategories(
+        @RequestHeader("Authorization") String authHeader
+    ) {
+        String token = authHeader.replace("Bearer ", "");
+        Long restaurantId = jwtService.getRestaurantId(token);
+
+        List<String> categories = dishService.getAllCategories(restaurantId);
+        return ResponseEntity.ok(categories);
+    }
 }

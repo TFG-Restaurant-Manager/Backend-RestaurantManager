@@ -127,4 +127,14 @@ public class DishService {
             .orElseThrow(() -> new NotFoundException("Dish not found"));
         dishesRepository.delete(dish);
     }
+
+    public List<String> getAllCategories(Long restaurantId) {
+        List<String> categories = categoriesRepository
+            .findByRestaurantId(restaurantId)
+            .stream()
+            .map(DishesCategoriesEntity::getName)
+            .collect(Collectors.toList());
+
+        return categories;
+    }
 }

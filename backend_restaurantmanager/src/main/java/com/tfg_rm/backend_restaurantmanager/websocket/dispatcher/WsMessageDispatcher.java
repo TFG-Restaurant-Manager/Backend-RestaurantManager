@@ -15,17 +15,28 @@ import com.tfg_rm.backend_restaurantmanager.websocket.handler.WsMessageHandler;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Class used to dispatch the messages to the correct handler
+ */
 @Component
 @RequiredArgsConstructor
 public class WsMessageDispatcher {
 
+    /** The list of handlers */
     private final List<WsMessageHandler> handlerList;
+
+    /** The object mapper for converting JSON to Java objects */
     private final ObjectMapper objectMapper;
 
+    /** The map of handlers */
     private Map<WsMessageType, WsMessageHandler> handlers;
 
+    /**
+     * Method used to initialize the dispatcher
+     */
     @PostConstruct
     public void init() {
         handlers = handlerList.stream()
@@ -33,33 +44,49 @@ public class WsMessageDispatcher {
     }
 
     /**
-     * Parsea el mensaje entrante, delega al handler correcto
-     * y devuelve el JSON del mensaje de respuesta.
+     * Method used to dispatch the message to the correct handler
+     * 
+     * @param session The WebSocket session
+     * @param rawMessage The raw message
+     * @return The outbound message
      */
     public WsOutboundMessage<?> dispatch(WebSocketSession session, String rawMessage) throws Exception {
-        WsInboundMessage inbound = objectMapper.readValue(rawMessage, WsInboundMessage.class);
+        WsInboundMessage inbound = null;
 
+        WsOutboundMessage<?> outbound = null;
         WsMessageType type;
         try {
+            inbound = objectMapper.readValue(rawMessage, WsInboundMessage.class);
             type = WsMessageType.valueOf(inbound.getType());
+
+            WsMessageHandler handler = handlers.get(type);
+            if (handler == null) {
+                outbound = new WsOutboundMessage<>(
+                    "FAILED_UNHANDLED_TYPE",
+                    new ErrorPayload("UNHANDLED_TYPE", "No handler registered for: " + type)
+                );
+            } else {
+                outbound = handler.handle(session, inbound.getPayload());
+            }
+        } catch (JacksonException e) {
+            outbound = new WsOutboundMessage<>(
+                "FAILED_UNHANDLED_MESSAGE",
+                new ErrorPayload("UNHANDLED_MESSAGE", "Message not supported: " + rawMessage)
+            );
         } catch (IllegalArgumentException e) {
-            WsOutboundMessage<?> error = new WsOutboundMessage<>(
+            String typeValue = (inbound != null) ? inbound.getType() : "null";
+
+            outbound = new WsOutboundMessage<>(
                 "FAILED_UNKNOWN_TYPE",
-                new ErrorPayload("UNKNOWN_TYPE", "Type not supported: " + inbound.getType())
+                new ErrorPayload("UNKNOWN_TYPE", "Type not supported: " + typeValue)
             );
-            return error;
-        }
-
-        WsMessageHandler handler = handlers.get(type);
-        if (handler == null) {
-            WsOutboundMessage<?> error = new WsOutboundMessage<>(
-                "FAILED_UNHANDLED_TYPE",
-                new ErrorPayload("UNHANDLED_TYPE", "No handler registered for: " + type)
+        } catch (Exception e) {
+            outbound = new WsOutboundMessage<>(
+                "FAILED_UNHANDLED_MESSAGE",
+                new ErrorPayload("UNHANDLED_MESSAGE", "Message not supported: " + rawMessage)
             );
-            return error;
-        }
+        } 
 
-        WsOutboundMessage<?> outbound = handler.handle(session, inbound.getPayload());
         return outbound;
     }
 }

@@ -61,8 +61,6 @@ public class RestaurantWebSocketHandler extends TextWebSocketHandler {
 
     /**
      * Method for when the client send a message to the websocket
-     * 
-     * It checks the restaurant id and if it's not null returns a default message
      */
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message)
