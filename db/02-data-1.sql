@@ -137,20 +137,46 @@ INSERT INTO orders (restaurant_id, type, status, total, notes) VALUES
 (1, 'PICKUP', 'CREATED', 12.40, 'Pedido para recogida express'),
 (1, 'PICKUP', 'CREATED', 18.60, 'Pedido para recogida tarde');
 
+INSERT INTO orders (restaurant_id, type, status, total, notes) VALUES
+(1, 'TABLE', 'PAID', 23.50, 'Pedido desde mesa T1'),
+(1, 'DELIVERY', 'PAID', 25.80, 'Pedido delivery sin cliente'),
+(1, 'PICKUP', 'PAID', 10.00, 'Pedido para recogida en mostrador'),
+(1, 'TABLE', 'PAID', 33.20, 'Pedido desde mesa T2'),
+(1, 'TABLE', 'PAID', 19.70, 'Pedido desde mesa S1'),
+(1, 'DELIVERY', 'PAID', 27.30, 'Pedido delivery urgent'),
+(1, 'DELIVERY', 'PAID', 15.90, 'Pedido delivery local'),
+(1, 'PICKUP', 'PAID', 12.40, 'Pedido para recogida express'),
+(1, 'PICKUP', 'PAID', 18.60, 'Pedido para recogida tarde');
+
 INSERT INTO order_table (order_id, table_id) VALUES
 (1, 1),
 (4, 2),
 (5, 7);
+
+INSERT INTO order_table (order_id, table_id) VALUES
+(10, 1),
+(13, 2),
+(14, 7);
 
 INSERT INTO order_delivery (order_id, delivery_address, client_id) VALUES
 (2, 'Calle Mayor 10, Madrid', NULL),
 (6, 'Calle Gran Vía 22, Madrid', NULL),
 (7, 'Calle Alcalá 45, Madrid', NULL);
 
+INSERT INTO order_delivery (order_id, delivery_address, client_id) VALUES
+(11, 'Calle Mayor 10, Madrid', NULL),
+(15, 'Calle Gran Vía 22, Madrid', NULL),
+(16, 'Calle Alcalá 45, Madrid', NULL);
+
 INSERT INTO order_pickup (order_id, pickup_time, client_id) VALUES
 (3, '2026-03-24 19:00:00', NULL),
 (8, '2026-03-24 20:00:00', NULL),
 (9, '2026-03-24 20:30:00', NULL);
+
+INSERT INTO order_pickup (order_id, pickup_time, client_id) VALUES
+(12, '2026-03-24 19:00:00', NULL),
+(17, '2026-03-24 20:00:00', NULL),
+(18, '2026-03-24 20:30:00', NULL);
 
 INSERT INTO order_items (order_id, dish_id, notes, unit_price) VALUES
 -- order 1 TABLE
@@ -184,3 +210,36 @@ INSERT INTO order_items (order_id, dish_id, notes, unit_price) VALUES
 -- order 9 PICKUP
 (9, 12, 'Extra queso', 11.00),
 (9, 15, 'Caliente', 4.00);
+
+INSERT INTO order_items (order_id, dish_id, notes, unit_price) VALUES
+-- order 1 TABLE
+(10, 1, 'Una ración extra de salsa', 6.50),
+(10, 6, 'Sin cebolla', 12.00),
+(10, 11, 'Sin frutos secos', 5.00),
+-- order 2 DELIVERY
+(11, 1, 'Sin gluten', 6.50),
+(11, 5, 'Extra limón', 7.80),
+(11, 12, 'Bien hecho', 11.00),
+-- order 3 PICKUP
+(12, 13, 'En bolsa separada', 5.50),
+(12, 15, 'Con extra canela', 4.00),
+-- order 4 TABLE
+(13, 2, 'Sin pepino', 5.50),
+(13, 7, 'Guarnición extra', 15.50),
+(13, 10, 'Sin piel', 13.20),
+-- order 5 TABLE
+(14, 3, 'Frío', 4.50),
+(14, 8, 'Extra patatas', 10.00),
+-- order 6 DELIVERY
+(15, 4, 'Rápido', 3.50),
+(15, 11, 'Doble porción', 5.00),
+(15, 14, 'Con nata', 5.50),
+-- order 7 DELIVERY
+(16, 6, 'Sin champiñones', 12.00),
+(16, 9, 'Muy picante', 13.20),
+-- order 8 PICKUP
+(17, 2, 'Sin cebolla', 5.50),
+(17, 5, 'Ligero', 7.80),
+-- order 9 PICKUP
+(18, 12, 'Extra queso', 11.00),
+(18, 15, 'Caliente', 4.00);

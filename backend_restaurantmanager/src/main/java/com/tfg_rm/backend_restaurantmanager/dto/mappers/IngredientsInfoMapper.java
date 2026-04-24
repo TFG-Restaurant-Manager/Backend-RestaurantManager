@@ -5,11 +5,6 @@ import com.tfg_rm.backend_restaurantmanager.entity.IngredientsEntity;
 
 public class IngredientsInfoMapper {
 
-    public static IngredientsEntity toEntity(IngredientsResponse request) {
-        IngredientsEntity entity = new IngredientsEntity();
-        return entity;
-    }
-
     public static IngredientsResponse toResponse(IngredientsEntity entity) {
         IngredientsResponse response = new IngredientsResponse();
         response.setId(entity.getId());
@@ -19,6 +14,7 @@ public class IngredientsInfoMapper {
         response.setCostUnit(entity.getCostPerUnit());
         response.setMinimumStock(entity.getMinimumStock());
         response.setCategory(entity.getCategory().getName());
+        response.setCategoryId(entity.getCategory().getId());
 
         return response;
     }
