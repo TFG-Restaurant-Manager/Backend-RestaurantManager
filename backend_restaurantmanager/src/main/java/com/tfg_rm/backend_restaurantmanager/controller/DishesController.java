@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tfg_rm.backend_restaurantmanager.dto.DishesRequest;
@@ -25,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/dish")
 public class DishesController {
-    
+
     /** The dish service for managing dish-related operations. */
     private final DishService dishService;
 
@@ -34,11 +35,8 @@ public class DishesController {
 
     @GetMapping
     public ResponseEntity<List<DishesResponse>> getAll(
-        @RequestHeader("Authorization") String authHeader
+        @RequestParam Long restaurantId
     ) {
-        String token = authHeader.replace("Bearer ", "");
-        Long restaurantId = jwtService.getRestaurantId(token);
-
         List<DishesResponse> dishes = dishService.getAllDishes(restaurantId);
         return ResponseEntity.ok(dishes);
     }
@@ -94,11 +92,8 @@ public class DishesController {
 
     @GetMapping("category")
     public ResponseEntity<List<String>> getAllCategories(
-        @RequestHeader("Authorization") String authHeader
+        @RequestParam Long restaurantId
     ) {
-        String token = authHeader.replace("Bearer ", "");
-        Long restaurantId = jwtService.getRestaurantId(token);
-
         List<String> categories = dishService.getAllCategories(restaurantId);
         return ResponseEntity.ok(categories);
     }
