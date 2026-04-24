@@ -4,18 +4,14 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-public class DishesResponse {
-    private Long id;
+public class DishesRequest {
     private Long restaurantId;
     private Long categoryId;
     private String name;
     private String description;
-    private String categoryName;
     private BigDecimal price;
     private Boolean available;
-    private List<DishIngredientResponse> ingredients;
+    private List<DishIngredientRequest> ingredients;
 }

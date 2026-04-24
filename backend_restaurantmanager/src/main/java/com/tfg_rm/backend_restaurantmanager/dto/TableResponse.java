@@ -16,6 +16,7 @@ public class TableResponse {
     private Integer posY;
     private String status;
     private String sectionTitle;
+    private Long sectionId;
     private Long orderId;
     private String orderStatus;
     private BigDecimal orderTotal;

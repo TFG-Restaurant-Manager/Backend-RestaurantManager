@@ -33,7 +33,7 @@ El archivo central de configuración es [`SecurityConfig.java`](src/main/java/co
     ```
 
 ### Gestión de Tokens (JWT)
-El servicio [`JwtService`](src/main/java/com/tfg_rm/backend_restaurantmanager/shared/security/JwtService.java) centraliza la lógica de los tokens:
+El servicio [`JwtService`](src/main/java/com/tfg_rm/backend_restaurantmanager/security/JwtService.java) centraliza la lógica de los tokens:
 
 * **Firma:** Utiliza el algoritmo **HMAC-SHA**. La clave secreta se obtiene de variables de entorno (configurada en el `docker-compose.yml` para facilitar el despliegue en desarrollo).
 * **Payload:** El token almacena información crítica como el `userId`, el `role` (Cliente, Encargado, Camarero, Cocinero) y el `restaurantId` para identificar el contexto del usuario en la base de datos.
@@ -41,7 +41,7 @@ El servicio [`JwtService`](src/main/java/com/tfg_rm/backend_restaurantmanager/sh
 
 
 ### Filtro de Autenticación
-El [`JwtAuthenticationFilter`](src/main/java/com/tfg_rm/backend_restaurantmanager/shared/security/JwtAuthenticationFilter.java) intercepta cada petición para:
+El [`JwtAuthenticationFilter`](src/main/java/com/tfg_rm/backend_restaurantmanager/security/JwtAuthenticationFilter.java) intercepta cada petición para:
 1. Extraer y validar el token.
 2. Generar un usuario verificado asignándole una autoridad con el prefijo `ROLE_`.
 3. Establecer la identidad en el contexto de seguridad de la aplicación.
@@ -75,3 +75,16 @@ El [`RestaurantWebSocketHandler`](src/main/java/com/tfg_rm/backend_restaurantman
 2.  **Intercambio de mensajes:** Cuando un cliente envía un mensaje, el sistema identifica su `restaurantId` y retransmite el contenido exclusivamente a todas las sesiones asociadas a ese mismo restaurante, funcionando como un canal de comunicación privado por establecimiento.
 
 3.  **Cierre de conexión:** Al desconectarse, la sesión se elimina del conjunto correspondiente en `restaurantSessions` para mantener actualizada la lista de clientes activos.
+
+## Iniciar el Proyecto
+
+Para iniciar el proyecto, sigue estos pasos:
+
+1. Clona el repositorio en tu computadora.
+2. Configura las variables de entorno en el archivo `docker-compose.yml`.
+3. Ejecuta el comando `docker compose up` para iniciar el proyecto.
+4. Accede a la URL `http://localhost:8080` en tu navegador para interactuar con la API.
+
+Al estar utilizando cloudflare tunnel, puedes acceder directamente a la URL `https://[tunnel-name].tunnel.cloudflare.com` en lugar de `http://localhost:8080`.
+
+Existe un endpoint de ayuda para obtener información sobre la API y los endpoints que expone: `http://localhost:8080/api/swagger-ui.html`

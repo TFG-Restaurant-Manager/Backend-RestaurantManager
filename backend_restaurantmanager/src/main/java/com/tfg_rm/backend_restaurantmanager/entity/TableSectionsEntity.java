@@ -13,7 +13,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /** 
  * Entidad que representa una sección de mesas en el restaurante.
@@ -36,6 +38,8 @@ public class TableSectionsEntity {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private RestaurantEntity restaurant;
 
     /** 
@@ -48,5 +52,7 @@ public class TableSectionsEntity {
      * Lista de mesas que pertenecen a esta sección.
      */
     @OneToMany(mappedBy = "section", fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<TablesRestaurantEntity> tables;
 }

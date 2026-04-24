@@ -2,6 +2,7 @@ package com.tfg_rm.backend_restaurantmanager.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,6 +62,9 @@ public class SecurityConfig {
                     ).permitAll()
                 /* ----- ----------------------------------------------------------------------------------------------------------- */
                 .requestMatchers("/employee/**").hasAnyRole("MANAGER", "WAITER", "COOKER", "ADMIN")
+                .requestMatchers(HttpMethod.GET, "/dish").permitAll()
+                .requestMatchers(HttpMethod.GET, "/dish/category").permitAll()
+                .requestMatchers("/dish/**").authenticated()
                 /* Puedo sustituir lo de arriba por:
                 .requestMatchers("/employee/**").hasRole("CLIENTE").denyAll()
                 .requestMatchers("/employee/**").authenticated()
