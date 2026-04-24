@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tfg_rm.backend_restaurantmanager.dto.DishesRequest;
@@ -35,8 +34,11 @@ public class DishesController {
 
     @GetMapping
     public ResponseEntity<List<DishesResponse>> getAll(
-        @RequestParam Long restaurantId
+        @RequestHeader("Authorization") String authHeader
     ) {
+        String token = authHeader.replace("Bearer ", "");
+        Long restaurantId = jwtService.getRestaurantId(token);
+
         List<DishesResponse> dishes = dishService.getAllDishes(restaurantId);
         return ResponseEntity.ok(dishes);
     }
@@ -92,8 +94,11 @@ public class DishesController {
 
     @GetMapping("category")
     public ResponseEntity<List<String>> getAllCategories(
-        @RequestParam Long restaurantId
+        @RequestHeader("Authorization") String authHeader
     ) {
+        String token = authHeader.replace("Bearer ", "");
+        Long restaurantId = jwtService.getRestaurantId(token);
+
         List<String> categories = dishService.getAllCategories(restaurantId);
         return ResponseEntity.ok(categories);
     }
