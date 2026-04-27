@@ -6,14 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tfg_rm.backend_restaurantmanager.dto.Role;
-import com.tfg_rm.backend_restaurantmanager.entity.ClientEntity;
 import com.tfg_rm.backend_restaurantmanager.entity.EmployeeEntity;
-import com.tfg_rm.backend_restaurantmanager.entity.RestaurantEntity;
 import com.tfg_rm.backend_restaurantmanager.entity.RoleEntity;
-import com.tfg_rm.backend_restaurantmanager.exception.NotFoundException;
-import com.tfg_rm.backend_restaurantmanager.repository.AuthClientRepository;
 import com.tfg_rm.backend_restaurantmanager.repository.AuthEmployeeRepository;
-import com.tfg_rm.backend_restaurantmanager.repository.RestaurantRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,45 +20,11 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class AuthService {
 
-    /** The auth client repository */
-    private final AuthClientRepository authClientRepository;
     /** The auth employee repository */
     private final AuthEmployeeRepository authEmployeeRepository;
-    /** The restaurant */
-    private final RestaurantRepository restaurantRepository;
 
     /** The password encoder */
     private final PasswordEncoder passwordEncoder;
-
-    public Long checkCredentials(Long restaurantId, String email, String password) {
-        Long id = -1L;
-        Optional<ClientEntity> result = authClientRepository.findByRestaurantIdAndEmail(restaurantId, email);
-
-        if (result.isPresent() && passwordEncoder.matches(password, result.get().getPasswordHash())) {
-            id = result.get().getId();
-        }
-
-        return id;
-    }
-
-    public Long addClient(Long restaurantId, String email, String password) {
-        Long id = -1L;
-
-        if (password.length() > 6) {
-            String passwordHash = passwordEncoder.encode(password);
-            ClientEntity client = new ClientEntity();
-            RestaurantEntity restaurant = restaurantRepository
-                .findById(restaurantId)
-                .orElseThrow(() -> new NotFoundException("Restaurant not found"));
-            client.setRestaurant(restaurant);
-            client.setEmail(email);
-            client.setPasswordHash(passwordHash);
-            authClientRepository.save(client);
-
-            id = client.getId();
-        }
-        return id;
-    }
 
     public Long validateEmployeeAccess(String code, String password) {
         Long id = -1L;

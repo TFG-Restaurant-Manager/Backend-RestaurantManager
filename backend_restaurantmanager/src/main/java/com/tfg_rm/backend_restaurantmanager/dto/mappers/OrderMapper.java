@@ -28,12 +28,10 @@ public class OrderMapper {
 
         if (entity.getDeliveryOrder() != null) {
             response.setDeliveryAddress(entity.getDeliveryOrder().getDeliveryAddress());
-            response.setClientId(entity.getDeliveryOrder().getClient() != null ? entity.getDeliveryOrder().getClient().getId() : null);
         }
 
         if (entity.getPickupOrder() != null) {
             response.setPickupTime(entity.getPickupOrder().getPickupTime());
-            response.setClientId(entity.getPickupOrder().getClient() != null ? entity.getPickupOrder().getClient().getId() : null);
         }
 
         return response;

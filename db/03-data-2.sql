@@ -197,25 +197,25 @@ INSERT INTO order_table (order_id, table_id) VALUES
 (31, 32),
 (32, 43);
 
-INSERT INTO order_delivery (order_id, delivery_address, client_id) VALUES
-(20, 'Rambla 50, Barcelona', NULL),
-(24, 'Carrer Balmes 100, Barcelona', NULL),
-(25, 'C/ Provença 88, Barcelona', NULL);
+INSERT INTO order_delivery (order_id, delivery_address) VALUES
+(20, 'Rambla 50, Barcelona'),
+(24, 'Carrer Balmes 100, Barcelona'),
+(25, 'C/ Provença 88, Barcelona');
 
-INSERT INTO order_delivery (order_id, delivery_address, client_id) VALUES
-(29, 'Rambla 50, Barcelona', NULL),
-(33, 'Carrer Balmes 100, Barcelona', NULL),
-(34, 'C/ Provença 88, Barcelona', NULL);
+INSERT INTO order_delivery (order_id, delivery_address) VALUES
+(29, 'Rambla 50, Barcelona'),
+(33, 'Carrer Balmes 100, Barcelona'),
+(34, 'C/ Provença 88, Barcelona');
 
-INSERT INTO order_pickup (order_id, pickup_time, client_id) VALUES
-(21, '2026-03-24 20:30:00', NULL),
-(26, '2026-03-24 21:00:00', NULL),
-(27, '2026-03-24 21:30:00', NULL);
+INSERT INTO order_pickup (order_id, pickup_time) VALUES
+(21, '2026-03-24 20:30:00'),
+(26, '2026-03-24 21:00:00'),
+(27, '2026-03-24 21:30:00');
 
-INSERT INTO order_pickup (order_id, pickup_time, client_id) VALUES
-(30, '2026-03-24 20:30:00', NULL),
-(35, '2026-03-24 21:00:00', NULL),
-(36, '2026-03-24 21:30:00', NULL);
+INSERT INTO order_pickup (order_id, pickup_time) VALUES
+(30, '2026-03-24 20:30:00'),
+(35, '2026-03-24 21:00:00'),
+(36, '2026-03-24 21:30:00');
 
 INSERT INTO order_items (order_id, dish_id, notes, unit_price) VALUES
 -- order 10 TABLE

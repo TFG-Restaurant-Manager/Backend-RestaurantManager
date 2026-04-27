@@ -14,7 +14,6 @@ import com.tfg_rm.backend_restaurantmanager.dto.OrderResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.mappers.OrderMapper;
 import com.tfg_rm.backend_restaurantmanager.entity.OrderStatusEntity;
 import com.tfg_rm.backend_restaurantmanager.entity.OrdersEntity;
-import com.tfg_rm.backend_restaurantmanager.repository.AuthClientRepository;
 import com.tfg_rm.backend_restaurantmanager.repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final AuthClientRepository clientRepository;
 
     public List<OrderResponse> getAllOrdersPaid(Long restaurantId) {
         List<OrderResponse> dishes = orderRepository
@@ -34,16 +32,6 @@ public class OrderService {
                 .collect(Collectors.toList());
 
         return dishes;
-    }
-
-    public List<OrderResponse> getMyOrders(Long userId, Long restaurantId) {
-        List<OrderResponse> orders = orderRepository
-                .findByClientIdAndRestaurantId(userId, restaurantId)
-                .stream()
-                .map(OrderMapper::toResponse)
-                .collect(Collectors.toList());
-
-        return orders;
     }
 
     public OrderResponse createOrder(Long restaurantId, OrderRequest request) {
@@ -91,5 +79,15 @@ public class OrderService {
             orderResponse.getItems().add(orderItemResponse);
         }
         return orderResponse;
+    }
+
+    public List<OrderResponse> getAllOrders(Long restaurantId) {
+        List<OrderResponse> dishes = orderRepository
+                .findByRestaurantId(restaurantId)
+                .stream()
+                .map(OrderMapper::toResponse)
+                .collect(Collectors.toList());
+
+        return dishes;
     }
 }

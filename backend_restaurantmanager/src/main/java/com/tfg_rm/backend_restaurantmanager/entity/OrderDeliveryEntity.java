@@ -2,10 +2,8 @@ package com.tfg_rm.backend_restaurantmanager.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -36,10 +34,4 @@ public class OrderDeliveryEntity {
     @Column(name = "delivery_address", nullable = false, length = 255)
     private String deliveryAddress;
 
-    /**
-     * Cliente asociado a la orden de delivery.
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
-    private ClientEntity client;
 }

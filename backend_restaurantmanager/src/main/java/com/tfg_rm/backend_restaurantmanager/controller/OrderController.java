@@ -39,18 +39,13 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/my-orders")
-    public ResponseEntity<List<OrderResponse>> getMyOrders(
+    @GetMapping
+    public ResponseEntity<List<OrderResponse>> getAll(
             @RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
         Long restaurantId = jwtService.getRestaurantId(token);
-        Long userId = jwtService.getUserId(token);
-        String role = jwtService.getRole(token);
 
-        if (!role.equals("CLIENTE"))
-            throw new UnauthorizedException("You are not authorized to perform this action");
-
-        List<OrderResponse> orders = orderService.getMyOrders(userId, restaurantId);
+        List<OrderResponse> orders = orderService.getAllOrders(restaurantId);
         return ResponseEntity.ok(orders);
     }
 
