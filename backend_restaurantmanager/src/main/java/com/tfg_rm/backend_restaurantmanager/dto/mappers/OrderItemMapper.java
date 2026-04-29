@@ -16,6 +16,7 @@ public class OrderItemMapper {
         response.setDishName(entity.getDish().getName());
         response.setItemNotes(entity.getNotes());
         response.setOrderItemPrice(entity.getUnitPrice());
+        response.setStatus(entity.getStatus().toString());
         return response;
     }
 }

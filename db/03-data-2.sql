@@ -1,7 +1,7 @@
 /* 2 Restaurantes con 2 empleados cada uno y 2 horarios cada empleado */
-INSERT INTO restaurants (prefix, name, description, email, phone, address, logo_url)
+INSERT INTO restaurants (prefix, name, description, email, phone, address)
 VALUES
-('BCN', 'Restaurante Barcelona', 'Restaurante de tapas y paellas', 'barcelona@rest.com', '934567890', 'Rambla 10, Barcelona', 'https://example.com/logo_bcn.png');
+('BCN', 'Restaurante Barcelona', 'Restaurante de tapas y paellas', 'barcelona@rest.com', '934567890', 'Rambla 10, Barcelona');
 
 -- Empleados del restaurante Barcelona
 INSERT INTO employee (restaurant_id, name, role_name, email, phone, start_date, code, password_hash)
