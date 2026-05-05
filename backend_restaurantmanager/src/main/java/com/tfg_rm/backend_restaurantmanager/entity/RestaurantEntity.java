@@ -80,12 +80,6 @@ public class RestaurantEntity {
     private String address;
 
     /** 
-     * URL del logo del restaurante.
-     */
-    @Column(name = "logo_url")
-    private String logoUrl;
-
-    /** 
      * Fecha de creación del restaurante.
      */
     @Column(name = "created_at", nullable = false, updatable = false,

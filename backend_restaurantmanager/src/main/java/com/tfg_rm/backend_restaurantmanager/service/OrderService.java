@@ -58,7 +58,6 @@ public class OrderService {
         // OrdersEntity savedOrder = orderRepository.save(ordersEntity);
         // return OrderMapper.toResponse(savedOrder);
         OrderResponse orderResponse = new OrderResponse();
-        orderResponse.setClientId(request.getClientId());
         orderResponse.setCreatedAt(LocalDateTime.now().toString());
         orderResponse.setDeliveryAddress(request.getDeliveryAddress());
         orderResponse.setNotes(request.getNotes());

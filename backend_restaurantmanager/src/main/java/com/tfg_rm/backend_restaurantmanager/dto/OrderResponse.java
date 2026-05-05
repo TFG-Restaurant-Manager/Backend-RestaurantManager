@@ -20,7 +20,6 @@ public class OrderResponse {
     private LocalDateTime pickupTime;
 
     private String deliveryAddress;
-    private Long clientId;
 
     private Long tableId;    
 }
