@@ -62,8 +62,7 @@ public class SecurityConfig {
                     ).permitAll()
                 /* ----- ----------------------------------------------------------------------------------------------------------- */
                 .requestMatchers("/employee/**").hasAnyRole("MANAGER", "WAITER", "COOKER", "ADMIN")
-                .requestMatchers(HttpMethod.GET, "/dish").permitAll()
-                .requestMatchers(HttpMethod.GET, "/dish/category").permitAll()
+                .requestMatchers(HttpMethod.POST, "/restaurant").permitAll()
                 .requestMatchers("/dish/**").authenticated()
                 /* Puedo sustituir lo de arriba por:
                 .requestMatchers("/employee/**").hasRole("CLIENTE").denyAll()
