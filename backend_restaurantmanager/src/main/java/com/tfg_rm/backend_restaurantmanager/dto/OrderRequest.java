@@ -15,7 +15,6 @@ public class OrderRequest {
     private LocalDateTime pickupTime;
 
     private String deliveryAddress;
-    private Long clientId;
 
     private Long tableId;    
 }
