@@ -18,5 +18,6 @@ public class BackendRestaurantManagerApplication {
 	 */
 	public static void main(String[] args) {
 		SpringApplication.run(BackendRestaurantManagerApplication.class, args);
+
 	}    
 }

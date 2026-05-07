@@ -4,15 +4,11 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tfg_rm.backend_restaurantmanager.dto.OrderRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.OrderResponse;
-import com.tfg_rm.backend_restaurantmanager.exception.UnauthorizedException;
 import com.tfg_rm.backend_restaurantmanager.security.JwtService;
 import com.tfg_rm.backend_restaurantmanager.service.OrderService;
 
@@ -39,33 +35,13 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/my-orders")
-    public ResponseEntity<List<OrderResponse>> getMyOrders(
+    @GetMapping
+    public ResponseEntity<List<OrderResponse>> getAll(
             @RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
         Long restaurantId = jwtService.getRestaurantId(token);
-        Long userId = jwtService.getUserId(token);
-        String role = jwtService.getRole(token);
 
-        if (!role.equals("CLIENTE"))
-            throw new UnauthorizedException("You are not authorized to perform this action");
-
-        List<OrderResponse> orders = orderService.getMyOrders(userId, restaurantId);
+        List<OrderResponse> orders = orderService.getAllOrders(restaurantId);
         return ResponseEntity.ok(orders);
-    }
-
-    @PostMapping
-    public ResponseEntity<OrderResponse> createOrder(
-        @RequestHeader("Authorization") String authHeader,
-        @RequestBody OrderRequest request
-    ) {
-        String token = authHeader.replace("Bearer ", "");
-        Long restaurantId = jwtService.getRestaurantId(token);
-        request.setClientId(jwtService.getUserId(token));
-        String role = jwtService.getRole(token);
-        if (!role.equals("CLIENTE"))
-            throw new UnauthorizedException("You are not authorized to perform this action");
-        OrderResponse order = orderService.createOrder(restaurantId,request);
-        return ResponseEntity.ok(order);
     }
 }

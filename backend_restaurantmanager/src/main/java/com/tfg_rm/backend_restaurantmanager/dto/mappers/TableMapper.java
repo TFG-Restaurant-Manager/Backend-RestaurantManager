@@ -32,7 +32,7 @@ public class TableMapper {
                         boolean isActive = false;
                         if (order.getOrder().getStatus() != null) {
                             switch (order.getOrder().getStatus()) {
-                                case CREATED, COOKED -> isActive = true;
+                                case CREATED -> isActive = true;
                                 default -> isActive = false;
                             }
                         }

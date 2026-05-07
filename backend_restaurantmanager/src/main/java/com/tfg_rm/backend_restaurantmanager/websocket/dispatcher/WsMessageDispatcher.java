@@ -60,14 +60,9 @@ public class WsMessageDispatcher {
             type = WsMessageType.valueOf(inbound.getType());
 
             WsMessageHandler handler = handlers.get(type);
-            if (handler == null) {
-                outbound = new WsOutboundMessage<>(
-                    "FAILED_UNHANDLED_TYPE",
-                    new ErrorPayload("UNHANDLED_TYPE", "No handler registered for: " + type)
-                );
-            } else {
-                outbound = handler.handle(session, inbound.getPayload());
-            }
+
+            outbound = handler.handle(session, inbound.getPayload());
+
         } catch (JacksonException e) {
             outbound = new WsOutboundMessage<>(
                 "FAILED_UNHANDLED_MESSAGE",

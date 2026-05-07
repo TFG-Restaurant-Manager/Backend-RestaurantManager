@@ -80,12 +80,6 @@ public class RestaurantEntity {
     private String address;
 
     /** 
-     * URL del logo del restaurante.
-     */
-    @Column(name = "logo_url")
-    private String logoUrl;
-
-    /** 
      * Fecha de creación del restaurante.
      */
     @Column(name = "created_at", nullable = false, updatable = false,
@@ -101,14 +95,6 @@ public class RestaurantEntity {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<EmployeeEntity> employees;
-
-    /** 
-     * Lista de clientes del restaurante.
-     */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<ClientEntity> clients;
 
     /** 
      * Lista de secciones de mesas del restaurante.
