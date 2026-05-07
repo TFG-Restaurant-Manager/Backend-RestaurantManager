@@ -14,6 +14,7 @@ import com.tfg_rm.backend_restaurantmanager.dto.OrderResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.mappers.OrderMapper;
 import com.tfg_rm.backend_restaurantmanager.entity.OrderStatusEntity;
 import com.tfg_rm.backend_restaurantmanager.entity.OrdersEntity;
+import com.tfg_rm.backend_restaurantmanager.exception.NotFoundException;
 import com.tfg_rm.backend_restaurantmanager.repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -61,7 +62,7 @@ public class OrderService {
         orderResponse.setCreatedAt(LocalDateTime.now().toString());
         orderResponse.setDeliveryAddress(request.getDeliveryAddress());
         orderResponse.setNotes(request.getNotes());
-        orderResponse.setOrderId(2L);
+        orderResponse.setOrderId((long) (Math.random()*10_000));
         orderResponse.setPickupTime(request.getPickupTime());
         orderResponse.setStatus("CREATED");
         orderResponse.setTableId(request.getTableId());
@@ -75,6 +76,55 @@ public class OrderService {
             orderItemResponse.setItemNotes(orderItemRequest.getItemNotes());
             orderItemResponse.setOrderItemId(2L);
             orderItemResponse.setOrderItemPrice(BigDecimal.valueOf(4.2));
+            orderItemResponse.setStatus(orderItemRequest.getStatus());
+            orderResponse.getItems().add(orderItemResponse);
+        }
+        return orderResponse;
+    }
+
+    public OrderResponse updateOrder(Long restaurantId, OrderRequest request) {
+        if(request.getId() == null) throw new NotFoundException("need id");
+        OrdersEntity ordersEntity = new OrdersEntity();
+        
+        // if(request.getClientId() != null) {
+        //     clientRepository.findById(request.getClientId()).orElseThrow();
+        // }
+        // request.getClientId();
+        // request.getType();
+        
+        // request.getDeliveryAddress();
+        
+        // request.getItems();
+        
+        // request.getNotes();
+        
+        // request.getPickupTime();
+        // request.getTableId();
+        
+        // for (OrderItemRequest item : request.getItems()) {
+            
+        // }
+        // OrdersEntity savedOrder = orderRepository.save(ordersEntity);
+        // return OrderMapper.toResponse(savedOrder);
+        OrderResponse orderResponse = new OrderResponse();
+        orderResponse.setCreatedAt(request.getCreatedAt());
+        orderResponse.setDeliveryAddress(request.getDeliveryAddress());
+        orderResponse.setNotes(request.getNotes());
+        orderResponse.setOrderId(request.getId());
+        orderResponse.setPickupTime(request.getPickupTime());
+        orderResponse.setStatus("CREATED");
+        orderResponse.setTableId(request.getTableId());
+        orderResponse.setTotal(BigDecimal.valueOf(2.5));
+        orderResponse.setType(request.getType());
+        orderResponse.setItems(new ArrayList<>());
+        for (OrderItemRequest orderItemRequest : request.getItems()) {
+            OrderItemResponse orderItemResponse = new OrderItemResponse();
+            orderItemResponse.setDishId(orderItemRequest.getDishId());
+            orderItemResponse.setDishName("Name");
+            orderItemResponse.setItemNotes(orderItemRequest.getItemNotes());
+            orderItemResponse.setOrderItemId(orderItemRequest.getId());
+            orderItemResponse.setOrderItemPrice(BigDecimal.valueOf(4.2));
+            orderItemResponse.setStatus(orderItemRequest.getStatus());
             orderResponse.getItems().add(orderItemResponse);
         }
         return orderResponse;

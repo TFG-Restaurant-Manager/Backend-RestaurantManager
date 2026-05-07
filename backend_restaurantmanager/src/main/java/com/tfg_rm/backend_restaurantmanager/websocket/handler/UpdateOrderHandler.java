@@ -51,7 +51,7 @@ public class UpdateOrderHandler implements WsMessageHandler {
             OrderRequest request = objectMapper.treeToValue(payload, OrderRequest.class);
             Long restaurantId = (Long) session.getAttributes().get("restaurantId");
 
-            OrderResponse created = orderService.createOrder(restaurantId, request);
+            OrderResponse created = orderService.updateOrder(restaurantId, request);
 
             message = new WsOutboundMessage<>(
                 WsMessageType.ORDER_UPDATED.name(),
