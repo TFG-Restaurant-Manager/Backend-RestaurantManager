@@ -1,6 +1,5 @@
 package com.tfg_rm.backend_restaurantmanager.controller;
 
-import com.tfg_rm.backend_restaurantmanager.dto.ClientLoginRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.EmployeeLoginRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.LoginResponse;
 import com.tfg_rm.backend_restaurantmanager.dto.Role;
@@ -26,51 +25,6 @@ public class AuthController {
 
     /** The authentication service for user authentication. */
     private final AuthService authService;
-
-    /**
-     * Endpoint for client login. Validates the client's credentials and generates a JWT token if successful.
-     * @param request The client's login request containing email, password, and restaurant ID.
-     * @return The login response containing the generated JWT token.
-     * @throws DataInvalid 
-     */
-    @PostMapping("/clientLogin")
-    public ResponseEntity<LoginResponse> clientLogin(@RequestBody ClientLoginRequest request) {
-        
-        Long userId = authService.checkCredentials(request.getRestaurantId(), request.getEmail(), request.getPassword());
-        if (userId == -1L) {
-            throw new InvalidCredentialsException("Invalid credentials");
-        }
-
-        Long restaurantId = request.getRestaurantId();
-        Role role = Role.CLIENT;
-
-        String token = jwtService.generateToken(userId, restaurantId, role);
-
-        return ResponseEntity.ok(new LoginResponse(token, role));
-    }
-
-    /**
-     * Endpoint for client registration. Registers a new client and generates a JWT token for the newly registered client.
-     * @param request The client's registration request containing email, password, and restaurant ID.
-     * @return The login response containing the generated JWT token.
-     */
-    @PostMapping("/clientRegister")
-    public ResponseEntity<LoginResponse> clientRegister(@RequestBody ClientLoginRequest request) {
-
-        Long userId = authService.addClient(request.getRestaurantId(), request.getEmail(), request.getPassword());
-        // Aqui tenemos que validar las credenciales desde la base de datos, esto es solo un ejemplo
-        if (userId == -1L) {
-            // Tendriamos que lanzar una excepción personalizada para manejar este error de forma adecuada
-            throw new InvalidCredentialsException("Invalid credentials");
-        }
-
-        Long restaurantId = request.getRestaurantId();
-        Role role = Role.CLIENT;
-
-        String token = jwtService.generateToken(userId, restaurantId, role);
-
-        return ResponseEntity.ok(new LoginResponse(token, role));
-    }
 
     /**
      * Endpoint for generating a JWT token for an employee. Validates the employee's access to the specified restaurant and generates a token if successful.

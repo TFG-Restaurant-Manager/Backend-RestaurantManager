@@ -113,7 +113,7 @@ public class OrdersEntity {
     /**
      * Lista de ítems de orden asociados a la orden.
      */
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<OrderItemsEntity> orderItems;

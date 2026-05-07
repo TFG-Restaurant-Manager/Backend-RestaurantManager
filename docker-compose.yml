@@ -48,13 +48,13 @@ services:
       - backend
 
   cloudflared:
-    image: cloudflare/cloudflared:latest
+    image: cloudflare/cloudflared:2026.3.0
     command: tunnel --url http://nginx:80 --protocol http2 --no-autoupdate
     depends_on:
       - nginx
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:9.14.0
     container_name: pgadmin_dev
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com

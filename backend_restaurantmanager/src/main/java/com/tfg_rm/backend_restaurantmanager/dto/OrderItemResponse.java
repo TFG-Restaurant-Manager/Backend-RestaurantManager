@@ -12,5 +12,6 @@ public class OrderItemResponse {
     private Long dishId;
     private String dishName;
     private String itemNotes;
+    private String status;
     private BigDecimal orderItemPrice;
 }

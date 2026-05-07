@@ -7,5 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderItemRequest {
     private Long dishId;
+    private Long id;
     private String itemNotes;
+    private String status;
 }
