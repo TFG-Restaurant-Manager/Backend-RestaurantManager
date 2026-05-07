@@ -10,7 +10,7 @@ public class OrderRequest {
     private Long id;
     private String type;
     private String notes;
-    private String createdAt;
+    private LocalDateTime createdAt;
 
     private List<OrderItemRequest> items;
 
