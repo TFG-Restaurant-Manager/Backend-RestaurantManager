@@ -4,7 +4,6 @@ import com.tfg_rm.backend_restaurantmanager.dto.OrderItemRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.OrderRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.OrderResponse;
 import com.tfg_rm.backend_restaurantmanager.entity.DishesEntity;
-import com.tfg_rm.backend_restaurantmanager.entity.OrderItemsStatusEntity;
 import com.tfg_rm.backend_restaurantmanager.entity.OrderStatusEntity;
 import com.tfg_rm.backend_restaurantmanager.entity.OrderTypeEntity;
 import com.tfg_rm.backend_restaurantmanager.entity.OrdersEntity;
