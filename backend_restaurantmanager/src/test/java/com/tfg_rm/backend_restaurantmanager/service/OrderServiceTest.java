@@ -37,11 +37,16 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
 
-    @Mock private OrderRepository orderRepository;
-    @Mock private TablesRepository tablesRepository;
-    @Mock private DishesRepository dishesRepository;
-    @Mock private RestaurantRepository restaurantRepository;
-    @InjectMocks private OrderService orderService;
+    @Mock
+    private OrderRepository orderRepository;
+    @Mock
+    private TablesRepository tablesRepository;
+    @Mock
+    private DishesRepository dishesRepository;
+    @Mock
+    private RestaurantRepository restaurantRepository;
+    @InjectMocks
+    private OrderService orderService;
 
     private RestaurantEntity restaurant;
     private DishesEntity dish;

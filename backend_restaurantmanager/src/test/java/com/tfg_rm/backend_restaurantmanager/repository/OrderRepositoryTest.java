@@ -23,8 +23,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Sql("/test-defaults.sql")
 class OrderRepositoryTest {
 
-    @Autowired TestEntityManager em;
-    @Autowired OrderRepository orderRepository;
+    @Autowired
+    TestEntityManager em;
+    @Autowired
+    OrderRepository orderRepository;
 
     private RestaurantEntity restaurant1;
     private RestaurantEntity restaurant2;
@@ -40,7 +42,7 @@ class OrderRepositoryTest {
     @Test
     void findByRestaurantId_returnsOnlyOrdersOfThatRestaurant() {
         persistOrder(restaurant1, OrderStatusEntity.CREATED, OrderTypeEntity.DELIVERY);
-        persistOrder(restaurant1, OrderStatusEntity.PAID,    OrderTypeEntity.PICKUP);
+        persistOrder(restaurant1, OrderStatusEntity.PAID, OrderTypeEntity.PICKUP);
         persistOrder(restaurant2, OrderStatusEntity.CREATED, OrderTypeEntity.DELIVERY);
         em.flush();
 
@@ -68,8 +70,8 @@ class OrderRepositoryTest {
     @Test
     void findByRestaurantIdAndStatus_returnsOnlyPaidOrders() {
         persistOrder(restaurant1, OrderStatusEntity.CREATED, OrderTypeEntity.DELIVERY);
-        persistOrder(restaurant1, OrderStatusEntity.PAID,    OrderTypeEntity.PICKUP);
-        persistOrder(restaurant1, OrderStatusEntity.PAID,    OrderTypeEntity.DELIVERY);
+        persistOrder(restaurant1, OrderStatusEntity.PAID, OrderTypeEntity.PICKUP);
+        persistOrder(restaurant1, OrderStatusEntity.PAID, OrderTypeEntity.DELIVERY);
         em.flush();
 
         List<OrdersEntity> result = orderRepository.findByRestaurantIdAndStatus(
@@ -115,8 +117,8 @@ class OrderRepositoryTest {
     }
 
     private OrdersEntity persistOrder(RestaurantEntity restaurant,
-                                      OrderStatusEntity status,
-                                      OrderTypeEntity type) {
+            OrderStatusEntity status,
+            OrderTypeEntity type) {
         OrdersEntity o = new OrdersEntity();
         o.setRestaurant(restaurant);
         o.setStatus(status);

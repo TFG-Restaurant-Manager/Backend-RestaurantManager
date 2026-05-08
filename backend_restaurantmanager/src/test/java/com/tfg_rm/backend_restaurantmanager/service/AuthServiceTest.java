@@ -22,9 +22,12 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
 
-    @Mock private AuthEmployeeRepository authEmployeeRepository;
-    @Mock private PasswordEncoder passwordEncoder;
-    @InjectMocks private AuthService authService;
+    @Mock
+    private AuthEmployeeRepository authEmployeeRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+    @InjectMocks
+    private AuthService authService;
 
     private EmployeeEntity employee;
 

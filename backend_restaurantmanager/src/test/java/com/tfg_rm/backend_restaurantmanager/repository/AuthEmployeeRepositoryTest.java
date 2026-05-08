@@ -22,8 +22,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Sql("/test-employee-defaults.sql")
 class AuthEmployeeRepositoryTest {
 
-    @Autowired TestEntityManager em;
-    @Autowired AuthEmployeeRepository authEmployeeRepository;
+    @Autowired
+    TestEntityManager em;
+    @Autowired
+    AuthEmployeeRepository authEmployeeRepository;
 
     private RestaurantEntity restaurant;
 

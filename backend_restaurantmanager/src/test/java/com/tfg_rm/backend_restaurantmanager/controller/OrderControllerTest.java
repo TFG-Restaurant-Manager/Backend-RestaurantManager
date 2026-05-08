@@ -23,13 +23,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class OrderControllerTest {
 
-    @Autowired MockMvc mockMvc;
+    @Autowired
+    MockMvc mockMvc;
 
-    @MockitoBean OrderService orderService;
+    @MockitoBean
+    OrderService orderService;
     // JwtService is mocked so we can control the JwtAuthenticationFilter behaviour
-    @MockitoBean JwtService jwtService;
+    @MockitoBean
+    JwtService jwtService;
 
-    private static final String TOKEN       = "valid-test-token";
+    private static final String TOKEN = "valid-test-token";
     private static final String AUTH_HEADER = "Bearer " + TOKEN;
 
     @BeforeEach
@@ -45,7 +48,8 @@ class OrderControllerTest {
 
     @Test
     void getAll_withoutToken_returns401() throws Exception {
-        // Without Authorization header, Spring MVC fails with 400 (missing required header)
+        // Without Authorization header, Spring MVC fails with 400 (missing required
+        // header)
         // or 401 if security blocks first; either way it's a 4xx error
         mockMvc.perform(get("/order"))
                 .andExpect(status().is4xxClientError());
@@ -86,9 +90,8 @@ class OrderControllerTest {
     void getAll_multipleOrders_returnsCorrectCount() throws Exception {
         when(orderService.getAllOrders(10L)).thenReturn(List.of(
                 buildResponse(1L, "DELIVERY", "CREATED", "15.00"),
-                buildResponse(2L, "PICKUP",   "PAID",    "25.00"),
-                buildResponse(3L, "TABLE",    "CREATED", "40.00")
-        ));
+                buildResponse(2L, "PICKUP", "PAID", "25.00"),
+                buildResponse(3L, "TABLE", "CREATED", "40.00")));
 
         mockMvc.perform(get("/order").header("Authorization", AUTH_HEADER))
                 .andExpect(status().isOk())
@@ -100,8 +103,7 @@ class OrderControllerTest {
     @Test
     void getAllPaid_withValidToken_returnsOnlyPaidOrders() throws Exception {
         when(orderService.getAllOrdersPaid(10L)).thenReturn(List.of(
-                buildResponse(2L, "PICKUP", "PAID", "30.00")
-        ));
+                buildResponse(2L, "PICKUP", "PAID", "30.00")));
 
         mockMvc.perform(get("/order/paid").header("Authorization", AUTH_HEADER))
                 .andExpect(status().isOk())
