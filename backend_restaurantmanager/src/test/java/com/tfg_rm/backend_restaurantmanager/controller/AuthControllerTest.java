@@ -24,13 +24,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class AuthControllerTest {
 
-    @Autowired MockMvc mockMvc;
+    @Autowired
+    MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     // Both beans are needed: AuthService for business logic, JwtService for
     // SecurityConfig to construct the JwtAuthenticationFilter
-    @MockitoBean AuthService authService;
-    @MockitoBean JwtService jwtService;
+    @MockitoBean
+    AuthService authService;
+    @MockitoBean
+    JwtService jwtService;
 
     // ── Login correcto ─────────────────────────────────────────────
 
@@ -42,9 +45,9 @@ class AuthControllerTest {
         when(jwtService.generateToken(1L, 10L, Role.WAITER)).thenReturn("mocked.jwt.token");
 
         mockMvc.perform(post("/auth/employeeLogin")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(
-                                Map.of("code", "EMP01", "password", "pass123"))))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(
+                        Map.of("code", "EMP01", "password", "pass123"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("mocked.jwt.token"))
                 .andExpect(jsonPath("$.role").value("WAITER"));
@@ -58,8 +61,8 @@ class AuthControllerTest {
         when(jwtService.generateToken(1L, 5L, Role.MANAGER)).thenReturn("real.jwt.token");
 
         mockMvc.perform(post("/auth/employeeLogin")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"code\":\"EMP01\",\"password\":\"pass123\"}"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"code\":\"EMP01\",\"password\":\"pass123\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").exists())
                 .andExpect(jsonPath("$.token").isNotEmpty());
@@ -72,8 +75,8 @@ class AuthControllerTest {
         when(authService.validateEmployeeAccess(anyString(), anyString())).thenReturn(-1L);
 
         mockMvc.perform(post("/auth/employeeLogin")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"code\":\"EMP01\",\"password\":\"wrong\"}"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"code\":\"EMP01\",\"password\":\"wrong\"}"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -82,8 +85,8 @@ class AuthControllerTest {
         when(authService.validateEmployeeAccess(anyString(), anyString())).thenReturn(-1L);
 
         mockMvc.perform(post("/auth/employeeLogin")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"code\":\"GHOST\",\"password\":\"any\"}"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"code\":\"GHOST\",\"password\":\"any\"}"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -105,15 +108,15 @@ class AuthControllerTest {
         when(authService.validateEmployeeAccess(null, null)).thenReturn(-1L);
 
         mockMvc.perform(post("/auth/employeeLogin")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{}"))
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
     void employeeLogin_missingContentType_returns4xx() throws Exception {
         mockMvc.perform(post("/auth/employeeLogin")
-                        .content("not json"))
+                .content("not json"))
                 .andExpect(status().is4xxClientError());
     }
 }
