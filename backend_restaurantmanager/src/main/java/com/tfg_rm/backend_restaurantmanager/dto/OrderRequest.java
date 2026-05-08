@@ -11,6 +11,7 @@ public class OrderRequest {
     private String type;
     private String notes;
     private LocalDateTime createdAt;
+    private String status;
 
     private List<OrderItemRequest> items;
 
@@ -18,5 +19,5 @@ public class OrderRequest {
 
     private String deliveryAddress;
 
-    private Long tableId;    
+    private Long tableId;
 }

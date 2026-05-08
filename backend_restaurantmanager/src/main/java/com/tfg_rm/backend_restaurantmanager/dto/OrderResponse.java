@@ -21,5 +21,6 @@ public class OrderResponse {
 
     private String deliveryAddress;
 
-    private Long tableId;    
+    private Long tableId;
+    private String tablName;
 }

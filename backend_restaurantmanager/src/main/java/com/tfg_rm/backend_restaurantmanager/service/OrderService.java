@@ -76,8 +76,8 @@ public class OrderService {
                 TablesRestaurantEntity table = tablesRepository
                         .findById(request.getTableId())
                         .orElseThrow(() -> new NotFoundException("Table not found"));
-                if (table.getRestaurant().getId() != restaurantId)
-                    throw new UnauthorizedException("You are not authrized");
+                if (!Objects.equals(table.getRestaurant().getId(), restaurantId))
+                    throw new UnauthorizedException("You are not authorized");
                 orderTableEntity.setTable(table);
                 orderTableEntity.setOrder(ordersEntity);
                 table.getOrderTables().add(orderTableEntity);
@@ -103,8 +103,8 @@ public class OrderService {
             DishesEntity dishesEntity = dishesRepository
                     .findById(orderItemRequest.getDishId())
                     .orElseThrow(() -> new NotFoundException("Dish not found"));
-            if (dishesEntity.getRestaurant().getId() != restaurantId)
-                throw new UnauthorizedException("You are not authrized");
+            if (!Objects.equals(dishesEntity.getRestaurant().getId(), restaurantId))
+                throw new UnauthorizedException("You are not authorized");
             orderItemsEntity.setDish(dishesEntity);
             orderItemsEntity.setNotes(orderItemRequest.getItemNotes());
             orderItemsEntity.setOrder(ordersEntity);
@@ -125,26 +125,28 @@ public class OrderService {
         OrdersEntity ordersEntity = orderRepository
                         .findById(request.getId())
                         .orElseThrow(() -> new NotFoundException("Table not found"));
-        if (ordersEntity.getRestaurant().getId() != restaurantId)
-            throw new UnauthorizedException("You are not authrized");
+        if (!Objects.equals(ordersEntity.getRestaurant().getId(), restaurantId))
+            throw new UnauthorizedException("You are not authorized");
         ordersEntity.setTotal(BigDecimal.ZERO);
         ordersEntity.setNotes(request.getNotes());
+        
+        OrderStatusEntity ordenStatus = OrderStatusEntity.valueOf(request.getStatus().toUpperCase());
+        ordersEntity.setStatus(ordenStatus);
 
-        ordersEntity.setStatus(OrderStatusEntity.CREATED);
+        Set<Long> requestIds = request.getItems().stream()
+            .map(OrderItemRequest::getId)
+            .collect(Collectors.toSet());
+
+        ordersEntity.getOrderItems().removeIf(id -> !requestIds.contains(id.getId()));
 
         for (OrderItemRequest orderItemRequest : request.getItems()) {
-            Set<Long> requestIds = request.getItems().stream()
-                    .map(OrderItemRequest::getId)
-                    .collect(Collectors.toSet());
-
-            ordersEntity.getOrderItems().removeIf(id -> !requestIds.contains(id.getId()));
             if(orderItemRequest.getId() == 0) {
                 OrderItemsEntity orderItemsEntity = new OrderItemsEntity();
                 DishesEntity dishesEntity = dishesRepository
                         .findById(orderItemRequest.getDishId())
                         .orElseThrow(() -> new NotFoundException("Dish not found"));
-                if (dishesEntity.getRestaurant().getId() != restaurantId)
-                    throw new UnauthorizedException("You are not authrized");
+                if (!Objects.equals(dishesEntity.getRestaurant().getId(), restaurantId))
+                    throw new UnauthorizedException("You are not authorized");
                 orderItemsEntity.setDish(dishesEntity);
                 orderItemsEntity.setNotes(orderItemRequest.getItemNotes());
                 orderItemsEntity.setOrder(ordersEntity);
