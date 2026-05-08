@@ -24,6 +24,7 @@ public class OrderMapper {
 
         if (entity.getTableOrder() != null) {
             response.setTableId((entity.getTableOrder().getTable().getId()));
+            response.setTablName((entity.getTableOrder().getTable().getName()));
         }
 
         if (entity.getDeliveryOrder() != null) {

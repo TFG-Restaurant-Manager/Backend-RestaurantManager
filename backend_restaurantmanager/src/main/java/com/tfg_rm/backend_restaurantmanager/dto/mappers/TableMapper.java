@@ -1,5 +1,7 @@
 package com.tfg_rm.backend_restaurantmanager.dto.mappers;
 
+import java.util.List;
+
 import com.tfg_rm.backend_restaurantmanager.dto.TableResponse;
 import com.tfg_rm.backend_restaurantmanager.entity.OrderTableEntity;
 import com.tfg_rm.backend_restaurantmanager.entity.TablesRestaurantEntity;
@@ -25,7 +27,7 @@ public class TableMapper {
         response.setSectionTitle(entity.getSection().getTitle());
         response.setSectionId(entity.getSection().getId());
         if (entity.getOrderTables() != null && !entity.getOrderTables().isEmpty()) {
-            OrderTableEntity orderTable = entity
+            List<OrderTableEntity> ordersTable = entity
                     .getOrderTables()
                     .stream()
                     .filter(order -> {
@@ -39,16 +41,19 @@ public class TableMapper {
                         log.info("Order status: {}", order.getOrder().getStatus());
                         return isActive;
                     })
-                    .toList()
-                    .get(0);
-            log.info("Active order found: {}", orderTable.getOrder().getId());
-            response.setOrderId(orderTable.getOrder().getId());
-            response.setOrderStatus(orderTable.getOrder().getStatus().toString());
-            response.setOrderTotal(orderTable.getOrder().getTotal());
-            response.setOrderNotes(orderTable.getOrder().getNotes());
-            response.setOrderCreatedAt(orderTable.getOrder().getCreatedAt().toString());
-            response.setOrderItems(
-                    orderTable.getOrder().getOrderItems().stream().map(OrderItemMapper::toResponse).toList());
+                    .toList();
+            if(ordersTable != null && !ordersTable.isEmpty()) {
+                OrderTableEntity orderTable = ordersTable.getFirst();
+                log.info("Active order found: {}", orderTable.getOrder().getId());
+                response.setOrderId(orderTable.getOrder().getId());
+                response.setOrderStatus(orderTable.getOrder().getStatus().toString());
+                response.setOrderTotal(orderTable.getOrder().getTotal());
+                response.setOrderNotes(orderTable.getOrder().getNotes());
+                response.setOrderCreatedAt(orderTable.getOrder().getCreatedAt().toString());
+                response.setOrderItems(
+                        orderTable.getOrder().getOrderItems().stream().map(OrderItemMapper::toResponse).toList());
+            }
+            
         }
 
         log.info("Response: {}", response);

@@ -129,15 +129,17 @@ public class OrderService {
             throw new UnauthorizedException("You are not authrized");
         ordersEntity.setTotal(BigDecimal.ZERO);
         ordersEntity.setNotes(request.getNotes());
+        
+        OrderStatusEntity ordenStatus = OrderStatusEntity.valueOf(request.getStatus().toUpperCase());
+        ordersEntity.setStatus(ordenStatus);
 
-        ordersEntity.setStatus(OrderStatusEntity.CREATED);
+        Set<Long> requestIds = request.getItems().stream()
+            .map(OrderItemRequest::getId)
+            .collect(Collectors.toSet());
+
+        ordersEntity.getOrderItems().removeIf(id -> !requestIds.contains(id.getId()));
 
         for (OrderItemRequest orderItemRequest : request.getItems()) {
-            Set<Long> requestIds = request.getItems().stream()
-                    .map(OrderItemRequest::getId)
-                    .collect(Collectors.toSet());
-
-            ordersEntity.getOrderItems().removeIf(id -> !requestIds.contains(id.getId()));
             if(orderItemRequest.getId() == 0) {
                 OrderItemsEntity orderItemsEntity = new OrderItemsEntity();
                 DishesEntity dishesEntity = dishesRepository
