@@ -46,24 +46,17 @@ public class SecurityConfig {
                 // /auth/** and /ws/** are open to everyone
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/ws").permitAll()
-                /* Tests ----------------------------------------------------------------------------------------------------------- */
-                // /a sólo clientes
-                .requestMatchers("/a").hasAuthority("ROLE_CLIENTE")
-                // /adios-json todos menos clientes
-                .requestMatchers("/adios-json").not().hasAuthority("ROLE_CLIENTE") // El not funciona no tan bien
-                // solo camareros pueden pedir su restaurante
-                .requestMatchers("/mi-restaurante").hasAuthority("ROLE_CAMARERO")
-                // /hola abierto a todos
-                .requestMatchers("/hola").permitAll()
+                /* ----------------------------------------------------------------------------------------------------------------- */
                 .requestMatchers(
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html"
                     ).permitAll()
-                /* ----- ----------------------------------------------------------------------------------------------------------- */
-                .requestMatchers("/employee/**").hasAnyRole("MANAGER", "WAITER", "COOKER", "ADMIN")
+                /* ----------------------------------------------------------------------------------------------------------------- */
+                //.requestMatchers("/employee/**").hasAnyRole("MANAGER", "WAITER", "COOKER", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/restaurant").permitAll()
-                .requestMatchers("/dish/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/restaurant").hasAuthority("ROLE_MANAGER")
+                //.requestMatchers("/dish/**").authenticated()
                 /* Puedo sustituir lo de arriba por:
                 .requestMatchers("/employee/**").hasRole("CLIENTE").denyAll()
                 .requestMatchers("/employee/**").authenticated()
