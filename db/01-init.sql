@@ -92,7 +92,7 @@ CREATE TABLE tables_restaurant (
 	CONSTRAINT fk_tables_restaurant_restaurant FOREIGN KEY (restaurant_id)
 		REFERENCES restaurants(id) ON DELETE RESTRICT ON UPDATE CASCADE,
 	CONSTRAINT fk_tables_restaurant_section FOREIGN KEY (section_id)
-		REFERENCES table_sections(id) ON DELETE SET NULL ON UPDATE CASCADE
+		REFERENCES table_sections(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- =========================================
@@ -293,6 +293,25 @@ BEFORE INSERT ON employee
 FOR EACH ROW
 EXECUTE FUNCTION set_employee_code_prefix();
 
+CREATE OR REPLACE FUNCTION delete_created_orders_when_table_deleted()
+RETURNS TRIGGER AS $$
+BEGIN
+
+    DELETE FROM orders o
+    USING order_table ot
+    WHERE ot.order_id = o.id
+      AND ot.table_id = OLD.id
+      AND o.status = 'CREATED';
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_delete_created_orders_when_table_deleted
+BEFORE DELETE ON tables_restaurant
+FOR EACH ROW
+EXECUTE FUNCTION delete_created_orders_when_table_deleted();
+
 -- =========================================
 -- PRIVILEGIOS: conceder al rol `admin`
 -- Se ejecutan al final para aplicar sobre la base creada por Docker (POSTGRES_DB).
@@ -302,4 +321,3 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE O
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO admin;
 GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO admin;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO admin;
-
