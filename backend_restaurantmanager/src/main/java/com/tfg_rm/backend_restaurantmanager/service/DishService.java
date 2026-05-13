@@ -54,10 +54,15 @@ public class DishService {
             .orElseThrow(() -> new NotFoundException("Restaurant not found"));
             
         DishesCategoriesEntity category = null;
-        if (request.getCategoryId() != null) {
-            category = categoriesRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("Category not found"));
+
+        if(request.getCategoryId() == 0) {
+            category = new DishesCategoriesEntity();
+            category.setName(request.getName());
+            categoriesRepository.save(category);
         }
+        else
+        category = categoriesRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new NotFoundException("Category not found"));
         
         DishesEntity dish = new DishesEntity();
         dish.setRestaurant(restaurant);
@@ -90,12 +95,18 @@ public class DishService {
         DishesEntity dish = dishesRepository.findByIdAndRestaurantId(id, restaurantId)
             .orElseThrow(() -> new NotFoundException("Dish not found"));
             
-        if (request.getCategoryId() != null) {
-            DishesCategoriesEntity category = categoriesRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("Category not found"));
-            dish.setCategory(category);
+        DishesCategoriesEntity category = null;
+
+        if(request.getCategoryId() == 0) {
+            category = new DishesCategoriesEntity();
+            category.setName(request.getName());
+            categoriesRepository.save(category);
         }
+        else
+        category = categoriesRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new NotFoundException("Category not found"));
         
+        dish.setCategory(category);
         dish.setName(request.getName());
         dish.setDescription(request.getDescription());
         dish.setPrice(request.getPrice());

@@ -17,8 +17,10 @@ import com.tfg_rm.backend_restaurantmanager.dto.SchedulesRequest;
 import com.tfg_rm.backend_restaurantmanager.dto.mappers.EmployeeInfoMapper;
 import com.tfg_rm.backend_restaurantmanager.entity.EmployeeEntity;
 import com.tfg_rm.backend_restaurantmanager.entity.RestaurantEntity;
+import com.tfg_rm.backend_restaurantmanager.entity.RoleEntity;
 import com.tfg_rm.backend_restaurantmanager.entity.WorkScheduleEntity;
 import com.tfg_rm.backend_restaurantmanager.exception.NotFoundException;
+import com.tfg_rm.backend_restaurantmanager.exception.UnauthorizedException;
 import com.tfg_rm.backend_restaurantmanager.repository.EmployeeRepository;
 import com.tfg_rm.backend_restaurantmanager.repository.RestaurantRepository;
 
@@ -37,6 +39,9 @@ public class EmployeeService {
     private final PasswordEncoder passwordEncoder;
  
     public Boolean registerEmployee(EmployeeRegisterRequest request, Long restaurantId) {
+
+        if(request.getRoleName() == RoleEntity.ADMIN)
+            throw new UnauthorizedException("Not Valid Role");
 
         RestaurantEntity restaurant = restaurantRepository
             .findById(restaurantId)

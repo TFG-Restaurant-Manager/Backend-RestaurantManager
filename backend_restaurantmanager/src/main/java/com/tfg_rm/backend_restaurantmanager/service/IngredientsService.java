@@ -38,13 +38,20 @@ public class IngredientsService {
     public IngredientsResponse createIngredient(Long restaurantId, IngredientRequest request) {
         RestaurantEntity restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException("Restaurant not found"));
+        
+        IngredientsCategoriesEntity category = null;
 
-        IngredientsCategoriesEntity category = ingredientsCategoriesRepository.findById(request.getCategoryId())
+        if(request.getCategoryId() == 0) {
+            category = new IngredientsCategoriesEntity();
+            category.setName(request.getName());
+            ingredientsCategoriesRepository.save(category);
+        }
+        else
+        category = ingredientsCategoriesRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new NotFoundException("Category not found"));
 
         IngredientsEntity entity = new IngredientsEntity();
         updateEntityFromRequest(entity, request, restaurant, category);
-
         ingredientsRepository.save(entity);
         return IngredientsInfoMapper.toResponse(entity);
     }
@@ -58,7 +65,14 @@ public class IngredientsService {
             throw new RuntimeException("Unauthorized");
         }
 
-        IngredientsCategoriesEntity category = ingredientsCategoriesRepository.findById(request.getCategoryId())
+        IngredientsCategoriesEntity category = null;
+
+        if(request.getCategoryId() == 0) {
+            category = new IngredientsCategoriesEntity();
+            category.setName(request.getName());
+            ingredientsCategoriesRepository.save(category);
+        }
+        else category = ingredientsCategoriesRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new NotFoundException("Category not found"));
 
         updateEntityFromRequest(entity, request, entity.getRestaurant(), category);
