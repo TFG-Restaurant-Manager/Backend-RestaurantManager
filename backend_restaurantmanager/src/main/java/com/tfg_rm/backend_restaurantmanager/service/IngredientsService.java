@@ -38,17 +38,17 @@ public class IngredientsService {
     public IngredientsResponse createIngredient(Long restaurantId, IngredientRequest request) {
         RestaurantEntity restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException("Restaurant not found"));
-        
+
         IngredientsCategoriesEntity category = null;
 
-        if(request.getCategoryId() == 0) {
+        if (request.getCategoryId() == 0) {
             category = new IngredientsCategoriesEntity();
             category.setName(request.getName());
+            category.setRestaurant(restaurant);
             ingredientsCategoriesRepository.save(category);
-        }
-        else
-        category = ingredientsCategoriesRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("Category not found"));
+        } else
+            category = ingredientsCategoriesRepository.findById(request.getCategoryId())
+                    .orElseThrow(() -> new NotFoundException("Category not found"));
 
         IngredientsEntity entity = new IngredientsEntity();
         updateEntityFromRequest(entity, request, restaurant, category);
@@ -58,6 +58,9 @@ public class IngredientsService {
 
     @Transactional
     public IngredientsResponse updateIngredient(Long restaurantId, Long ingredientId, IngredientRequest request) {
+        RestaurantEntity restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new NotFoundException("Restaurant not found"));
+
         IngredientsEntity entity = ingredientsRepository.findById(ingredientId)
                 .orElseThrow(() -> new NotFoundException("Ingredient not found"));
 
@@ -67,13 +70,14 @@ public class IngredientsService {
 
         IngredientsCategoriesEntity category = null;
 
-        if(request.getCategoryId() == 0) {
+        if (request.getCategoryId() == 0) {
             category = new IngredientsCategoriesEntity();
             category.setName(request.getName());
+            category.setRestaurant(restaurant);
             ingredientsCategoriesRepository.save(category);
-        }
-        else category = ingredientsCategoriesRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("Category not found"));
+        } else
+            category = ingredientsCategoriesRepository.findById(request.getCategoryId())
+                    .orElseThrow(() -> new NotFoundException("Category not found"));
 
         updateEntityFromRequest(entity, request, entity.getRestaurant(), category);
 

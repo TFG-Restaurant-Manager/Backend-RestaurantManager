@@ -9,7 +9,7 @@ import lombok.Data;
 public class DishesRequest {
     private Long restaurantId;
     private Long categoryId;
-    private Long categoryName;
+    private String categoryName;
     private String name;
     private String description;
     private BigDecimal price;

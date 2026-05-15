@@ -12,4 +12,5 @@ public class TableRequest {
     private Integer posX;
     private Integer posY;
     private Long sectionId;
+    private String sectionName;
 }

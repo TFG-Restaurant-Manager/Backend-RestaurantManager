@@ -13,5 +13,5 @@ public class IngredientRequest {
     private BigDecimal costUnit;
     private BigDecimal minimumStock;
     private Long categoryId;
-    private Long categoryName;
+    private String categoryName;
 }

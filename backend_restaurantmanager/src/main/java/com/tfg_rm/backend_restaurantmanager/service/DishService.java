@@ -35,35 +35,35 @@ public class DishService {
 
     public List<DishesResponse> getAllDishes(Long restaurantId) {
         List<DishesResponse> dishes = dishesRepository
-            .findByRestaurantId(restaurantId)
-            .stream()
-            .map(DishMapper::toResponse)
-            .collect(Collectors.toList());
+                .findByRestaurantId(restaurantId)
+                .stream()
+                .map(DishMapper::toResponse)
+                .collect(Collectors.toList());
 
         return dishes;
     }
 
     public DishesResponse getDishById(Long id, Long restaurantId) {
         DishesEntity dish = dishesRepository.findByIdAndRestaurantId(id, restaurantId)
-            .orElseThrow(() -> new NotFoundException("Dish not found"));
+                .orElseThrow(() -> new NotFoundException("Dish not found"));
         return DishMapper.toResponse(dish);
     }
 
     public DishesResponse createDish(DishesRequest request, Long restaurantId) {
         RestaurantEntity restaurant = restaurantRepository.findById(restaurantId)
-            .orElseThrow(() -> new NotFoundException("Restaurant not found"));
-            
+                .orElseThrow(() -> new NotFoundException("Restaurant not found"));
+
         DishesCategoriesEntity category = null;
 
-        if(request.getCategoryId() == 0) {
+        if (request.getCategoryId() == 0) {
             category = new DishesCategoriesEntity();
             category.setName(request.getName());
+            category.setRestaurant(restaurant);
             categoriesRepository.save(category);
-        }
-        else
-        category = categoriesRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("Category not found"));
-        
+        } else
+            category = categoriesRepository.findById(request.getCategoryId())
+                    .orElseThrow(() -> new NotFoundException("Category not found"));
+
         DishesEntity dish = new DishesEntity();
         dish.setRestaurant(restaurant);
         dish.setCategory(category);
@@ -71,13 +71,13 @@ public class DishService {
         dish.setDescription(request.getDescription());
         dish.setPrice(request.getPrice());
         dish.setAvailable(request.getAvailable() != null ? request.getAvailable() : true);
-        
+
         List<DishIngredientsEntity> dishIngredients = new ArrayList<>();
         if (request.getIngredients() != null) {
             for (DishIngredientRequest dir : request.getIngredients()) {
                 IngredientsEntity ingredient = ingredientsRepository.findById(dir.getIngredient().getId())
-                    .orElseThrow(() -> new NotFoundException("Ingredient not found"));
-                
+                        .orElseThrow(() -> new NotFoundException("Ingredient not found"));
+
                 DishIngredientsEntity di = new DishIngredientsEntity();
                 di.setDish(dish);
                 di.setIngredient(ingredient);
@@ -86,26 +86,29 @@ public class DishService {
             }
         }
         dish.setIngredients(dishIngredients);
-        
+
         DishesEntity savedDish = dishesRepository.save(dish);
         return DishMapper.toResponse(savedDish);
     }
 
     public DishesResponse updateDish(Long id, DishesRequest request, Long restaurantId) {
+        RestaurantEntity restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new NotFoundException("Restaurant not found"));
+                
         DishesEntity dish = dishesRepository.findByIdAndRestaurantId(id, restaurantId)
-            .orElseThrow(() -> new NotFoundException("Dish not found"));
-            
+                .orElseThrow(() -> new NotFoundException("Dish not found"));
+
         DishesCategoriesEntity category = null;
 
-        if(request.getCategoryId() == 0) {
+        if (request.getCategoryId() == 0) {
             category = new DishesCategoriesEntity();
             category.setName(request.getName());
+            category.setRestaurant(restaurant);
             categoriesRepository.save(category);
-        }
-        else
-        category = categoriesRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("Category not found"));
-        
+        } else
+            category = categoriesRepository.findById(request.getCategoryId())
+                    .orElseThrow(() -> new NotFoundException("Category not found"));
+
         dish.setCategory(category);
         dish.setName(request.getName());
         dish.setDescription(request.getDescription());
@@ -113,14 +116,14 @@ public class DishService {
         if (request.getAvailable() != null) {
             dish.setAvailable(request.getAvailable());
         }
-        
+
         dish.getIngredients().clear();
-        
+
         if (request.getIngredients() != null) {
             for (DishIngredientRequest dir : request.getIngredients()) {
                 IngredientsEntity ingredient = ingredientsRepository.findById(dir.getIngredient().getId())
-                    .orElseThrow(() -> new NotFoundException("Ingredient not found"));
-                
+                        .orElseThrow(() -> new NotFoundException("Ingredient not found"));
+
                 DishIngredientsEntity di = new DishIngredientsEntity();
                 di.setDish(dish);
                 di.setIngredient(ingredient);
@@ -128,23 +131,23 @@ public class DishService {
                 dish.getIngredients().add(di);
             }
         }
-        
+
         DishesEntity savedDish = dishesRepository.save(dish);
         return DishMapper.toResponse(savedDish);
     }
 
     public void deleteDish(Long id, Long restaurantId) {
         DishesEntity dish = dishesRepository.findByIdAndRestaurantId(id, restaurantId)
-            .orElseThrow(() -> new NotFoundException("Dish not found"));
+                .orElseThrow(() -> new NotFoundException("Dish not found"));
         dishesRepository.delete(dish);
     }
 
     public List<String> getAllCategories(Long restaurantId) {
         List<String> categories = categoriesRepository
-            .findByRestaurantId(restaurantId)
-            .stream()
-            .map(DishesCategoriesEntity::getName)
-            .collect(Collectors.toList());
+                .findByRestaurantId(restaurantId)
+                .stream()
+                .map(DishesCategoriesEntity::getName)
+                .collect(Collectors.toList());
 
         return categories;
     }
